@@ -1,0 +1,4 @@
+Django>=5.1
+Pillow
+# Fase 7 (MySQL):
+# mysqlclient

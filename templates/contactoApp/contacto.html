@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block titulo %}Contacto - Vinlume Disk{% endblock %}
+{% block contenido %}
+  <main>
+    <section class="pagina-interna form-pagina">
+      <div class="glass-panel form-box">
+        <h1 class="holo-text">Contacto</h1>
+        <form method="post">
+          {% csrf_token %}
+          {% include '_form_campos.html' %}
+          <button type="submit" class="btn btn-full">Enviar</button>
+        </form>
+      </div>
+    </section>
+  </main>
+{% endblock %}

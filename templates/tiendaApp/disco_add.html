@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block titulo %}Agregar disco - Vinlume{% endblock %}
+{% block contenido %}
+  <main>
+    <section class="pagina-interna">
+      <div class="section-content">
+        <h1 class="section-title">Agregar <span class="holo-text">disco</span></h1>
+        <div class="glass-panel form-ancho">
+          <form method="post">
+            {% csrf_token %}
+            <div class="form-grid">
+              <div class="input-group">
+                {{ form.titulo.label_tag }} {{ form.titulo }} {{ form.titulo.errors }}
+              </div>
+              <div class="input-group">
+                {{ form.artista.label_tag }} {{ form.artista }} {{ form.artista.errors }}
+              </div>
+              <div class="input-group">
+                {{ form.etiquetas.label_tag }} {{ form.etiquetas }} {{ form.etiquetas.errors }}
+              </div>
+              <div class="input-group">
+                {{ form.precio.label_tag }} {{ form.precio }} {{ form.precio.errors }}
+              </div>
+              <div class="input-group">
+                {{ form.estado.label_tag }} {{ form.estado }} {{ form.estado.errors }}
+              </div>
+              <div class="input-group">
+                {{ form.fechaLanzamiento.label_tag }} {{ form.fechaLanzamiento }} {{ form.fechaLanzamiento.errors }}
+              </div>
+              <div class="input-group">
+                {{ form.imagen.label_tag }} {{ form.imagen }} {{ form.imagen.errors }}
+              </div>
+              <div class="input-group">
+                {{ form.imagen2.label_tag }} {{ form.imagen2 }} {{ form.imagen2.errors }}
+              </div>
+            </div>
+            <p class="ayuda">Las imágenes son rutas dentro de <code>static/images/discos/</code>.</p>
+            <button type="submit" class="btn btn-full">Guardar</button>
+            <p class="switch-text"><a href="{% url 'discos' %}">Volver al listado</a></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

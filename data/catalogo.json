@@ -1,0 +1,124 @@
+{
+  "discos": [
+    {
+      "id": 1,
+      "slug": "rage-against-the-machine-homonimo",
+      "titulo": "Homonimo",
+      "artista": "Rage Against the Machine",
+      "tags": [
+        "Rap Metal",
+        "Rock"
+      ],
+      "precio": 4990,
+      "imagenes": [
+        "rage-against-the-machine-homonimo/1.webp",
+        "rage-against-the-machine-homonimo/2.webp"
+      ]
+    },
+    {
+      "id": 2,
+      "slug": "twenty-one-pilots-homonimo",
+      "titulo": "Homonimo",
+      "artista": "Twenty One Pilots",
+      "tags": [
+        "Alternative",
+        "Indie Pop"
+      ],
+      "precio": 4990,
+      "imagenes": [
+        "twenty-one-pilots-homonimo/1.webp",
+        "twenty-one-pilots-homonimo/2.webp"
+      ]
+    },
+    {
+      "id": 3,
+      "slug": "los-bunkers-homonimo",
+      "titulo": "Homonimo",
+      "artista": "Los Bunkers",
+      "tags": [
+        "Rock Chileno",
+        "Indie"
+      ],
+      "precio": 4990,
+      "imagenes": [
+        "los-bunkers-homonimo/1.jpg",
+        "los-bunkers-homonimo/2.jpg"
+      ]
+    },
+    {
+      "id": 4,
+      "slug": "ado-utattemita",
+      "titulo": "Utattemita",
+      "artista": "Ado",
+      "tags": [
+        "J-Pop",
+        "Vocaloid"
+      ],
+      "precio": 4990,
+      "imagenes": [
+        "ado-utattemita/1.jpg",
+        "ado-utattemita/2.jpg"
+      ]
+    },
+    {
+      "id": 5,
+      "slug": "bikini-kill-the-first-two-records",
+      "titulo": "The First Two Records",
+      "artista": "Bikini Kill",
+      "tags": [
+        "Punk",
+        "Riot Grrrl"
+      ],
+      "precio": 4990,
+      "imagenes": [
+        "bikini-kill-the-first-two-records/1.webp",
+        "bikini-kill-the-first-two-records/2.webp"
+      ]
+    },
+    {
+      "id": 6,
+      "slug": "cuarteto-de-nos-habla-tu-espejo",
+      "titulo": "Habla Tu Espejo",
+      "artista": "Cuarteto de Nos",
+      "tags": [
+        "Art Rock",
+        "Post-Punk"
+      ],
+      "precio": 4990,
+      "imagenes": [
+        "cuarteto-de-nos-habla-tu-espejo/1.jpg",
+        "cuarteto-de-nos-habla-tu-espejo/2.jpg"
+      ]
+    },
+    {
+      "id": 7,
+      "slug": "twenty-one-pilots-blurryface",
+      "titulo": "Blurryface",
+      "artista": "Twenty One Pilots",
+      "tags": [
+        "Alternative",
+        "Hip Hop"
+      ],
+      "precio": 4990,
+      "imagenes": [
+        "twenty-one-pilots-blurryface/1.jpg",
+        "twenty-one-pilots-blurryface/2.jpg"
+      ]
+    },
+    {
+      "id": 8,
+      "slug": "twenty-one-pilots-breach",
+      "titulo": "Breach",
+      "artista": "Twenty One Pilots",
+      "tags": [
+        "Rock Alternativo",
+        "Concept"
+      ],
+      "precio": 4990,
+      "imagenes": [
+        "twenty-one-pilots-breach/1.jpg",
+        "twenty-one-pilots-breach/2.jpg"
+      ]
+    }
+  ]
+}

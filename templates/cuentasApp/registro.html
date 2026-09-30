@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block titulo %}Crear cuenta - Vinlume{% endblock %}
+{% block contenido %}
+  <main>
+    <section class="pagina-interna form-pagina">
+      <div class="glass-panel form-box">
+        <h1 class="holo-text">Crear Cuenta</h1>
+        <form method="post">
+          {% csrf_token %}
+          {% include '_form_campos.html' %}
+          <button type="submit" class="btn btn-full">Registrarse</button>
+        </form>
+        <p class="switch-text">¿Ya tienes cuenta? <a href="{% url 'login' %}">Inicia sesión</a></p>
+      </div>
+    </section>
+  </main>
+{% endblock %}

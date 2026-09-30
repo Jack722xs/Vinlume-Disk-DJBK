@@ -1,0 +1,9 @@
+{
+  "preguntas": [
+    {"pregunta": "¿Es compatible con mi teléfono?", "respuesta": "Sí, la mayoría de los smartphones modernos (iPhone 7 en adelante y casi todos los Android con NFC) son compatibles sin necesidad de apps adicionales."},
+    {"pregunta": "¿Hacen envíos a regiones?", "respuesta": "Realizamos envíos a todo Chile a través de Starken o Chilexpress, con seguimiento en tiempo real."},
+    {"pregunta": "¿Puedo solicitar un álbum personalizado?", "respuesta": "¡Absolutamente! Si tu álbum, playlist o artista favorito no está en nuestro catálogo, escríbenos por Instagram o WhatsApp y fabricaremos uno exclusivo para ti."},
+    {"pregunta": "¿Cuánto tiempo demora la fabricación?", "respuesta": "Los pedidos personalizados toman entre 3 a 5 días hábiles de producción antes de ser despachados."},
+    {"pregunta": "¿Se raya o se borra la imagen con el tiempo?", "respuesta": "No, la impresión está encapsulada dentro del acrílico de alta durabilidad, por lo que la imagen está protegida de rayones y del desgaste por el uso diario."}
+  ]
+}

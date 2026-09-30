@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block titulo %}Catálogo - Vinlume Disk{% endblock %}
+{% block contenido %}
+  <main>
+    <section class="catalogo pagina-interna">
+      <div class="section-content">
+        <h1 class="section-title">Nuestro <span class="holo-text">Catálogo</span></h1>
+
+        <form method="get" class="filtros" role="search">
+          <label for="buscar">Buscar CD</label>
+          <input id="buscar" name="q" type="search" value="{{ busqueda }}" placeholder="Ej. Rock alternativo">
+          <button type="submit" class="btn buy-btn">Buscar</button>
+        </form>
+
+        <div class="grid" role="list">
+          {% for disco in discos %}
+            {% include 'tiendaApp/_card.html' %}
+          {% empty %}
+            <p class="vacio">No encontramos discos para "{{ busqueda }}".</p>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

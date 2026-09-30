@@ -1,0 +1,10 @@
+{% if form.non_field_errors %}
+  <div class="mensaje mensaje-error">{% for e in form.non_field_errors %}{{ e }}{% endfor %}</div>
+{% endif %}
+{% for campo in form %}
+  <div class="input-group">
+    {{ campo.label_tag }}
+    {{ campo }}
+    {% for error in campo.errors %}<small class="error-campo">{{ error }}</small>{% endfor %}
+  </div>
+{% endfor %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block titulo %}Iniciar sesión - Vinlume{% endblock %}
+{% block contenido %}
+  <main>
+    <section class="pagina-interna form-pagina">
+      <div class="glass-panel form-box">
+        <h1 class="holo-text">Iniciar Sesión</h1>
+        <form method="post">
+          {% csrf_token %}
+          {% include '_form_campos.html' %}
+          <input type="hidden" name="next" value="{{ next }}">
+          <button type="submit" class="btn btn-full">Entrar</button>
+        </form>
+        <p class="switch-text">¿No tienes cuenta? <a href="{% url 'registro' %}">Regístrate</a></p>
+      </div>
+    </section>
+  </main>
+{% endblock %}

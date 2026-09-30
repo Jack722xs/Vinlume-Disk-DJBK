@@ -1,0 +1,77 @@
+{% load static %}<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block titulo %}Vinlume Disk - Catálogo de CDs{% endblock %}</title>
+  <link rel="icon" href="{% static 'images/logos/logo_negro.jpg' %}" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/landing.css' %}">
+  <link rel="stylesheet" href="{% static 'css/extra.css' %}">
+  {% block css %}{% endblock %}
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="{% url 'inicio' %}" class="nav-logo holo-text">Vinlume</a>
+      <ul class="nav-links">
+        <li><a href="{% url 'inicio' %}">Inicio</a></li>
+        <li><a href="{% url 'inicio' %}#proceso">Cómo Funciona</a></li>
+        <li><a href="{% url 'inicio' %}#tecnologia">Tecnología NFC</a></li>
+        <li><a href="{% url 'catalogo' %}">Catálogo</a></li>
+        <li><a href="{% url 'faq' %}">FAQ</a></li>
+        <li><a href="{% url 'contacto' %}">Contacto</a></li>
+        {% if user.is_staff %}<li><a href="{% url 'discos' %}">Mantenedor</a></li>{% endif %}
+        {% if user.is_authenticated %}
+          <li class="nav-user">Hola, {{ user.first_name|default:user.username }}</li>
+          <li>
+            <form method="post" action="{% url 'logout' %}" class="form-inline">
+              {% csrf_token %}
+              <button type="submit" class="nav-btn nav-btn-peligro">Cerrar sesión</button>
+            </form>
+          </li>
+        {% else %}
+          <li><a href="{% url 'login' %}" class="nav-btn">Acceso / Registro</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+  {% if messages %}
+    <div class="mensajes">
+      {% for mensaje in messages %}
+        <div class="mensaje mensaje-{{ mensaje.tags }}">{{ mensaje }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% block contenido %}{% endblock %}
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Vinlume Disk</h4>
+        <p>Transformando la forma en que interactúas con tu música. Hecho para verdaderos fanáticos.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Contacto</h4>
+        <p>Email: contacto@vinlumedisk.cl</p>
+        <p>WhatsApp: +56 9 1234 5678</p>
+      </div>
+      <div class="footer-section">
+        <h4>Síguenos</h4>
+        <div class="social-links">
+          <a href="https://www.instagram.com/vinlume_disk/" target="_blank" rel="noopener noreferrer" class="social-link">Instagram</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vinlume Disk. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="{% static 'js/favoritos.js' %}"></script>
+  {% block js %}{% endblock %}
+</body>
+</html>

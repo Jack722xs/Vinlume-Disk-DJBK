@@ -1,0 +1,21 @@
+{
+  "pasos": [
+    {"numero": 1, "titulo": "Elige tu Álbum", "texto": "Selecciona entre nuestros diseños clásicos o solicita uno personalizado."},
+    {"numero": 2, "titulo": "Recibe el Llavero", "texto": "Réplicas en acrílico de alta calidad con impresión premium y chip NFC integrado."},
+    {"numero": 3, "titulo": "Acerca y Disfruta", "texto": "Solo acerca tu teléfono al mini CD y tu música comenzará a sonar al instante."}
+  ],
+  "nfc": [
+    {"titulo": "¿Qué es la Tecnología NFC?", "imagen": "nfc/nfc_chip.jpg", "alt": "Microchip NFC integrado",
+     "texto": "NFC (Near Field Communication) permite la transmisión de datos a corta distancia de forma instantánea. Nuestros llaveros integran un microchip pasivo que no requiere baterías ni recargas; se alimenta directamente de la energía electromagnética que emite tu teléfono al acercarlo."},
+    {"titulo": "Compatibilidad Universal", "imagen": "nfc/celular.webp", "alt": "Compatibilidad con Smartphone",
+     "texto": "La inmensa mayoría de los smartphones actuales son compatibles de forma nativa. En los dispositivos Android, el lector suele ubicarse en el centro de la parte trasera, mientras que en los iPhone se encuentra en la parte superior, junto a las cámaras. No necesitas instalar ninguna aplicación adicional."},
+    {"titulo": "Conexión Directa a tu Música", "imagen": "nfc/plataformas.png", "alt": "Conexión directa a música",
+     "texto": "Al escanear el llavero, el chip envía un enlace codificado que ordena a tu teléfono abrir tu aplicación de música favorita (como Spotify, Apple Music o YouTube) y comenzar a reproducir el álbum al instante."}
+  ],
+  "carrusel": [
+    {"imagen": "carrusel/slide1.jpg", "alt": "Vinlume - imagen 1"},
+    {"imagen": "carrusel/slide2.jpg", "alt": "Vinlume - imagen 2"},
+    {"imagen": "carrusel/slide3.jpg", "alt": "Vinlume - imagen 3"},
+    {"imagen": "carrusel/slide4.jpg", "alt": "Vinlume - imagen 4"}
+  ]
+}

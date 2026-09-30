@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contenido %}
+  <header class="hero" id="inicio">
+    <div class="hero-inner">
+      <h1 class="holo-text mega-title">Vinlume Disk</h1>
+      <p>La evolución de tu música favorita. Réplicas artesanales con tecnología NFC para conectar tu mundo físico con tu biblioteca digital.</p>
+      <a href="{% url 'catalogo' %}" class="btn">Explorar Catálogo</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="galeria" id="galeria">
+      <div class="carrusel" id="carrusel">
+        {% for slide in carrusel %}
+          <img src="{% static 'images/'|add:slide.imagen %}" alt="{{ slide.alt }}"
+               class="carrusel-slide{% if forloop.first %} activa{% endif %}">
+        {% endfor %}
+        <div class="carrusel-controles">
+          <button type="button" class="carrusel-btn" id="carrusel-ant" aria-label="Anterior">❮</button>
+          <button type="button" class="carrusel-btn" id="carrusel-sig" aria-label="Siguiente">❯</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="proceso-section" id="proceso">
+      <div class="section-content">
+        <h2 class="section-title">Tu <span class="holo-text">música</span> en 3 pasos</h2>
+        <div class="proceso-grid">
+          {% for paso in pasos %}
+            <div class="proceso-step">
+              <div class="step-number">{{ paso.numero }}</div>
+              <h3>{{ paso.titulo }}</h3>
+              <p>{{ paso.texto }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <section class="nfc-showcase" id="tecnologia">
+      <div class="section-content">
+        <h2 class="section-title">El poder del <span class="holo-text">NFC</span></h2>
+        {% for bloque in nfc %}
+          <div class="showcase-row{% if forloop.counter|divisibleby:2 %} reverse{% endif %}">
+            <div class="showcase-img">
+              <img src="{% static 'images/'|add:bloque.imagen %}" alt="{{ bloque.alt }}" loading="lazy">
+            </div>
+            <div class="showcase-text">
+              <h3>{{ bloque.titulo }}</h3>
+              <p>{{ bloque.texto }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="catalogo" id="catalogo">
+      <div class="section-content">
+        <h2 class="section-title">Discos <span class="holo-text">destacados</span></h2>
+        <div class="grid" role="list">
+          {% for disco in destacados %}{% include 'tiendaApp/_card.html' %}{% endfor %}
+        </div>
+        <p class="centrado"><a href="{% url 'catalogo' %}" class="btn">Ver catálogo completo</a></p>
+      </div>
+    </section>
+  </main>
+{% endblock %}
+
+{% block js %}<script src="{% static 'js/carrusel.js' %}"></script>{% endblock %}

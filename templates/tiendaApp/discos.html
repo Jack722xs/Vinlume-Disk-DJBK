@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block titulo %}Mantenedor de discos - Vinlume{% endblock %}
+{% block contenido %}
+  <main>
+    <section class="pagina-interna">
+      <div class="section-content">
+        <h1 class="section-title">Mantenedor de <span class="holo-text">discos</span></h1>
+        <p class="centrado" style="margin-top:0"><a href="{% url 'crearDisco' %}" class="btn">Agregar disco</a></p>
+        <div class="tabla-scroll">
+          <table class="tabla">
+            <thead>
+              <tr><th>ID</th><th>Título</th><th>Artista</th><th>Etiquetas</th><th>Precio</th><th>Estado</th></tr>
+            </thead>
+            <tbody>
+              {% for disco in discos %}
+                <tr>
+                  <td>{{ disco.id }}</td>
+                  <td>{{ disco.titulo }}</td>
+                  <td>{{ disco.artista.nombre }}</td>
+                  <td>{{ disco.etiquetas|default:"-" }}</td>
+                  <td>CLP {{ disco.precio|floatformat:"0g" }}</td>
+                  <td>{{ disco.get_estado_display }}</td>
+                </tr>
+              {% empty %}
+                <tr><td colspan="6" class="vacio">No hay discos. Ejecuta <code>python manage.py cargar_catalogo</code> o agrega uno.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}
