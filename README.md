@@ -25,7 +25,6 @@ python manage.py test                 # 8 pruebas
 ## Rutas
 `/` · `/catalogo/` · `/faq/` · `/contacto/` · `/cuentas/login/` · `/cuentas/registro/` · `/discos/` y `/discos/agregar/` (solo staff) · `/admin/`
 
-## Correspondencia con el material del profesor
 | PDF | Tema | Dónde está |
 |---|---|---|
 | 0 | proyecto, app, vistas, rutas | `VinlumeDjango/`, `*/views.py`, `*/urls.py` |
@@ -42,6 +41,3 @@ Crear la BD `vinlume` (utf8mb4_spanish_ci) y el usuario en phpMyAdmin, `pip inst
 descomentar el bloque `DATABASES` de `settings.py`, copiar `.env.example` a `.env` con la clave real,
 y ejecutar `migrate` + `cargar_catalogo`.
 
-## Pendiente
-- React (fuera del material del profesor; ver conversación)
-- Página "ultimate" (GSAP)
