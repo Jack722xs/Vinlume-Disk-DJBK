@@ -2,96 +2,129 @@
 {% load static %}
 {% block titulo %}VINLUME — Música convertida en objeto{% endblock %}
 {% block body_class %}pn-entry-page{% endblock %}
-{% block css %}<link rel="stylesheet" href="{% static 'css/prismatic/entry.css' %}">{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'css/prismatic/entry.css' %}?v=e80aa1cab7b9">{% endblock %}
 {% block contenido %}
 <main class="pn-entry" data-pn-entry>
   <header class="pn-cover" id="inicio" tabindex="-1" aria-labelledby="pn-wordmark">
     <div class="pn-cover-atmosphere" aria-hidden="true">
-      <div class="pn-orbit pn-orbit-one"></div><div class="pn-orbit pn-orbit-two"></div>
-      <div class="pn-light-plane"></div><div class="pn-light-axis"></div>
-    </div>
-    <div class="pn-cover-meta pn-container" data-pn-intro>
-      <span class="pn-eyebrow">Objetos para sentir la música</span>
-      <span class="pn-cover-edition" aria-hidden="true">Prismatic Noir / 01</span>
+      <picture class="pn-scene-image">
+        <source media="(max-width: 700px)" srcset="{% static 'images/prismatic/noir-crystal-mobile.webp' %}">
+        <img class="pn-hero-environment" src="{% static 'images/prismatic/noir-crystal-desktop.webp' %}" width="1672" height="941" alt="" fetchpriority="high" decoding="async">
+      </picture>
+      <div class="pn-scene-irradiance"></div>
     </div>
     <div class="pn-wordmark-wrap" data-pn-intro>
       <h1 id="pn-wordmark" class="pn-wordmark" aria-label="VINLUME">
-        <svg viewBox="0 0 1440 300" role="presentation" aria-hidden="true" focusable="false">
+        <canvas class="pn-crystal-word" aria-hidden="true" hidden></canvas>
+        <svg viewBox="0 0 1440 320" role="presentation" aria-hidden="true" focusable="false">
           <defs>
-            <text id="pn-letterform" x="24" y="240" textLength="1392" lengthAdjust="spacingAndGlyphs">VINLUME</text>
-            <linearGradient id="pn-metal" x1="0" y1="0" x2=".15" y2="1" gradientUnits="objectBoundingBox">
-              <stop stop-color="#fff"/><stop offset=".27" stop-color="#e3e4ec"/>
-              <stop offset=".46" stop-color="#737583"/><stop offset=".48" stop-color="#f4f4f6"/>
-              <stop offset=".51" stop-color="#b9bac9"/><stop offset=".72" stop-color="#454754"/>
-              <stop offset=".74" stop-color="#a9adb8"/><stop offset="1" stop-color="#e5e4ef"/>
+            <!-- Fixed vector silhouette: no textLength or font inheritance in use shadows. -->
+            <path id="pn-letterform" d="M20 40H66L118 222L170 40H216L144 278H92Z M243 40H289V278H243Z M320 278V40H367L462 196V40H508V278H461L366 122V278Z M539 40H585V234H689V278H539Z M720 40H766V215Q766 238 790 238H835Q859 238 859 215V40H905V218Q905 278 845 278H780Q720 278 720 218Z M936 278V40H982L1046 150L1110 40H1157V278H1111V126L1046 207L982 126V278Z M1188 40H1407V84H1234V136H1383V180H1234V234H1407V278H1188Z"/>
+            <linearGradient id="pn-metal" x1=".1" y1="0" x2=".7" y2="1">
+              <stop stop-color="#ecf0ff" stop-opacity=".75"/><stop offset=".18" stop-color="#b9c8dd" stop-opacity=".32"/>
+              <stop offset=".43" stop-color="#1a1c2a" stop-opacity=".5"/><stop offset=".64" stop-color="#7c718f" stop-opacity=".32"/>
+              <stop offset=".85" stop-color="#c2c7dc" stop-opacity=".55"/><stop offset="1" stop-color="#f1eaff" stop-opacity=".8"/>
             </linearGradient>
-            <radialGradient id="pn-refraction" cx="65%" cy="35%" r="55%">
-              <stop stop-color="#fff" stop-opacity=".95"/><stop offset=".16" stop-color="#dceaff" stop-opacity=".8"/>
-              <stop offset=".32" stop-color="#9c71ee" stop-opacity=".55"/><stop offset=".54" stop-color="#93d5ea" stop-opacity=".14"/>
-              <stop offset="1" stop-color="#08090d" stop-opacity="0"/>
+            <linearGradient id="pn-transmission" x1="0" y1="0" x2="1" y2=".8">
+              <stop stop-color="#ccd8ef" stop-opacity="0"/><stop offset=".36" stop-color="#a6cddd" stop-opacity=".15"/>
+              <stop offset=".49" stop-color="#f4f4ff" stop-opacity=".65"/><stop offset=".505" stop-color="#c6a5ff" stop-opacity=".55"/>
+              <stop offset=".53" stop-color="#9c71ee" stop-opacity=".08"/><stop offset="1" stop-color="#ccd8ef" stop-opacity="0"/>
+            </linearGradient>
+            <radialGradient id="pn-refraction" cx="65%" cy="35%" r="48%" gradientTransform="translate(0 -.1) scale(1 1.4)">
+              <stop stop-color="#fff"/><stop offset=".14" stop-color="#eef3ff" stop-opacity=".95"/>
+              <stop offset=".27" stop-color="#a8caed" stop-opacity=".65"/><stop offset=".42" stop-color="#ab7ef5" stop-opacity=".65"/>
+              <stop offset=".68" stop-color="#9c71ee" stop-opacity=".08"/><stop offset="1" stop-color="#08090d" stop-opacity="0"/>
             </radialGradient>
-            <linearGradient id="pn-cut" x1="0" y1="0" x2="1" y2=".4">
-              <stop stop-color="#fff" stop-opacity="0"/><stop offset=".48" stop-color="#fff" stop-opacity=".55"/>
-              <stop offset=".5" stop-color="#ad91ee" stop-opacity=".8"/><stop offset=".52" stop-color="#fff" stop-opacity=".04"/>
+            <linearGradient id="pn-cut" x1="0" y1="0" x2="1" y2=".2">
+              <stop stop-color="#fff" stop-opacity="0"/><stop offset=".45" stop-color="#fff" stop-opacity=".02"/>
+              <stop offset=".49" stop-color="#d7f0ff" stop-opacity=".7"/><stop offset=".505" stop-color="#bc99ff" stop-opacity=".65"/>
+              <stop offset=".53" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
             </linearGradient>
-            <clipPath id="pn-letter-clip"><use href="#pn-letterform"/></clipPath>
+            <clipPath id="pn-letter-clip" clipPathUnits="userSpaceOnUse"><use href="#pn-letterform"/></clipPath>
+            <filter id="pn-bevel" x="-3%" y="-12%" width="106%" height="124%" color-interpolation-filters="sRGB">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="edge"/>
+              <feSpecularLighting in="edge" surfaceScale="5" specularConstant=".85" specularExponent="24" lighting-color="#f4f4ff" result="shine"><fePointLight id="pn-specular-light" x="936" y="-90" z="180"/></feSpecularLighting>
+              <feComposite in="shine" in2="SourceAlpha" operator="in" result="edge-shine"/>
+              <feBlend in="SourceGraphic" in2="edge-shine" mode="screen"/>
+            </filter>
           </defs>
-          <use href="#pn-letterform" fill="url(#pn-metal)" stroke="#eeedf7" stroke-width=".6"/>
-          <g clip-path="url(#pn-letter-clip)" class="pn-word-facets">
-            <path d="M0 100 1440 175 1440 203 0 133Z" fill="#08090d" opacity=".4"/>
-            <path d="M0 32 1440 142 1440 151 0 60Z" fill="#fff" opacity=".2"/>
-            <path d="M690 -80 940 -80 730 340 480 340Z" fill="url(#pn-cut)"/>
-            <path d="M995 -80 1020 -80 810 340 785 340Z" fill="#d8ccff" opacity=".3"/>
-            <path d="M0 133 1440 203" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+          <use class="pn-word-depth" href="#pn-letterform" transform="translate(0 5)" fill="#151923" stroke="#8b829e" stroke-opacity=".65" stroke-width="2"/>
+          <use class="pn-word-body" href="#pn-letterform" fill="url(#pn-metal)" stroke="#e1dfee" stroke-width=".7" filter="url(#pn-bevel)"/>
+          <g clip-path="url(#pn-letter-clip)">
+            <g class="pn-word-facets">
+              <path d="M-200 290C250-120 1000 370 1640-50L1660 0C960 470 230-10-200 320Z" fill="url(#pn-transmission)"/>
+              <path d="M-200 290C250-120 1000 370 1640-50" fill="none" stroke="#c1e1eb" stroke-opacity=".5" stroke-width="1.4"/>
+              <path d="M-194 296C256-114 1006 376 1646-44" fill="none" stroke="#b490ff" stroke-opacity=".5" stroke-width="2"/>
+              <path d="M0 36L1440 190V214L0 86Z" fill="#fff" opacity=".11"/>
+              <path d="M0 86L1440 214" stroke="#f4f4ff" stroke-opacity=".35" stroke-width="1"/>
+              <path d="M-480-150H1750V470H-480Z" fill="url(#pn-cut)"/>
+              <path d="M400-60H413L700 370H687Z" fill="#d4bbff" opacity=".25"/>
+            </g>
           </g>
           <use href="#pn-letterform" fill="url(#pn-refraction)" class="pn-word-reflection"/>
+          <use href="#pn-letterform" fill="none" stroke="url(#pn-refraction)" stroke-width="2"/>
         </svg>
       </h1>
-      <div class="pn-wordmark-caption" aria-hidden="true"><span>Disco / Memoria / Conexión</span><span>La música toma forma.</span></div>
     </div>
     <div class="pn-cover-bottom pn-container" data-pn-intro>
-      <p>Lo que escuchas.<br><span>Ahora, en tus manos.</span></p>
-      <a class="pn-button pn-enter" href="#universos">Explorar universos <span aria-hidden="true">↘</span></a>
+      <p>Tu música.<br><span>En tus manos.</span></p>
+      <a class="pn-button pn-enter" data-pn-glass href="#universos"><span>Explorar universos</span><span aria-hidden="true">↘</span></a>
       <a class="pn-link pn-cover-direct" href="{% url 'catalogo' %}">Ir al catálogo <span aria-hidden="true">↗</span></a>
     </div>
-    <div class="pn-scene-index pn-container" aria-hidden="true"><span>01 — Origen</span><span>Desliza para descubrir ↓</span></div>
   </header>
 
   <section class="pn-hub" id="universos" tabindex="-1" aria-labelledby="pn-hub-title">
     <header class="pn-hub-heading pn-container">
-      <div><span class="pn-eyebrow">02 — Universos Vinlume</span><h2 id="pn-hub-title">Una pasión.<br><span>Distintas formas.</span></h2></div>
-      <a class="pn-link" href="#inicio">Volver al origen <span aria-hidden="true">↑</span></a>
+      <h2 id="pn-hub-title">Elige tu universo.</h2>
+      <a class="pn-link" href="#inicio">Inicio <span aria-hidden="true">↑</span></a>
     </header>
-    <div class="pn-universes">
-      <article class="pn-universe pn-universe-cd" aria-labelledby="pn-cd-title" data-pn-universe>
+    <div class="pn-universe-switch pn-container" role="group" aria-label="Elegir universo" hidden>
+      <button class="pn-control" type="button" data-pn-select="cd" aria-pressed="true" aria-expanded="true" aria-controls="pn-universe-cd">Mini CD</button>
+      <button class="pn-control" type="button" data-pn-select="future" aria-pressed="false" aria-expanded="false" aria-controls="pn-universe-future">Marcos</button>
+    </div>
+    <div class="pn-universes" data-pn-active="cd">
+      <article id="pn-universe-cd" class="pn-universe pn-universe-cd" tabindex="-1" aria-labelledby="pn-cd-title" data-pn-universe="cd">
         <div class="pn-product-aura" aria-hidden="true"></div>
-        <span class="pn-universe-number" aria-hidden="true">01 /</span>
         <div class="pn-product-visual">
-          <div class="pn-product-orbit" aria-hidden="true"></div>
+          <div class="pn-product-plinth" aria-hidden="true"></div>
           <img class="pn-mini-cd" src="{% static 'images/prismatic/cd-cerrado.webp' %}" width="1000" height="1000" alt="Mini CD en estuche transparente con ojal para llavero" decoding="async" loading="lazy">
-          <span class="pn-object-note" aria-hidden="true">Tu música. A otra escala.</span>
         </div>
         <div class="pn-universe-copy">
-          <span class="pn-eyebrow">Colección actual · Personalizable</span>
-          <h3 id="pn-cd-title">Mini CD<span class="pn-product-subtitle">Un pequeño objeto.<br>Todo tu universo.</span></h3>
-          <p>Tu álbum favorito, convertido en un llavero mini CD. Estuche transparente y tecnología NFC para llevar tu música contigo.</p>
-          <a class="pn-button" href="{% url 'catalogo' %}">Descubrir el catálogo <span aria-hidden="true">↗</span></a>
+          <h3 id="pn-cd-title">Mini CD</h3>
+          <div class="pn-universe-details" data-pn-details><div>
+            <p>Tu álbum favorito, en un llavero mini CD personalizado con NFC.</p>
+            <a class="pn-button" data-pn-glass href="{% url 'catalogo' %}"><span>Explorar catálogo</span><span aria-hidden="true">↗</span></a>
+          </div></div>
+          <button class="pn-control pn-universe-recall" type="button" data-pn-select="cd" aria-controls="pn-universe-cd" hidden>Explorar Mini CD <span aria-hidden="true">↗</span></button>
         </div>
       </article>
       <div class="pn-crystal-seam" aria-hidden="true"><span></span></div>
-      <article class="pn-universe pn-universe-future" aria-labelledby="pn-frame-title" data-pn-universe>
-        <span class="pn-universe-number" aria-hidden="true">02 /</span>
-        <div class="pn-future-art" aria-hidden="true"><span>EN<br>OTRA<br>DIMENSIÓN.</span><i></i><i></i><i></i></div>
+      <article id="pn-universe-future" class="pn-universe pn-universe-future" tabindex="-1" aria-labelledby="pn-frame-title" data-pn-universe="future">
+        <div class="pn-future-art" aria-hidden="true">
+          <svg class="pn-future-prism" viewBox="0 0 640 600" focusable="false">
+            <defs>
+              <linearGradient id="pn-future-glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c4e9f1" stop-opacity=".4"/><stop offset=".32" stop-color="#a4a7c2" stop-opacity=".08"/><stop offset=".5" stop-color="#faf4ff" stop-opacity=".7"/><stop offset=".52" stop-color="#a791cd" stop-opacity=".12"/><stop offset="1" stop-color="#c7b0ed" stop-opacity=".35"/></linearGradient>
+              <linearGradient id="pn-future-edge" x1="0" y1="1" x2=".7" y2="0"><stop stop-color="#9c71ee" stop-opacity="0"/><stop offset=".4" stop-color="#9c71ee"/><stop offset=".6" stop-color="#d7f5ff"/><stop offset=".7" stop-color="#fff"/><stop offset="1" stop-color="#9c71ee" stop-opacity=".1"/></linearGradient>
+            </defs>
+            <!-- Abstract optical study, not an image or mockup of a future product. -->
+            <path d="M100 495C95 230 345 90 555 74C363 135 230 350 200 540Z" fill="url(#pn-future-glass)" stroke="url(#pn-future-edge)" stroke-width="1.5"/>
+            <path d="M110 498C108 238 352 100 563 83L555 74C345 90 95 230 100 495Z" fill="url(#pn-future-edge)" opacity=".7"/>
+            <path d="M85 190C245 485 485 455 574 400C395 495 143 465 85 190Z" fill="url(#pn-future-glass)" stroke="url(#pn-future-edge)"/>
+            <path d="M85 190C245 485 485 455 574 400" fill="none" stroke="url(#pn-future-edge)" stroke-width="3" opacity=".6" transform="translate(5 4)"/>
+          </svg>
+        </div>
         <div class="pn-universe-copy">
           <span class="pn-future-status">Próximamente</span>
-          <h3 id="pn-frame-title">Marcos<span class="pn-product-subtitle">La música también<br>habita tus paredes.</span></h3>
-          <p>Marcos personalizados con diseños de álbumes. Un nuevo universo Vinlume, todavía en desarrollo.</p>
-          <span class="pn-future-note">El siguiente capítulo está por llegar.</span>
+          <h3 id="pn-frame-title">Marcos</h3>
+          <div class="pn-universe-details" data-pn-details><div>
+            <p>Marcos personalizados con diseños de álbumes.<br>Un nuevo universo, en desarrollo.</p>
+          </div></div>
+          <button class="pn-control pn-universe-recall" type="button" data-pn-select="future" aria-controls="pn-universe-future" hidden>Explorar Marcos <span aria-hidden="true">↗</span></button>
         </div>
       </article>
     </div>
-    <div class="pn-hub-bottom pn-container"><p>Elige la música. Hazla tuya.</p><a class="pn-link" href="{% url 'catalogo' %}">Ver catálogo <span aria-hidden="true">↗</span></a></div>
+    <div class="pn-hub-bottom pn-container"><a class="pn-link" href="{% url 'catalogo' %}">Ver catálogo <span aria-hidden="true">↗</span></a></div>
   </section>
 </main>
 {% endblock %}
-{% block js %}<script defer src="{% static 'js/prismatic/entry.js' %}"></script>{% endblock %}
+{% block js %}<script defer src="{% static 'js/prismatic/hero-crystal.js' %}?v=9ccb6f5e2be7"></script><script defer src="{% static 'js/prismatic/entry.js' %}?v=41823cae1fd8"></script>{% endblock %}
