@@ -1,0 +1,31 @@
+/* Small layout guards for legacy templates; no page composition redesign. */
+.nav-links a, .nav-btn { min-height: 44px; display: inline-flex; align-items: center; }
+.nav-user { min-width: 0; }
+.nav-user a { max-width: 100%; overflow-wrap: anywhere; }
+.nav-links .nav-user { white-space: normal; }
+.mega-title { font-size: var(--pn-text-display); overflow-wrap: anywhere; }
+.proceso-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+.form-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+.filtros { flex-wrap: wrap; }
+.filtros input { max-width: 100%; min-width: 0; }
+.footer-section { min-width: min(250px, 100%); }
+.footer-bottom { color: var(--pn-titanium); }
+.card-footer { flex-wrap: wrap; gap: 1rem; }
+.showcase-img, .showcase-text, .form-box { min-width: 0; }
+/* No decorative, perpetual typography or non-interactive card motion. */
+.proceso-step:hover { transform: none; }
+@media (max-width: 1000px) {
+  .navbar { position: sticky; }
+  .pagina-interna { padding-top: 3rem !important; }
+  .hero { padding-top: 0; }
+}
+@media (max-width: 640px) {
+  .nav-container { padding-inline: 1rem; }
+  .nav-links { gap: .25rem .75rem; width: 100%; }
+  .nav-links a, .nav-btn { font-size: .875rem; }
+  .filtros { align-items: stretch; }
+  .filtros input { width: 100%; }
+  .section-title { overflow-wrap: anywhere; }
+  .proceso-step { padding: 2rem 1rem; }
+}

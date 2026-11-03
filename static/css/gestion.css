@@ -8,8 +8,6 @@
 .gestion-eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: .75rem; color: var(--accent); font-weight: 700; }
 .gestion-page .btn { font-size: .9rem; padding: .8rem 1.2rem; border-radius: 10px; white-space: nowrap; }
 .gestion-page .btn:hover { transform: none; box-shadow: none; }
-.btn-secondary { background: transparent; color: var(--contrast); border: 1px solid var(--border-color); }
-.btn-danger { background: rgba(255,95,86,.12); color: var(--error); border: 1px solid rgba(255,95,86,.3); }
 .gestion-panel { border: 1px solid var(--border-color); background: var(--panel-bg); border-radius: 16px; padding: 1.5rem; }
 .gestion-toolbar { display: flex; align-items: end; flex-wrap: wrap; gap: .8rem; margin-bottom: 1.5rem; }
 .gestion-toolbar .input-group { margin: 0; flex: 1 1 200px; }

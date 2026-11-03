@@ -5,14 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block titulo %}Vinlume Disk - Catálogo de CDs{% endblock %}</title>
   <link rel="icon" href="{% static 'images/logos/logo_negro.jpg' %}" type="image/jpeg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/prismatic/tokens.css' %}">
   <link rel="stylesheet" href="{% static 'css/landing.css' %}">
   <link rel="stylesheet" href="{% static 'css/extra.css' %}">
   <link rel="stylesheet" href="{% static 'css/gestion.css' %}">
+  <link rel="stylesheet" href="{% static 'css/prismatic/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/prismatic/compatibility.css' %}">
+  <link rel="stylesheet" href="{% static 'css/prismatic/motion.css' %}">
+  <script defer src="{% static 'js/prismatic/effects.js' %}"></script>
   {% block css %}{% endblock %}
 </head>
-<body>
+<body class="{% block body_class %}{% endblock %}">
+  <a class="pn-skip" href="#contenido">Saltar al contenido</a>
   <nav class="navbar">
     <div class="nav-container">
       <a href="{% url 'inicio' %}" class="nav-logo holo-text">Vinlume</a>
@@ -45,7 +49,9 @@
     </div>
   {% endif %}
 
-  {% block contenido %}{% endblock %}
+  <div id="contenido" tabindex="-1">
+    {% block contenido %}{% endblock %}
+  </div>
 
   <footer class="site-footer">
     <div class="footer-content">
@@ -66,6 +72,7 @@
       </div>
     </div>
     <div class="footer-bottom">
+      <button type="button" class="pn-control" data-pn-effects-toggle aria-pressed="false" hidden>Reducir efectos</button>
       <p>&copy; 2026 Vinlume Disk. Todos los derechos reservados.</p>
     </div>
   </footer>

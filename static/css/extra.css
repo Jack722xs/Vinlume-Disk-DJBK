@@ -1,5 +1,4 @@
 /* Estilos añadidos en la migración a Django (formularios, mensajes, carrusel, navbar de sesión) */
-:root { --success: #00ff88; --error: #ff5f56; --glass-bg: rgba(255, 255, 255, 0.04); }
 
 /* Páginas internas (catálogo, faq, formularios) compensan el navbar fijo */
 .pagina-interna { padding-top: 9rem !important; }
@@ -23,13 +22,10 @@ main > section.form-pagina { justify-content: center; align-items: center; }
 .mensaje-error { background: rgba(255,95,86,.12); border: 1px solid var(--error); color: var(--error); }
 
 /* Formularios */
-.glass-panel { background: var(--glass-bg); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,.1); border-radius: 24px; padding: 3rem; box-shadow: 0 8px 32px rgba(0,0,0,.5); }
 .form-box { width: 100%; max-width: 450px; margin: 0 auto; text-align: center; }
 .form-box h1 { font-size: 2.2rem; margin: 0 0 2rem; }
 .input-group { margin-bottom: 1.2rem; text-align: left; }
 .input-group label { display: block; color: var(--muted); font-size: .75rem; text-transform: uppercase; margin-bottom: .5rem; }
-.form-control, .input-group input, .input-group textarea { width: 100%; background: rgba(0,0,0,.3); border: 1px solid rgba(255,255,255,.12); padding: 12px; color: #fff; border-radius: 8px; font: inherit; }
-.form-control:focus { outline: none; border-color: var(--accent); }
 .error-campo { display: block; color: var(--error); margin-top: .4rem; font-size: .8rem; }
 .btn-full { width: 100%; margin-top: 1rem; }
 .switch-text { margin-top: 1.5rem; color: var(--muted); font-size: .85rem; }

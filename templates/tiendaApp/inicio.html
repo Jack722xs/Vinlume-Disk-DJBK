@@ -1,70 +1,97 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block titulo %}VINLUME — Música convertida en objeto{% endblock %}
+{% block body_class %}pn-entry-page{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'css/prismatic/entry.css' %}">{% endblock %}
 {% block contenido %}
-  <header class="hero" id="inicio">
-    <div class="hero-inner">
-      <h1 class="holo-text mega-title">Vinlume Disk</h1>
-      <p>La evolución de tu música favorita. Réplicas artesanales con tecnología NFC para conectar tu mundo físico con tu biblioteca digital.</p>
-      <a href="{% url 'catalogo' %}" class="btn">Explorar Catálogo</a>
+<main class="pn-entry" data-pn-entry>
+  <header class="pn-cover" id="inicio" tabindex="-1" aria-labelledby="pn-wordmark">
+    <div class="pn-cover-atmosphere" aria-hidden="true">
+      <div class="pn-orbit pn-orbit-one"></div><div class="pn-orbit pn-orbit-two"></div>
+      <div class="pn-light-plane"></div><div class="pn-light-axis"></div>
     </div>
+    <div class="pn-cover-meta pn-container" data-pn-intro>
+      <span class="pn-eyebrow">Objetos para sentir la música</span>
+      <span class="pn-cover-edition" aria-hidden="true">Prismatic Noir / 01</span>
+    </div>
+    <div class="pn-wordmark-wrap" data-pn-intro>
+      <h1 id="pn-wordmark" class="pn-wordmark" aria-label="VINLUME">
+        <svg viewBox="0 0 1440 300" role="presentation" aria-hidden="true" focusable="false">
+          <defs>
+            <text id="pn-letterform" x="24" y="240" textLength="1392" lengthAdjust="spacingAndGlyphs">VINLUME</text>
+            <linearGradient id="pn-metal" x1="0" y1="0" x2=".15" y2="1" gradientUnits="objectBoundingBox">
+              <stop stop-color="#fff"/><stop offset=".27" stop-color="#e3e4ec"/>
+              <stop offset=".46" stop-color="#737583"/><stop offset=".48" stop-color="#f4f4f6"/>
+              <stop offset=".51" stop-color="#b9bac9"/><stop offset=".72" stop-color="#454754"/>
+              <stop offset=".74" stop-color="#a9adb8"/><stop offset="1" stop-color="#e5e4ef"/>
+            </linearGradient>
+            <radialGradient id="pn-refraction" cx="65%" cy="35%" r="55%">
+              <stop stop-color="#fff" stop-opacity=".95"/><stop offset=".16" stop-color="#dceaff" stop-opacity=".8"/>
+              <stop offset=".32" stop-color="#9c71ee" stop-opacity=".55"/><stop offset=".54" stop-color="#93d5ea" stop-opacity=".14"/>
+              <stop offset="1" stop-color="#08090d" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="pn-cut" x1="0" y1="0" x2="1" y2=".4">
+              <stop stop-color="#fff" stop-opacity="0"/><stop offset=".48" stop-color="#fff" stop-opacity=".55"/>
+              <stop offset=".5" stop-color="#ad91ee" stop-opacity=".8"/><stop offset=".52" stop-color="#fff" stop-opacity=".04"/>
+            </linearGradient>
+            <clipPath id="pn-letter-clip"><use href="#pn-letterform"/></clipPath>
+          </defs>
+          <use href="#pn-letterform" fill="url(#pn-metal)" stroke="#eeedf7" stroke-width=".6"/>
+          <g clip-path="url(#pn-letter-clip)" class="pn-word-facets">
+            <path d="M0 100 1440 175 1440 203 0 133Z" fill="#08090d" opacity=".4"/>
+            <path d="M0 32 1440 142 1440 151 0 60Z" fill="#fff" opacity=".2"/>
+            <path d="M690 -80 940 -80 730 340 480 340Z" fill="url(#pn-cut)"/>
+            <path d="M995 -80 1020 -80 810 340 785 340Z" fill="#d8ccff" opacity=".3"/>
+            <path d="M0 133 1440 203" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+          </g>
+          <use href="#pn-letterform" fill="url(#pn-refraction)" class="pn-word-reflection"/>
+        </svg>
+      </h1>
+      <div class="pn-wordmark-caption" aria-hidden="true"><span>Disco / Memoria / Conexión</span><span>La música toma forma.</span></div>
+    </div>
+    <div class="pn-cover-bottom pn-container" data-pn-intro>
+      <p>Lo que escuchas.<br><span>Ahora, en tus manos.</span></p>
+      <a class="pn-button pn-enter" href="#universos">Explorar universos <span aria-hidden="true">↘</span></a>
+      <a class="pn-link pn-cover-direct" href="{% url 'catalogo' %}">Ir al catálogo <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="pn-scene-index pn-container" aria-hidden="true"><span>01 — Origen</span><span>Desliza para descubrir ↓</span></div>
   </header>
 
-  <main>
-    <section class="galeria" id="galeria">
-      <div class="carrusel" id="carrusel">
-        {% for slide in carrusel %}
-          <img src="{% static 'images/'|add:slide.imagen %}" alt="{{ slide.alt }}"
-               class="carrusel-slide{% if forloop.first %} activa{% endif %}">
-        {% endfor %}
-        <div class="carrusel-controles">
-          <button type="button" class="carrusel-btn" id="carrusel-ant" aria-label="Anterior">❮</button>
-          <button type="button" class="carrusel-btn" id="carrusel-sig" aria-label="Siguiente">❯</button>
+  <section class="pn-hub" id="universos" tabindex="-1" aria-labelledby="pn-hub-title">
+    <header class="pn-hub-heading pn-container">
+      <div><span class="pn-eyebrow">02 — Universos Vinlume</span><h2 id="pn-hub-title">Una pasión.<br><span>Distintas formas.</span></h2></div>
+      <a class="pn-link" href="#inicio">Volver al origen <span aria-hidden="true">↑</span></a>
+    </header>
+    <div class="pn-universes">
+      <article class="pn-universe pn-universe-cd" aria-labelledby="pn-cd-title" data-pn-universe>
+        <div class="pn-product-aura" aria-hidden="true"></div>
+        <span class="pn-universe-number" aria-hidden="true">01 /</span>
+        <div class="pn-product-visual">
+          <div class="pn-product-orbit" aria-hidden="true"></div>
+          <img class="pn-mini-cd" src="{% static 'images/prismatic/cd-cerrado.webp' %}" width="1000" height="1000" alt="Mini CD en estuche transparente con ojal para llavero" decoding="async" loading="lazy">
+          <span class="pn-object-note" aria-hidden="true">Tu música. A otra escala.</span>
         </div>
-      </div>
-    </section>
-
-    <section class="proceso-section" id="proceso">
-      <div class="section-content">
-        <h2 class="section-title">Tu <span class="holo-text">música</span> en 3 pasos</h2>
-        <div class="proceso-grid">
-          {% for paso in pasos %}
-            <div class="proceso-step">
-              <div class="step-number">{{ paso.numero }}</div>
-              <h3>{{ paso.titulo }}</h3>
-              <p>{{ paso.texto }}</p>
-            </div>
-          {% endfor %}
+        <div class="pn-universe-copy">
+          <span class="pn-eyebrow">Colección actual · Personalizable</span>
+          <h3 id="pn-cd-title">Mini CD<span class="pn-product-subtitle">Un pequeño objeto.<br>Todo tu universo.</span></h3>
+          <p>Tu álbum favorito, convertido en un llavero mini CD. Estuche transparente y tecnología NFC para llevar tu música contigo.</p>
+          <a class="pn-button" href="{% url 'catalogo' %}">Descubrir el catálogo <span aria-hidden="true">↗</span></a>
         </div>
-      </div>
-    </section>
-
-    <section class="nfc-showcase" id="tecnologia">
-      <div class="section-content">
-        <h2 class="section-title">El poder del <span class="holo-text">NFC</span></h2>
-        {% for bloque in nfc %}
-          <div class="showcase-row{% if forloop.counter|divisibleby:2 %} reverse{% endif %}">
-            <div class="showcase-img">
-              <img src="{% static 'images/'|add:bloque.imagen %}" alt="{{ bloque.alt }}" loading="lazy">
-            </div>
-            <div class="showcase-text">
-              <h3>{{ bloque.titulo }}</h3>
-              <p>{{ bloque.texto }}</p>
-            </div>
-          </div>
-        {% endfor %}
-      </div>
-    </section>
-
-    <section class="catalogo" id="catalogo">
-      <div class="section-content">
-        <h2 class="section-title">Discos <span class="holo-text">destacados</span></h2>
-        <div class="grid" role="list">
-          {% for disco in destacados %}{% include 'tiendaApp/_card.html' %}{% endfor %}
+      </article>
+      <div class="pn-crystal-seam" aria-hidden="true"><span></span></div>
+      <article class="pn-universe pn-universe-future" aria-labelledby="pn-frame-title" data-pn-universe>
+        <span class="pn-universe-number" aria-hidden="true">02 /</span>
+        <div class="pn-future-art" aria-hidden="true"><span>EN<br>OTRA<br>DIMENSIÓN.</span><i></i><i></i><i></i></div>
+        <div class="pn-universe-copy">
+          <span class="pn-future-status">Próximamente</span>
+          <h3 id="pn-frame-title">Marcos<span class="pn-product-subtitle">La música también<br>habita tus paredes.</span></h3>
+          <p>Marcos personalizados con diseños de álbumes. Un nuevo universo Vinlume, todavía en desarrollo.</p>
+          <span class="pn-future-note">El siguiente capítulo está por llegar.</span>
         </div>
-        <p class="centrado"><a href="{% url 'catalogo' %}" class="btn">Ver catálogo completo</a></p>
-      </div>
-    </section>
-  </main>
+      </article>
+    </div>
+    <div class="pn-hub-bottom pn-container"><p>Elige la música. Hazla tuya.</p><a class="pn-link" href="{% url 'catalogo' %}">Ver catálogo <span aria-hidden="true">↗</span></a></div>
+  </section>
+</main>
 {% endblock %}
-
-{% block js %}<script src="{% static 'js/carrusel.js' %}"></script>{% endblock %}
+{% block js %}<script defer src="{% static 'js/prismatic/entry.js' %}"></script>{% endblock %}

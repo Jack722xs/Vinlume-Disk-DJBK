@@ -1,27 +1,11 @@
-﻿
-:root {
-  --bg-color: #050507;
-  --panel-bg: #11131a;
-  --contrast: #f4f5f8;
-  --accent: #b379f2; 
-  --muted: #a1accb; 
-  --border-color: #2a2d3d;
-}
-
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
-  font-family: "Inter", "Segoe UI", sans-serif;
+  font-family: var(--pn-font-body);
   background: var(--bg-color);
   color: var(--contrast);
   min-height: 100vh;
-}
-
-@keyframes holo-gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
 .navbar {
@@ -122,17 +106,7 @@ main > section {
   margin-bottom: 1rem;
 }
 
-.holo-text {
-  background: linear-gradient(90deg, #ff007f, #7928ca, #00d4ff, #42ff7b, #ff007f);
-  background-size: 300% auto;
-  color: transparent;
-  -webkit-background-clip: text;
-  background-clip: text;
-  animation: holo-gradient 5s linear infinite;
-  display: inline-block; 
-}
-
-h1.holo-text { text-shadow: 0 0 40px rgba(121, 40, 202, 0.4); }
+.holo-text { color: var(--contrast); display: inline-block; }
 
 .hero p { margin: 1.5rem auto 3rem; max-width: 700px; color: var(--muted); font-size: 1.25rem; line-height: 1.6; }
 
@@ -170,7 +144,7 @@ h1.holo-text { text-shadow: 0 0 40px rgba(121, 40, 202, 0.4); }
 .grid { display: grid; gap: 2.5rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
 
 .holo-card { position: relative; border-radius: 16px; background: var(--panel-bg); z-index: 1; transition: transform 0.3s ease; }
-.holo-card::before { content: ""; position: absolute; inset: -2px; border-radius: 18px; background: linear-gradient(90deg, #ff007f, #7928ca, #00d4ff, #42ff7b, #ffff00, #ff007f); background-size: 300% auto; z-index: -1; opacity: 0; transition: opacity 0.3s ease; animation: holo-gradient 4s linear infinite; }
+.holo-card::before { content: ""; position: absolute; inset: -2px; border-radius: 18px; background: linear-gradient(90deg, #ff007f, #7928ca, #00d4ff, #42ff7b, #ffff00, #ff007f); background-size: 300% auto; z-index: -1; opacity: 0; transition: opacity 0.3s ease; }
 .holo-card:hover { transform: translateY(-10px); }
 .holo-card:hover::before { opacity: 1; }
 
@@ -196,11 +170,6 @@ h1.holo-text { text-shadow: 0 0 40px rgba(121, 40, 202, 0.4); }
 /* Footer de la tarjeta */
 .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 1.5rem; border-top: 1px solid var(--border-color); }
 .precio { margin: 0; font-weight: 800; color: var(--contrast); font-size: 1.3rem; }
-
-/* Botones */
-.btn { display: inline-block; padding: 1rem 2.5rem; border-radius: 999px; background: var(--accent); color: #000; font-weight: 700; font-size: 1.1rem; text-decoration: none; transition: all 0.3s ease; border: none; cursor: pointer; }
-.btn:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(179, 121, 242, 0.5); }
-.buy-btn { padding: 0.6rem 1.5rem; font-size: 1rem; }
 
 /* --- FAQ --- */
 .faq-container { display: flex; flex-direction: column; gap: 1.5rem; max-width: 900px; margin: 0 auto; }

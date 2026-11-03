@@ -1,0 +1,16 @@
+/* Loaded after legacy CSS. Explicit preference and OS preference both win.
+   The same contract applies to future scenes: no hidden content/reveals required. */
+:root[data-pn-effects="reduced"] { --pn-blur: 0px; --pn-light: transparent; --pn-reflection: transparent; --pn-fast: 0ms; --pn-duration: 0ms; }
+html[data-pn-effects="reduced"] { scroll-behavior: auto; }
+:root[data-pn-effects="reduced"] *, :root[data-pn-effects="reduced"] *::before, :root[data-pn-effects="reduced"] *::after { animation: none !important; transition: none !important; }
+:root[data-pn-effects="reduced"] :is(.btn, .pn-button, .pn-link, .nav-links a, .social-link, .holo-card, .fav-btn, .showcase-img img):is(:hover, :active, :focus-visible) { transform: none; }
+:root[data-pn-effects="reduced"] :is(.navbar, .sticky-title, .pn-panel, .glass-panel, .btn, .pn-button, .fav-btn, .carrusel-btn) { backdrop-filter: none; -webkit-backdrop-filter: none; background-color: var(--pn-graphite); }
+:root[data-pn-effects="reduced"] .holo-card::before { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  :root { --pn-blur: 0px; --pn-light: transparent; --pn-reflection: transparent; --pn-fast: 0ms; --pn-duration: 0ms; }
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  :is(.btn, .pn-button, .pn-link, .nav-links a, .social-link, .holo-card, .fav-btn, .showcase-img img):is(:hover, :active, :focus-visible) { transform: none; }
+  :is(.navbar, .sticky-title, .pn-panel, .glass-panel, .btn, .pn-button, .fav-btn, .carrusel-btn) { backdrop-filter: none; -webkit-backdrop-filter: none; background-color: var(--pn-graphite); }
+  .holo-card::before { display: none; }
+}
