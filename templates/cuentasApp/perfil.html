@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block titulo %}Mi perfil - Vinlume{% endblock %}
+{% block contenido %}
+<main><section class="pagina-interna gestion-page"><div class="section-content gestion-editor">
+  <header class="gestion-header"><div><span class="gestion-eyebrow">Tu cuenta</span><h1>¿Cómo te llamas?</h1><p>Usaremos tu nombre para saludarte. Tus datos de acceso se mantienen.</p></div></header>
+  <div class="gestion-panel"><form method="post">{% csrf_token %}{% include '_form_campos.html' %}<div class="gestion-actions"><button class="btn" type="submit">Guardar nombre</button><a class="btn btn-secondary" href="{% url 'inicio' %}">Volver al inicio</a></div></form></div>
+</div></section></main>
+{% endblock %}

@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/landing.css' %}">
   <link rel="stylesheet" href="{% static 'css/extra.css' %}">
+  <link rel="stylesheet" href="{% static 'css/gestion.css' %}">
   {% block css %}{% endblock %}
 </head>
 <body>
@@ -17,14 +18,12 @@
       <a href="{% url 'inicio' %}" class="nav-logo holo-text">Vinlume</a>
       <ul class="nav-links">
         <li><a href="{% url 'inicio' %}">Inicio</a></li>
-        <li><a href="{% url 'inicio' %}#proceso">Cómo Funciona</a></li>
-        <li><a href="{% url 'inicio' %}#tecnologia">Tecnología NFC</a></li>
         <li><a href="{% url 'catalogo' %}">Catálogo</a></li>
         <li><a href="{% url 'faq' %}">FAQ</a></li>
         <li><a href="{% url 'contacto' %}">Contacto</a></li>
-        {% if user.is_staff %}<li><a href="{% url 'discos' %}">Mantenedor</a></li>{% endif %}
+        {% if user.is_authenticated %}<li><a href="{% url 'discos' %}">Gestión de discos</a></li>{% endif %}
         {% if user.is_authenticated %}
-          <li class="nav-user">Hola, {{ user.first_name|default:user.username }}</li>
+          <li class="nav-user"><a href="{% url 'perfil' %}">{% if user.first_name %}Hola, {{ user.first_name }}{% else %}Completar mi nombre{% endif %}</a></li>
           <li>
             <form method="post" action="{% url 'logout' %}" class="form-inline">
               {% csrf_token %}

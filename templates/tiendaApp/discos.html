@@ -1,33 +1,42 @@
 {% extends 'base.html' %}
-{% block titulo %}Mantenedor de discos - Vinlume{% endblock %}
+{% block titulo %}Gestión de discos - Vinlume{% endblock %}
 {% block contenido %}
-  <main>
-    <section class="pagina-interna">
-      <div class="section-content">
-        <h1 class="section-title">Mantenedor de <span class="holo-text">discos</span></h1>
-        <p class="centrado" style="margin-top:0"><a href="{% url 'crearDisco' %}" class="btn">Agregar disco</a></p>
+<main>
+  <section class="pagina-interna gestion-page">
+    <div class="section-content">
+      <header class="gestion-header">
+        <div><span class="gestion-eyebrow">Tu catálogo</span><h1>Gestión de <span class="holo-text">discos</span></h1><p>Organiza tus álbumes, actualiza sus datos y añade nuevos lanzamientos.</p></div>
+        <a href="{% url 'crearDisco' %}" class="btn">+ Agregar disco</a>
+      </header>
+      <div class="gestion-panel">
+        <form method="get" class="gestion-toolbar" role="search">
+          <div class="input-group"><label for="gestion-buscar">Buscar en tus discos</label><input class="form-control" type="search" id="gestion-buscar" name="q" value="{{ busqueda }}" placeholder="Título o artista"></div>
+          <button class="btn btn-secondary" type="submit">Buscar</button>
+          {% if busqueda %}<a class="btn btn-secondary" href="{% url 'discos' %}">Ver todos</a>{% endif %}
+        </form>
+        <p class="gestion-count">{{ pagina.paginator.count }} disco{{ pagina.paginator.count|pluralize }}{% if busqueda %} para «{{ busqueda }}»{% endif %}</p>
         <div class="tabla-scroll">
-          <table class="tabla">
-            <thead>
-              <tr><th>ID</th><th>Título</th><th>Artista</th><th>Etiquetas</th><th>Precio</th><th>Estado</th></tr>
-            </thead>
+          <table class="gestion-table">
+            <thead><tr><th scope="col">Álbum / artista</th><th scope="col">Precio</th><th scope="col">Estado</th><th scope="col">Acciones</th></tr></thead>
             <tbody>
               {% for disco in discos %}
-                <tr>
-                  <td>{{ disco.id }}</td>
-                  <td>{{ disco.titulo }}</td>
-                  <td>{{ disco.artista.nombre }}</td>
-                  <td>{{ disco.etiquetas|default:"-" }}</td>
-                  <td>CLP {{ disco.precio|floatformat:"0g" }}</td>
-                  <td>{{ disco.get_estado_display }}</td>
-                </tr>
-              {% empty %}
-                <tr><td colspan="6" class="vacio">No hay discos. Ejecuta <code>python manage.py cargar_catalogo</code> o agrega uno.</td></tr>
-              {% endfor %}
+              <tr>
+                <td><div class="disco-resumen"><img src="{{ disco.imagen_url }}" alt="Portada de {{ disco.titulo }}" loading="lazy"><div><strong>{{ disco.titulo }}</strong><small>{{ disco.artista.nombre }} · #{{ disco.pk }}</small></div></div></td>
+                <td>CLP {{ disco.precio|floatformat:'0g' }}</td>
+                <td><span class="gestion-status {% if disco.estado == 'a' %}agotado{% else %}disponible{% endif %}">{{ disco.get_estado_display }}</span></td>
+                <td><div class="gestion-actions"><a class="btn btn-secondary" href="{% url 'editarDisco' disco.pk %}">Editar</a><a class="btn btn-danger" href="{% url 'eliminarDisco' disco.pk %}">Eliminar</a></div></td>
+              </tr>
+              {% empty %}<tr><td colspan="4"><p class="vacio">No hay discos{% if busqueda %} que coincidan con esta búsqueda{% endif %}. Puedes agregar uno con el botón superior.</p></td></tr>{% endfor %}
             </tbody>
           </table>
         </div>
+        {% if pagina.has_other_pages %}<nav class="pagination" aria-label="Páginas de discos">
+          {% if pagina.has_previous %}<a class="btn btn-secondary" href="?q={{ busqueda|urlencode }}&pagina={{ pagina.previous_page_number }}">Anterior</a>{% endif %}
+          <span>Página {{ pagina.number }} de {{ pagina.paginator.num_pages }}</span>
+          {% if pagina.has_next %}<a class="btn btn-secondary" href="?q={{ busqueda|urlencode }}&pagina={{ pagina.next_page_number }}">Siguiente</a>{% endif %}
+        </nav>{% endif %}
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
+</main>
 {% endblock %}

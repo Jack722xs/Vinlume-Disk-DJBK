@@ -1,0 +1,67 @@
+.nav-container { max-width: 1440px; gap: 1.5rem; }
+.nav-links { align-items: center; gap: 1.1rem; flex-wrap: wrap; justify-content: flex-end; }
+.nav-links .nav-user { max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gestion-page { padding-bottom: 4rem; }
+.gestion-header { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; margin-bottom: 2rem; }
+.gestion-header h1 { font-size: clamp(2rem, 4vw, 3rem); margin: .4rem 0 .7rem; }
+.gestion-header p, .gestion-subtitle { color: var(--muted); line-height: 1.6; }
+.gestion-eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: .75rem; color: var(--accent); font-weight: 700; }
+.gestion-page .btn { font-size: .9rem; padding: .8rem 1.2rem; border-radius: 10px; white-space: nowrap; }
+.gestion-page .btn:hover { transform: none; box-shadow: none; }
+.btn-secondary { background: transparent; color: var(--contrast); border: 1px solid var(--border-color); }
+.btn-danger { background: rgba(255,95,86,.12); color: var(--error); border: 1px solid rgba(255,95,86,.3); }
+.gestion-panel { border: 1px solid var(--border-color); background: var(--panel-bg); border-radius: 16px; padding: 1.5rem; }
+.gestion-toolbar { display: flex; align-items: end; flex-wrap: wrap; gap: .8rem; margin-bottom: 1.5rem; }
+.gestion-toolbar .input-group { margin: 0; flex: 1 1 200px; }
+.gestion-count { color: var(--muted); margin: 0 0 1rem; font-size: .9rem; }
+.gestion-table { width: 100%; border-collapse: collapse; }
+.gestion-table th { color: var(--muted); text-transform: uppercase; letter-spacing: .05em; font-size: .72rem; }
+.gestion-table th, .gestion-table td { padding: 1rem; border-bottom: 1px solid var(--border-color); text-align: left; }
+.gestion-table tr:last-child td { border-bottom: 0; }
+.disco-resumen { display: flex; align-items: center; gap: .9rem; min-width: 230px; }
+.disco-resumen img { width: 58px; height: 58px; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
+.disco-resumen strong { display: block; line-height: 1.4; }
+.disco-resumen small { color: var(--muted); display: block; margin-top: .25rem; }
+.gestion-actions { display: flex; align-items: center; flex-wrap: wrap; gap: .5rem; }
+.gestion-status { border: 1px solid var(--border-color); border-radius: 999px; padding: .35rem .65rem; font-size: .8rem; white-space: nowrap; }
+.gestion-status.disponible { color: var(--success); border-color: rgba(0,255,136,.25); background: rgba(0,255,136,.06); }
+.gestion-status.agotado { color: var(--error); }
+.pagination { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: .8rem; margin-top: 1.5rem; }
+.pagination span { font-size: .85rem; color: var(--muted); }
+.pagination[hidden] { display: none; }
+.gestion-editor { max-width: 960px; margin: 0 auto; }
+.gestion-editor h2 { margin: 0 0 .7rem; font-size: 1.25rem; }
+.gestion-editor .gestion-panel { margin-bottom: 1.5rem; }
+.gestion-editor .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 1.5rem; }
+.gestion-editor .input-group label { text-transform: none; font-size: .9rem; color: var(--contrast); }
+.gestion-editor .ayuda { display: block; line-height: 1.6; margin-top: .5rem; }
+.gestion-page input, .gestion-page select { color-scheme: dark; }
+.gestion-page input[type=file] { padding: .6rem; font-size: .85rem; }
+.gestion-page input[type=file]::file-selector-button { border: 0; border-radius: 5px; padding: .55rem; margin-right: .6rem; background: var(--border-color); color: var(--contrast); cursor: pointer; }
+.upload-preview { display: block; width: 140px; height: 140px; object-fit: cover; border: 1px solid var(--border-color); border-radius: 10px; margin-top: .8rem; }
+.upload-preview[hidden] { display: none; }
+.itunes-results { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin-top: 1rem; }
+.itunes-result { border: 1px solid var(--border-color); border-radius: 10px; padding: 1rem; display: flex; flex-direction: column; align-items: start; gap: .6rem; min-width: 0; }
+.itunes-result strong { line-height: 1.4; overflow-wrap: anywhere; }
+.itunes-result p { margin: 0; color: var(--muted); font-size: .85rem; line-height: 1.5; }
+.itunes-result a { color: var(--accent); font-size: .8rem; }
+.itunes-result button { margin-top: auto; }
+.itunes-message { color: var(--muted); line-height: 1.6; font-size: .9rem; }
+.itunes-message.error { color: var(--error); }
+.itunes-selected { color: var(--success); font-size: .9rem; }
+.gestion-page button:disabled { opacity: .5; cursor: wait; }
+.danger-panel { max-width: 620px; margin: 0 auto; }
+.danger-panel h1 { font-size: 2rem; }
+.danger-panel .disco-resumen { margin: 1.5rem 0; }
+@media (max-width: 1000px) { .nav-container { align-items: start; } .nav-links { gap: .8rem; } .pagina-interna { padding-top: 10rem !important; } }
+@media (max-width: 640px) {
+  .nav-container { flex-direction: column; gap: .65rem; }
+  .nav-links { justify-content: flex-start; gap: .7rem; }
+  .nav-links a, .nav-btn { font-size: .78rem; }
+  .nav-btn { padding: .3rem .6rem; }
+  .pagina-interna { padding-top: 12rem !important; }
+  .gestion-header { align-items: start; flex-direction: column; }
+  .gestion-editor .form-grid, .itunes-results { grid-template-columns: 1fr; }
+  .gestion-panel { padding: 1rem; }
+  .gestion-actions .btn { padding: .6rem .8rem; }
+}

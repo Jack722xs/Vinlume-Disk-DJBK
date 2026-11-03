@@ -1,4 +1,7 @@
 import datetime
+import io
+from PIL import Image
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.auth.models import User
 from django.core.management import call_command
 from django.test import TestCase
@@ -26,23 +29,25 @@ class CatalogoTests(TestCase):
 
 
 class MantenedorTests(TestCase):
-    def test_solo_staff(self):
+    def test_usuario_autenticado_no_necesita_staff(self):
         self.assertEqual(self.client.get(reverse('discos')).status_code, 302)
-        User.objects.create_user('a@a.cl', password='Clave-Segura-2026', is_staff=True)
+        User.objects.create_user('a@a.cl', password='Clave-Segura-2026', is_staff=False)
         self.client.login(username='a@a.cl', password='Clave-Segura-2026')
         self.assertEqual(self.client.get(reverse('discos')).status_code, 200)
 
 
 class DiscoFormTests(TestCase):
     def datos(self, **extra):
-        artista, _ = Artista.objects.get_or_create(nombre='Ado')
-        d = {'titulo': 'Uta', 'artista': artista.pk, 'etiquetas': 'J-Pop, Vocaloid',
-             'precio': 4990, 'estado': 'd', 'imagen': 'x/1.jpg'}
+        d = {'titulo': 'Uta', 'artista_nombre': 'Ado', 'etiquetas': 'J-Pop, Vocaloid',
+             'precio': 4990, 'estado': 'd'}
         d.update(extra)
         return d
 
     def test_valido_con_opcionales_vacios(self):
-        self.assertTrue(DiscoForm(self.datos()).is_valid())
+        data = io.BytesIO()
+        Image.new('RGB', (8, 8)).save(data, format='PNG')
+        portada = SimpleUploadedFile('portada.png', data.getvalue(), content_type='image/png')
+        self.assertTrue(DiscoForm(self.datos(), {'portada': portada}).is_valid())
 
     def test_precio_debe_ser_positivo(self):
         self.assertIn('precio', DiscoForm(self.datos(precio=0)).errors)
@@ -52,5 +57,6 @@ class DiscoFormTests(TestCase):
         futuro = (datetime.date.today() + datetime.timedelta(days=30)).isoformat()
         self.assertIn('fechaLanzamiento', DiscoForm(self.datos(fechaLanzamiento=futuro)).errors)
 
-    def test_etiquetas_solo_letras(self):
-        self.assertIn('etiquetas', DiscoForm(self.datos(etiquetas='Rock123')).errors)
+    def test_etiquetas_admite_generos_musicales(self):
+        form = DiscoForm(self.datos(etiquetas='R&B, Hip-Hop/Rap'))
+        self.assertNotIn('etiquetas', form.errors)

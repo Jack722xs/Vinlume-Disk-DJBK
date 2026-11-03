@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block titulo %}Eliminar disco - Vinlume{% endblock %}
+{% block contenido %}
+<main><section class="pagina-interna gestion-page"><div class="section-content">
+  <div class="gestion-panel danger-panel">
+    <span class="gestion-eyebrow">Gestión de discos</span><h1>¿Eliminar este disco?</h1>
+    <div class="disco-resumen"><img src="{{ disco.imagen_url }}" alt="Portada de {{ disco.titulo }}"><div><strong>{{ disco.titulo }}</strong><small>{{ disco.artista.nombre }}</small></div></div>
+    <p class="gestion-subtitle">El disco dejará de aparecer en el catálogo. Esta acción no se puede deshacer.</p>
+    <form method="post" class="gestion-actions">{% csrf_token %}<button type="submit" class="btn btn-danger">Confirmar eliminación</button><a class="btn btn-secondary" href="{% url 'discos' %}">Cancelar</a></form>
+  </div>
+</div></section></main>
+{% endblock %}

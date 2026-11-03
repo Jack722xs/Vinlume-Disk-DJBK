@@ -7,3 +7,8 @@ venv/
 node_modules/
 staticfiles/
 .vscode/
+media/
+
+/ANEXO_USO_IA.md
+/GUIA_PRESENTACION.md
+/INFORME_EVALUACION.md

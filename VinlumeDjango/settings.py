@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 import os
+import json
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -19,12 +20,20 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 DATA_DIR = os.path.join(BASE_DIR, 'data')
 
+# El archivo local está excluido de Git; el entorno tiene prioridad.
+env_file = BASE_DIR / '.env'
+if env_file.exists():
+    for line in env_file.read_text(encoding='utf-8').splitlines():
+        if line.strip() and not line.lstrip().startswith('#'):
+            key, value = line.split('=', 1)
+            os.environ.setdefault(key.strip(), json.loads(value))
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'clave-solo-para-desarrollo-cambiar-en-produccion')
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '1') == '1'
@@ -82,14 +91,13 @@ WSGI_APPLICATION = 'VinlumeDjango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'vinlume',
-        'USER': 'user_vinlume',
-        'PASSWORD': 'awdrgyj8lp',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'NAME': os.environ['DB_NAME'],
+        'USER': os.environ['DB_USER'],
+        'PASSWORD': os.environ['DB_PASSWORD'],
+        'HOST': os.environ['DB_HOST'],
+        'PORT': os.environ['DB_PORT'],
         'OPTIONS': {'init_command': "SET sql_mode='STRICT_ALL_TABLES'"},
     }
-    
 }
 
 # Password validation
@@ -126,6 +134,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [STATIC_DIR]
 
@@ -143,15 +154,3 @@ MAILERS = {
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'inicio'
 LOGOUT_REDIRECT_URL = 'inicio'
-
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.mysql',
-#        'NAME': os.environ.get('DB_NAME', 'vinlume'),
-#        'USER': os.environ.get('DB_USER', 'user_vinlume'),
-#        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
-#        'HOST': os.environ.get('DB_HOST', 'localhost'),
-#        'PORT': os.environ.get('DB_PORT', '3308'),
-#        'OPTIONS': {'init_command': "SET sql_mode='STRICT_ALL_TABLES'"},
-#    }
-#}

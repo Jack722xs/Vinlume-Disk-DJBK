@@ -1,45 +1,46 @@
 {% extends 'base.html' %}
-{% block titulo %}Agregar disco - Vinlume{% endblock %}
+{% load static %}
+{% block titulo %}{% if disco %}Editar{% else %}Agregar{% endif %} disco - Vinlume{% endblock %}
 {% block contenido %}
-  <main>
-    <section class="pagina-interna">
-      <div class="section-content">
-        <h1 class="section-title">Agregar <span class="holo-text">disco</span></h1>
-        <div class="glass-panel form-ancho">
-          <form method="post">
-            {% csrf_token %}
-            <div class="form-grid">
-              <div class="input-group">
-                {{ form.titulo.label_tag }} {{ form.titulo }} {{ form.titulo.errors }}
-              </div>
-              <div class="input-group">
-                {{ form.artista.label_tag }} {{ form.artista }} {{ form.artista.errors }}
-              </div>
-              <div class="input-group">
-                {{ form.etiquetas.label_tag }} {{ form.etiquetas }} {{ form.etiquetas.errors }}
-              </div>
-              <div class="input-group">
-                {{ form.precio.label_tag }} {{ form.precio }} {{ form.precio.errors }}
-              </div>
-              <div class="input-group">
-                {{ form.estado.label_tag }} {{ form.estado }} {{ form.estado.errors }}
-              </div>
-              <div class="input-group">
-                {{ form.fechaLanzamiento.label_tag }} {{ form.fechaLanzamiento }} {{ form.fechaLanzamiento.errors }}
-              </div>
-              <div class="input-group">
-                {{ form.imagen.label_tag }} {{ form.imagen }} {{ form.imagen.errors }}
-              </div>
-              <div class="input-group">
-                {{ form.imagen2.label_tag }} {{ form.imagen2 }} {{ form.imagen2.errors }}
-              </div>
-            </div>
-            <p class="ayuda">Las imágenes son rutas dentro de <code>static/images/discos/</code>.</p>
-            <button type="submit" class="btn btn-full">Guardar</button>
-            <p class="switch-text"><a href="{% url 'discos' %}">Volver al listado</a></p>
-          </form>
+<main>
+  <section class="pagina-interna gestion-page">
+    <div class="section-content gestion-editor">
+      <header class="gestion-header"><div><span class="gestion-eyebrow">Gestión de discos</span><h1>{% if disco %}Editar{% else %}Agregar{% endif %} <span class="holo-text">disco</span></h1><p>Completa los datos o busca un álbum para empezar.</p></div><a class="btn btn-secondary" href="{% url 'discos' %}">Volver a gestión</a></header>
+      <details class="gestion-panel" {% if not disco %}open{% endif %}>
+        <summary>Buscar metadatos en iTunes</summary>
+        <p class="ayuda">Busca el título, artista o edición exacta, por ejemplo «MTV Unplugged». Todos los datos se pueden corregir antes de guardar.</p>
+        <form id="itunes-search" class="gestion-toolbar" action="{% url 'buscarAlbumes' %}" method="get">
+          <div class="input-group"><label for="itunes-query">Álbum o artista</label><input class="form-control" id="itunes-query" name="q" type="search" minlength="2" maxlength="150" placeholder="Ej. Nirvana MTV Unplugged" required></div>
+          <div class="input-group"><label for="itunes-country">Catálogo</label><select id="itunes-country" name="pais" class="form-control"><option value="CL">Chile</option><option value="US">Estados Unidos</option><option value="MX">México</option><option value="AR">Argentina</option><option value="ES">España</option><option value="GB">Reino Unido</option><option value="JP">Japón</option></select></div>
+          <div class="input-group"><label for="itunes-type">Buscar por</label><select id="itunes-type" name="tipo" class="form-control"><option value="album">Álbum o edición</option><option value="artista">Nombre del artista</option><option value="canciones">Canciones del álbum</option></select></div>
+          <button class="btn" type="submit">Buscar</button>
+        </form>
+        <p id="itunes-message" class="itunes-message" role="status" aria-live="polite">La búsqueda es opcional. Puedes ingresar cualquier álbum manualmente.</p>
+        <div id="itunes-results" class="itunes-results"></div>
+        <nav id="itunes-pagination" class="pagination" aria-label="Resultados de iTunes" hidden><button id="itunes-prev" type="button" class="btn btn-secondary">Anterior</button><span id="itunes-page"></span><button id="itunes-next" type="button" class="btn btn-secondary">Siguiente</button></nav>
+        <p class="ayuda">Hasta 200 resultados por consulta, divididos en páginas. Cambia el término, el país o el tipo de búsqueda para encontrar otras ediciones. La disponibilidad depende de iTunes.</p>
+        <noscript><p class="ayuda">Activa JavaScript para buscar en iTunes. El formulario manual funciona sin JavaScript.</p></noscript>
+      </details>
+      <form method="post" enctype="multipart/form-data" id="disco-form">
+        {% csrf_token %}
+        <div class="gestion-panel">
+          <h2>Información del álbum</h2><p id="itunes-selected" class="itunes-selected" role="status"></p>
+          {{ form.non_field_errors }}
+          <div class="form-grid">
+            {% for field in form %}{% if field.name != 'portada' and field.name != 'contraportada' %}<div class="input-group">{{ field.label_tag }}{{ field }}{{ field.errors }}{% if field.help_text %}<small class="ayuda">{{ field.help_text }}</small>{% endif %}</div>{% endif %}{% endfor %}
+          </div>
         </div>
-      </div>
-    </section>
-  </main>
+        <div class="gestion-panel">
+          <h2>Imágenes del disco</h2><p class="ayuda">Selecciona archivos JPG, PNG o WebP de hasta 5 MB. {% if disco %}Si no seleccionas una imagen nueva, se conserva la actual.{% else %}La portada es obligatoria; la contraportada es opcional.{% endif %}</p>
+          <div class="form-grid">
+            <div class="input-group">{{ form.portada.label_tag }}{{ form.portada }}{{ form.portada.errors }}<img id="preview-portada" class="upload-preview" {% if disco.imagen %}src="{{ disco.imagen_url }}"{% else %}hidden{% endif %} alt="Vista previa de portada"></div>
+            <div class="input-group">{{ form.contraportada.label_tag }}{{ form.contraportada }}{{ form.contraportada.errors }}<img id="preview-contraportada" class="upload-preview" {% if disco.imagen2 %}src="{{ disco.imagen2_url }}"{% else %}hidden{% endif %} alt="Vista previa de contraportada"></div>
+          </div>
+        </div>
+        <div class="gestion-actions"><button type="submit" class="btn">{% if disco %}Guardar cambios{% else %}Crear disco{% endif %}</button><a class="btn btn-secondary" href="{% url 'discos' %}">Cancelar</a></div>
+      </form>
+    </div>
+  </section>
+</main>
 {% endblock %}
+{% block js %}<script src="{% static 'js/gestion.js' %}" defer></script>{% endblock %}

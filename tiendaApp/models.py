@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.db import models
+from django.templatetags.static import static
 from django.utils import timezone
 from tiendaApp.choices import estados
 
@@ -25,7 +27,7 @@ class Disco(models.Model):
     etiquetas = models.CharField(max_length=100, blank=True, null=True)
     precio = models.PositiveIntegerField(default=4990)
     estado = models.CharField(max_length=1, choices=estados, default='d')
-    # Rutas relativas a static/images/discos/
+    # Se conservan las rutas del catálogo original y las nuevas imágenes en MEDIA_URL.
     imagen = models.CharField(max_length=200)
     imagen2 = models.CharField(max_length=200, blank=True, null=True)
     fechaLanzamiento = models.DateField(blank=True, null=True)
@@ -33,6 +35,20 @@ class Disco(models.Model):
 
     def __str__(self):
         return f'{self.titulo} - {self.artista}'
+
+    @property
+    def imagen_url(self):
+        if self.imagen.startswith(settings.MEDIA_URL + 'discos/'):
+            return self.imagen
+        return static('images/discos/' + self.imagen)
+
+    @property
+    def imagen2_url(self):
+        if not self.imagen2:
+            return ''
+        if self.imagen2.startswith(settings.MEDIA_URL + 'discos/'):
+            return self.imagen2
+        return static('images/discos/' + self.imagen2)
 
     @property
     def lista_etiquetas(self):

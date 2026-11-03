@@ -1,69 +1,89 @@
 import datetime
+from uuid import uuid4
+
 from django import forms
-from tiendaApp.choices import estados
+from django.conf import settings
+from django.core.files.storage import default_storage
+from django.db import transaction
+
 from tiendaApp.models import Artista, Disco
 
 
 class DiscoForm(forms.ModelForm):
-    titulo = forms.CharField(
-        label='Título',
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej. Blurryface'}))
-    artista = forms.ModelChoiceField(
-        label='Artista',
-        queryset=Artista.objects.all(),
-        empty_label='Selecciona un artista',
-        widget=forms.Select(attrs={'class': 'form-select'}))
-    etiquetas = forms.CharField(
-        label='Etiquetas', required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej. Rock, Indie'}))
-    precio = forms.IntegerField(
-        label='Precio (CLP)',
-        widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '4990'}))
-    estado = forms.CharField(
-        label='Estado',
-        widget=forms.Select(choices=estados, attrs={'class': 'form-select'}))
-    imagen = forms.CharField(
-        label='Imagen portada',
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'carpeta/1.jpg'}))
-    imagen2 = forms.CharField(
-        label='Imagen contraportada', required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'carpeta/2.jpg'}))
-    fechaLanzamiento = forms.DateField(
-        label='Fecha de lanzamiento', required=False,
-        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
+    artista_nombre = forms.CharField(label='Artista', max_length=100,
+        help_text='Escribe el nombre. Si todavía no existe, se creará al guardar el disco.')
+    portada = forms.ImageField(label='Portada', required=False,
+        widget=forms.FileInput(attrs={'accept': 'image/jpeg,image/png,image/webp'}))
+    contraportada = forms.ImageField(label='Contraportada', required=False,
+        widget=forms.FileInput(attrs={'accept': 'image/jpeg,image/png,image/webp'}))
 
     class Meta:
         model = Disco
-        fields = '__all__'
+        fields = ['titulo', 'artista_nombre', 'etiquetas', 'precio', 'estado',
+                  'fechaLanzamiento', 'portada', 'contraportada']
+        labels = {'titulo': 'Título', 'precio': 'Precio (CLP)', 'fechaLanzamiento': 'Fecha de lanzamiento'}
+        widgets = {'fechaLanzamiento': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'})}
 
-    # ----- Validaciones personalizadas (Doc 7) -----
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+        self.fields['artista_nombre'].widget.attrs.update({'placeholder': 'Ej. Ado', 'autocomplete': 'off'})
+        self.fields['etiquetas'].widget.attrs['placeholder'] = 'Ej. Rock, R&B, Hip-Hop/Rap'
+        self.fields['portada'].required = not bool(self.instance.imagen)
+        if self.instance.pk:
+            self.initial['artista_nombre'] = self.instance.artista.nombre
+
+    def clean_artista_nombre(self):
+        return ' '.join(self.cleaned_data['artista_nombre'].split())
+
     def clean_precio(self):
         precio = self.cleaned_data['precio']
-        try:
-            precio = int(precio)
-        except (TypeError, ValueError):
-            raise forms.ValidationError('El precio debe ser un número entero.')
         if precio <= 0:
             raise forms.ValidationError('El precio debe ser mayor que cero.')
         return precio
 
     def clean_fechaLanzamiento(self):
         fecha = self.cleaned_data.get('fechaLanzamiento')
-        if fecha is None:            # campo opcional
-            return fecha
-        fecha_minima = datetime.date(1900, 1, 1)
-        fecha_maxima = datetime.date.today()
-        if fecha < fecha_minima or fecha > fecha_maxima:
-            raise forms.ValidationError(
-                'La fecha debe estar entre el 01-01-1900 y hoy.')
+        if fecha and not datetime.date(1900, 1, 1) <= fecha <= datetime.date.today():
+            raise forms.ValidationError('La fecha debe estar entre el 01-01-1900 y hoy.')
         return fecha
 
     def clean_etiquetas(self):
-        etiquetas = self.cleaned_data.get('etiquetas')
-        if not etiquetas:
-            return etiquetas
-        # Solo letras, espacios, comas y guiones (Post-Punk, J-Pop)
-        if not etiquetas.replace(',', '').replace(' ', '').replace('-', '').isalpha():
-            raise forms.ValidationError(
-                'Las etiquetas solo pueden tener letras, espacios, comas y guiones.')
-        return ', '.join(e.strip() for e in etiquetas.split(',') if e.strip())
+        return ', '.join(tag.strip() for tag in (self.cleaned_data.get('etiquetas') or '').split(',') if tag.strip())
+
+    def clean(self):
+        cleaned = super().clean()
+        for name in ['portada', 'contraportada']:
+            image = cleaned.get(name)
+            if image:
+                if image.size > 5 * 1024 * 1024:
+                    self.add_error(name, 'La imagen no debe superar los 5 MB.')
+                elif image.image.format not in {'JPEG', 'PNG', 'WEBP'}:
+                    self.add_error(name, 'Selecciona una imagen JPG, PNG o WebP.')
+        return cleaned
+
+    def save(self, commit=True):
+        disco = super().save(commit=False)
+        if not commit:
+            return disco
+        saved_files = []
+        try:
+            with transaction.atomic():
+                name = self.cleaned_data['artista_nombre']
+                artista = Artista.objects.filter(nombre__iexact=name).first()
+                disco.artista = artista or Artista.objects.get_or_create(nombre=name)[0]
+                for field, column in [('portada', 'imagen'), ('contraportada', 'imagen2')]:
+                    image = self.cleaned_data.get(field)
+                    if image:
+                        extension = {'JPEG': '.jpg', 'PNG': '.png', 'WEBP': '.webp'}[image.image.format]
+                        path = default_storage.save('discos/' + uuid4().hex + extension, image)
+                        saved_files.append(path)
+                        setattr(disco, column, settings.MEDIA_URL + path)
+                disco.save()
+        except Exception:
+            # El rollback de MySQL no retira archivos del disco.
+            for path in saved_files:
+                default_storage.delete(path)
+            raise
+        return disco
