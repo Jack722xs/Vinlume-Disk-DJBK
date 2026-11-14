@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" preserveAspectRatio="none">
+<defs><linearGradient id="room" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#151329"/><stop offset=".5" stop-color="#101b45"/><stop offset="1" stop-color="#050a19"/></linearGradient><linearGradient id="fold" x1=".1" y1=".1" x2=".8" y2="1"><stop stop-color="#9a80ef"/><stop offset=".23" stop-color="#5450c2"/><stop offset=".56" stop-color="#2252aa"/><stop offset=".78" stop-color="#071c5e"/><stop offset="1" stop-color="#091633"/></linearGradient><linearGradient id="blue" x1="0" y1="0" x2=".9" y2="1"><stop stop-color="#1d77cc"/><stop offset=".4" stop-color="#196fd1"/><stop offset=".7" stop-color="#0b398e"/><stop offset="1" stop-color="#040b25"/></linearGradient><linearGradient id="satin" x1=".2" y1=".2" x2=".9" y2=".9"><stop stop-color="#acb9e6"/><stop offset=".09" stop-color="#6479b8"/><stop offset=".45" stop-color="#222e64"/><stop offset=".8" stop-color="#0b1439"/><stop offset="1" stop-color="#030714"/></linearGradient><filter id="soft"><feGaussianBlur stdDeviation="24"/></filter></defs>
+<path fill="url(#room)" d="M0 0H1600V900H0Z"/>
+<ellipse cx="1100" cy="180" rx="650" ry="250" fill="#5f4eaf" opacity=".3" filter="url(#soft)"/>
+<path fill="url(#fold)" d="M-300 800C80 350 560 920 930 420S1430-230 1900 60V1000H-300Z"/>
+<path d="M-100 790C220 420 595 845 960 372S1450-130 1750 80" fill="none" stroke="#a4b6e5" stroke-opacity=".65" stroke-width="3"/>
+<path fill="url(#blue)" d="M-200 1000C340 170 620 1220 1170 680S1550 180 1900 340V1100Z"/>
+<path d="M-80 990C410 280 650 1090 1170 680S1580 180 1850 350" fill="none" stroke="#79b8ed" stroke-opacity=".65" stroke-width="2"/>
+<path fill="url(#satin)" d="M850-100C960 190 1360 130 1510 340S1330 700 1670 1020L1850 920V-100Z"/>
+<path d="M850-80C960 190 1360 130 1510 340S1330 700 1670 1020" fill="none" stroke="#c0cbea" stroke-opacity=".6" stroke-width="2"/>
+</svg>

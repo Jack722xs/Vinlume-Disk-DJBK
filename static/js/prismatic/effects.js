@@ -14,6 +14,7 @@
   let frame = 0;
   let active = null;
   let pending = null;
+  let pointerController = null;
   try { preference = localStorage.getItem(key) === 'true'; } catch { /* Optional storage. */ }
   const reduced = () => motion.matches || preference;
   const clear = () => {
@@ -26,12 +27,14 @@
   };
   const sync = () => {
     clear();
+    syncPointer();
     root.dataset.pnEffects = reduced() ? 'reduced' : 'full';
     document.querySelectorAll('[data-pn-effects-toggle]').forEach(button => {
       button.hidden = false;
       button.setAttribute('aria-pressed', String(reduced()));
       button.disabled = motion.matches;
-      button.textContent = motion.matches ? 'Efectos reducidos por el sistema' : 'Reducir efectos';
+      button.textContent = reduced() ? `Efectos: REDUCIDO${motion.matches ? ' · sistema' : ''}` : 'Efectos: COMPLETO';
+      button.setAttribute('aria-label', motion.matches ? 'Efectos reducidos por la preferencia de movimiento del sistema' : `Efectos ${reduced() ? 'reducidos' : 'completos'}. Cambiar a modo ${reduced() ? 'completo' : 'reducido'}`);
     });
     document.dispatchEvent(new CustomEvent('pn:effectschange', { detail: { reduced: reduced() } }));
   };
@@ -43,8 +46,13 @@
   document.addEventListener('click', event => {
     if (event.target.closest('[data-pn-effects-toggle]')) setReduced(!preference);
   }, options);
-  document.addEventListener('pointermove', event => {
-    if (reduced() || !pointer.matches || event.pointerType !== 'mouse') return;
+  function syncPointer() {
+    pointerController?.abort(); pointerController = null;
+    if (reduced() || !pointer.matches) return;
+    pointerController = new AbortController();
+    const pointerOptions = { signal: pointerController.signal };
+    document.addEventListener('pointermove', event => {
+    if (event.pointerType !== 'mouse') return;
     const button = event.target.closest('.pn-button, .btn');
     if (!button || button.matches(':disabled, [aria-disabled="true"]')) { clear(); return; }
     if (active !== button) { clear(); active = button; }
@@ -57,10 +65,11 @@
       active.style.setProperty('--pn-pointer-x', `${((pending.x - rect.left) / (rect.width || 1)) * 100}%`);
       active.style.setProperty('--pn-pointer-y', `${((pending.y - rect.top) / (rect.height || 1)) * 100}%`);
     });
-  }, { ...options, passive: true });
+  }, { ...pointerOptions, passive: true });
   document.addEventListener('pointerout', event => {
     if (active && (!event.relatedTarget || !active.contains(event.relatedTarget))) clear();
-  }, options);
+  }, pointerOptions);
+  }
   document.addEventListener('visibilitychange', clear, options);
   window.addEventListener('blur', clear, options);
   window.addEventListener('pagehide', clear, options);
@@ -69,11 +78,12 @@
     if (event.key === key || event.key === null) { preference = event.newValue === 'true'; sync(); }
   }, options);
   motion.addEventListener('change', sync, options);
-  pointer.addEventListener('change', clear, options);
+  pointer.addEventListener('change', sync, options);
+  document.addEventListener('DOMContentLoaded', sync, { ...options, once: true });
   window.VinlumeEffects = Object.freeze({
     get reduced() { return reduced(); }, setReduced,
     reset() { preference = false; try { localStorage.removeItem(key); } catch { /* Optional. */ } sync(); },
-    destroy() { clear(); controller.abort(); }
+    destroy() { clear(); pointerController?.abort(); controller.abort(); }
   });
   sync();
 })();

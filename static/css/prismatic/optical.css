@@ -1,0 +1,63 @@
+/* F07 base/fallback skin. experience.css and shared F06 Liquid extend it. */
+.pn-optical-defs { position:absolute; overflow:hidden; pointer-events:none; }
+.navbar .nav-logo { color:#f4f4f6; background:none; -webkit-text-fill-color:currentColor; text-shadow:none; }
+.pn-entry .pn-hero-environment { filter:grayscale(1) brightness(.62) contrast(1.1); }
+.pn-entry .pn-scene-irradiance { background:radial-gradient(ellipse at var(--pn-scene-x) var(--pn-scene-y),rgb(238 243 248 / .13),transparent 48%),radial-gradient(ellipse at 28% 75%,rgb(226 234 240 / .055),transparent 55%); }
+.pn-cover-atmosphere::before { content:""; position:absolute; z-index:1; inset:0; background:url('../../images/prismatic/optical/caustics.svg') center / cover no-repeat; opacity:.48; transform:translate3d(calc(var(--pn-light-dx) * -.5),calc(var(--pn-light-dy) * -.5),0); }
+.pn-crystal-fallback { display:block; width:100%; height:auto; aspect-ratio:1440 / 320; object-fit:fill; }
+.pn-crystal-ready .pn-crystal-fallback { opacity:0; }
+.pn-crystal-word { z-index:1; }
+.pn-entry .pn-universe-cd,.pn-entry .pn-universe-future { background:radial-gradient(ellipse at var(--pn-zone-x,45%) var(--pn-zone-y,40%),rgb(226 234 244 / .055),transparent 65%); }
+.pn-entry .pn-product-aura { background:radial-gradient(ellipse at var(--pn-zone-x,45%) var(--pn-zone-y,35%),rgb(232 238 246 / .1),transparent 65%); }
+.pn-entry .pn-future-prism { filter:grayscale(1) drop-shadow(0 20px 30px rgb(220 230 240 / .04)); }
+.pn-entry .pn-crystal-seam { filter:grayscale(1); }
+.pn-entry .pn-universe-switch .pn-control[aria-pressed="true"] { background:rgb(240 244 248 / .07); border-color:#bfc5cd; }
+.pn-entry .pn-product-plinth { background:radial-gradient(ellipse,rgb(230 235 245 / .12),transparent 70%); }
+.pn-entry :is(.pn-mini-halo,.pn-mini-nfc-light,.pn-nfc-ambient) { background:radial-gradient(ellipse,rgb(230 238 245 / .075),transparent 65%); }
+.pn-entry .pn-nfc-signal { background:radial-gradient(circle,rgb(244 244 246 / .6),rgb(218 230 240 / .15) 22%,transparent 68%); }
+.pn-entry .pn-nfc-signal span { border-color:rgb(230 240 248 / .6); box-shadow:0 0 24px rgb(230 240 248 / .16),inset 0 0 18px rgb(230 240 248 / .1); }
+.pn-catalog .pn-product::before { background:radial-gradient(ellipse at var(--card-x) var(--card-y),rgb(232 240 248 / .095),transparent 60%); }
+.pn-catalog-toolbar,.pn-form-panel { box-shadow:inset 0 1px 0 rgb(255 255 255 / .18),inset 1px 0 0 rgb(255 255 255 / .04),0 24px 60px rgb(0 0 0 / .3); }
+.pn-interior-light { background:radial-gradient(ellipse at 70% 30%,rgb(235 242 248 / .10),transparent 45%); }
+.pn-interior-ribbon { border-color:rgb(230 238 245 / .12); background:linear-gradient(180deg,rgb(244 244 246 / .035),transparent 35%,rgb(244 244 246 / .025)); }
+.pn-field :is(input,textarea,select):focus { box-shadow:inset 3px 0 0 var(--pn-optic),0 0 0 4px rgb(230 240 248 / .07); }
+
+/* The lab capsule's crown/edge model is baked into one tiny displacement map.
+   A native backdrop filter refracts the actual backdrop; text remains outside it.
+   Unsupported engines keep the same readable, bevelled CSS surface. */
+html body :is([data-pn-glass],.pn-form-submit,.pn-catalog-search .pn-button,.buy-btn) {
+  --pn-pointer-x:50%; --pn-pointer-y:10%;
+  position:relative; isolation:isolate; overflow:hidden;
+  color:#fff; border:1px solid rgb(235 242 248 / .35);
+  background:radial-gradient(ellipse at var(--pn-pointer-x) var(--pn-pointer-y),rgb(255 255 255 / .12),transparent 70%),rgb(12 14 17 / .72);
+  box-shadow:inset 0 1px 1px rgb(255 255 255 / .55),inset 0 -2px 3px rgb(235 242 248 / .16),inset 2px 0 4px rgb(255 255 255 / .09),0 8px 24px rgb(0 0 0 / .32);
+  -webkit-backdrop-filter:blur(5px); backdrop-filter:blur(5px);
+}
+@supports (backdrop-filter:url('#pn-liquid-lens') blur(2px)) {
+  html body :is([data-pn-glass],.pn-form-submit,.pn-catalog-search .pn-button,.buy-btn) { backdrop-filter:url('#pn-liquid-lens') blur(2px); }
+}
+html body :is([data-pn-glass],.pn-form-submit,.pn-catalog-search .pn-button,.buy-btn)::before {
+  inset:0; z-index:-1; border:0; padding:0; mask:none; -webkit-mask:none;
+  background:radial-gradient(ellipse at var(--pn-pointer-x) var(--pn-pointer-y),rgb(255 255 255 / .14),transparent 65%);
+}
+html body [data-pn-glass]::after { display:none; }
+html body :is([data-pn-glass],.pn-form-submit,.pn-catalog-search .pn-button,.buy-btn):is(:hover,:focus-visible) {
+  transform:translateY(-2px); background-color:rgb(28 31 35 / .8);
+  box-shadow:inset 0 1px 2px rgb(255 255 255 / .75),inset 0 -2px 5px rgb(235 242 248 / .22),0 10px 30px rgb(0 0 0 / .4);
+}
+html body :is([data-pn-glass],.pn-form-submit,.pn-catalog-search .pn-button,.buy-btn):active { transform:translateY(1px) scale(.985); }
+:root[data-pn-effects="reduced"] .pn-cover-atmosphere::before { transform:none; opacity:.28; }
+:root[data-pn-effects="reduced"] body :is([data-pn-glass],.pn-form-submit,.pn-catalog-search .pn-button,.buy-btn) { backdrop-filter:none; -webkit-backdrop-filter:none; transform:none; background:#17191d; }
+@media (max-width:900px),(pointer:coarse),(prefers-reduced-motion:reduce) {
+  .pn-entry .pn-hero-environment { filter:grayscale(1) brightness(.6); }
+  .pn-cover-atmosphere::before { transform:none; opacity:.3; }
+  html body :is([data-pn-glass],.pn-form-submit,.pn-catalog-search .pn-button,.buy-btn) { backdrop-filter:none; -webkit-backdrop-filter:none; }
+}
+@media (prefers-reduced-motion:reduce) {
+  html body :is([data-pn-glass],.pn-form-submit,.pn-catalog-search .pn-button,.buy-btn) { transform:none; transition:none; }
+}
+@media (forced-colors:active) {
+  .pn-crystal-word,.pn-crystal-fallback,.pn-cover-atmosphere { display:none; }
+  .pn-wordmark::after { content:'VINLUME'; display:block; color:CanvasText; font:700 clamp(2rem,12vw,12rem)/1 sans-serif; }
+  html body :is([data-pn-glass],.pn-form-submit,.pn-catalog-search .pn-button,.buy-btn) { background:ButtonFace; color:ButtonText; border:1px solid ButtonText; box-shadow:none; backdrop-filter:none; }
+}

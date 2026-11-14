@@ -1,25 +1,38 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block titulo %}Catálogo - Vinlume Disk{% endblock %}
+{% block body_class %}pn-catalog-page{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'css/prismatic/catalog.css' %}">{% endblock %}
 {% block contenido %}
-  <main>
-    <section class="catalogo pagina-interna">
-      <div class="section-content">
-        <h1 class="section-title">Nuestro <span class="holo-text">Catálogo</span></h1>
+  <main class="pn-catalog" data-pn-catalog>
+    <section class="pn-catalog-section" aria-labelledby="pn-catalog-title">
+      <div class="pn-container">
+        <header class="pn-catalog-heading">
+          <div><p class="pn-catalog-eyebrow">Vinlume Disk / La colección</p><h1 id="pn-catalog-title">Álbumes que<br><span>van contigo.</span></h1></div>
+          <p class="pn-catalog-intro">Encuentra tu música en formato Mini CD.<br>Un pequeño objeto. Una gran historia.</p>
+        </header>
+        <div class="pn-catalog-toolbar">
+          <form method="get" action="{% url 'catalogo' %}" class="pn-catalog-search" role="search" aria-label="Buscar en el catálogo">
+            <label for="buscar">Álbum, artista o género</label>
+            <div class="pn-catalog-search-row"><input id="buscar" name="q" type="search" value="{{ busqueda }}" placeholder="¿Qué álbum te acompaña?" aria-describedby="pn-search-help"><button type="submit" class="pn-button">Buscar <span aria-hidden="true">↗</span></button></div>
+            <p id="pn-search-help">Busca por título, artista o etiquetas.</p>
+          </form>
 
-        <form method="get" class="filtros" role="search">
-          <label for="buscar">Buscar CD</label>
-          <input id="buscar" name="q" type="search" value="{{ busqueda }}" placeholder="Ej. Rock alternativo">
-          <button type="submit" class="btn buy-btn">Buscar</button>
-        </form>
-
-        <div class="grid" role="list">
+        </div>
+        <div class="pn-catalog-results">
+          <p>{{ discos|length }} producto{{ discos|length|pluralize }}{% if busqueda %} para «{{ busqueda }}»{% endif %}</p>
+          {% if busqueda %}<a class="pn-link" href="{% url 'catalogo' %}">Limpiar búsqueda <span aria-hidden="true">↗</span></a>{% else %}<span>Ver más: fotos y detalles de cada Mini CD</span>{% endif %}
+        </div>
+        <div class="pn-catalog-grid" role="{% if discos %}list{% else %}status{% endif %}" aria-label="Mini CD del catálogo">
           {% for disco in discos %}
             {% include 'tiendaApp/_card.html' %}
           {% empty %}
-            <p class="vacio">No encontramos discos para "{{ busqueda }}".</p>
+            <div class="pn-catalog-empty"><h2>{% if busqueda %}Todavía no suena por aquí.{% else %}La colección está en pausa.{% endif %}</h2><p>{% if busqueda %}No encontramos productos para «{{ busqueda }}». Prueba con otro álbum, artista o género.{% else %}No hay productos publicados en este momento.{% endif %}</p>{% if busqueda %}<a class="pn-button" href="{% url 'catalogo' %}">Ver toda la colección</a>{% endif %}</div>
           {% endfor %}
         </div>
       </div>
     </section>
+    {% include 'tiendaApp/_gallery.html' %}
   </main>
 {% endblock %}
+{% block js %}<script defer src="{% static 'js/prismatic/catalog.js' %}"></script>{% endblock %}

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" fill="none">
+<!-- Projected folds of the same studio sheet, achromatic with localized dispersion. -->
+<defs><linearGradient id="light"><stop stop-color="white" stop-opacity="0"/><stop offset=".48" stop-color="#edf3f7" stop-opacity=".6"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient><filter id="soft"><feGaussianBlur stdDeviation="3"/></filter></defs>
+<g filter="url(#soft)" stroke="url(#light)">
+<path d="M80 820C340 540 550 920 930 700S1300 300 1550 500" stroke-width="12" opacity=".35"/>
+<path d="M80 826C340 546 550 926 930 706S1300 306 1550 506" stroke-width="2"/>
+<path d="M250 240C660 80 700 460 1250 200" stroke-width="5" opacity=".45"/>
+</g><path d="M720 782Q840 784 940 696" stroke="#a8dfe5" opacity=".12"/><path d="M724 785Q844 787 944 699" stroke="#c8b5e1" opacity=".1"/>
+</svg>

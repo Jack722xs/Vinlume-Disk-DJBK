@@ -5,7 +5,7 @@
   --pn-graphite: #1a1c24;
   --pn-titanium: #a9adb8;
   --pn-ice: #f4f4f6;
-  --pn-optic: #9c71ee;
+  --pn-optic: #c5d1dc;
   --pn-success: #75e4b0;
   --pn-error: #ff9690;
   --pn-font-body: "Inter", "Segoe UI", system-ui, sans-serif;
@@ -32,7 +32,7 @@
   --pn-surface: rgb(26 28 36 / .76);
   --pn-glass: rgb(244 244 246 / .07);
   --pn-reflection: rgb(244 244 246 / .15);
-  --pn-light: rgb(156 113 238 / .20);
+  --pn-light: rgb(225 234 244 / .12);
   --pn-shadow: 0 16px 48px rgb(0 0 0 / .28);
   --pn-blur: 16px;
   --pn-fast: 160ms;

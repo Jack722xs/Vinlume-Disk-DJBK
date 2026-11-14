@@ -1,18 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'interior_base.html' %}
 {% block titulo %}Iniciar sesión - Vinlume{% endblock %}
-{% block contenido %}
-  <main>
-    <section class="pagina-interna form-pagina">
-      <div class="glass-panel form-box">
-        <h1 class="holo-text">Iniciar Sesión</h1>
-        <form method="post">
-          {% csrf_token %}
-          {% include '_form_campos.html' %}
-          <input type="hidden" name="next" value="{{ next }}">
-          <button type="submit" class="btn btn-full">Entrar</button>
-        </form>
-        <p class="switch-text">¿No tienes cuenta? <a href="{% url 'registro' %}">Regístrate</a></p>
-      </div>
-    </section>
-  </main>
+{% block interior_eyebrow %}Vinlume / Acceso{% endblock %}
+{% block interior_heading %}Tu música.<br><span>Tu espacio.</span>{% endblock %}
+{% block interior_lead %}Un punto de encuentro entre lo que escuchas y lo que llevas contigo. Vuelve a Vinlume.{% endblock %}
+{% block form_eyebrow %}Qué bueno tenerte aquí{% endblock %}
+{% block form_title %}Iniciar sesión{% endblock %}
+{% block interior_form %}
+<form method="post" class="pn-interior-form" aria-labelledby="pn-interior-form-title" data-interior-form="login" data-submit-label="Comprobando acceso…">
+  {% csrf_token %}
+  {% include '_interior_fields.html' %}
+  <input type="hidden" name="next" value="{{ next }}">
+  <button type="submit" class="pn-button pn-form-submit">Entrar <span aria-hidden="true">↗</span></button>
+  <p class="pn-form-status" role="status" aria-live="polite" data-submit-status></p>
+</form>
 {% endblock %}
+{% block interior_form_footer %}<p class="pn-form-switch">¿Es tu primera visita? <a class="pn-link" href="{% url 'registro' %}">Crear una cuenta</a></p>{% endblock %}

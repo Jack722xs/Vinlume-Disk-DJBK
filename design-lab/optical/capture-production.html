@@ -1,0 +1,11 @@
+<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Captura del cristal de producción</title>
+<style>body{margin:0;background:#08090d;color:white;font:16px system-ui}h1{position:relative;margin:0;width:1440px;height:320px}canvas{width:100%;height:100%}button,a{padding:16px;color:white}a{display:block}</style>
+<h1><canvas data-optical-environment="/static/images/prismatic/optical/studio-1k.hdr"></canvas></h1><button id="capture" disabled>Esperando las 32 muestras</button><a id="download" hidden>Descargar PNG transparente</a><output></output>
+<script type="module">
+import {createHero} from '/static/js/prismatic/optical/hero.js?v=07fix3';
+const c=document.querySelector('canvas'),h=document.querySelector('h1'),b=document.querySelector('button'),a=document.querySelector('a');
+const hero=await createHero(c,h,{capture:true});hero.setVisible(true);
+const timer=setInterval(()=>{const s=hero.diagnostics();document.querySelector('output').textContent=JSON.stringify(s);if(s.samples===32){clearInterval(timer);b.disabled=false;b.textContent='Capturar cristal';}},200);
+b.onclick=()=>{a.href=c.toDataURL('image/png');a.download='vinlume-crystal.png';a.hidden=false;};
+window.addEventListener('pagehide',()=>{clearInterval(timer);hero.destroy();});
+</script></html>

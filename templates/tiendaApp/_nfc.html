@@ -1,0 +1,43 @@
+{% load static %}
+<section class="pn-nfc-encounter" id="mini-cd-nfc" tabindex="-1" aria-labelledby="pn-mini-nfc-title" data-mini-scene data-nfc-encounter>
+  <div class="pn-nfc-stage">
+    <header class="pn-nfc-heading pn-container">
+      <p class="pn-mini-eyebrow">04 / El encuentro</p>
+      <h2 class="pn-mini-heading" id="pn-mini-nfc-title" data-mini-reveal>Un pequeño gesto.<br><span>Otra conexión.</span></h2>
+    </header>
+    <div class="pn-nfc-meeting" role="group" aria-label="Representación visual: un teléfono se acerca al Mini CD para leer su etiqueta NFC">
+      <div class="pn-nfc-ambient" aria-hidden="true"></div>
+      <img class="pn-nfc-phone" src="{% static 'images/prismatic/nfc/mano-telefono-1400.webp' %}" srcset="{% static 'images/prismatic/nfc/mano-telefono-800.webp' %} 949w, {% static 'images/prismatic/nfc/mano-telefono-1400.webp' %} 1661w" sizes="(max-width: 760px) 80vw, 52vw" width="1661" height="1400" loading="lazy" decoding="async" alt="Mano sosteniendo un teléfono">
+      <!-- Floating product approved for phase 02; second hand deferred. -->
+      <img class="pn-nfc-keyring" src="{% static 'images/prismatic/mini-cd/cd-cerrado-1100.webp' %}" srcset="{% static 'images/prismatic/mini-cd/cd-cerrado-640.webp' %} 640w, {% static 'images/prismatic/mini-cd/cd-cerrado-1100.webp' %} 1100w" sizes="(max-width: 760px) 36vw, 25vw" width="1100" height="1100" loading="lazy" decoding="async" alt="Mini CD flotante en su estuche transparente, acercándose al teléfono">
+      <div class="pn-nfc-signal" aria-hidden="true"><span></span></div>
+    </div>
+    <div class="pn-nfc-caption pn-container">
+      <p>Acerca el teléfono.<span> La conexión empieza en el llavero.</span></p>
+      <a class="pn-link" href="#nfc-como-funciona">Cómo funciona <span aria-hidden="true">↓</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="pn-nfc-explanation" id="nfc-como-funciona" tabindex="-1" aria-labelledby="pn-nfc-explanation-title" data-mini-scene>
+  <header class="pn-container pn-nfc-explanation-heading">
+    <p class="pn-mini-eyebrow">05 / Near Field Communication</p>
+    <h2 class="pn-mini-heading" id="pn-nfc-explanation-title" data-mini-reveal>Tu álbum, en tus manos.<br><span>Su enlace, en tu teléfono.</span></h2>
+  </header>
+  <figure class="pn-nfc-illustration">
+    <img src="{% static 'images/prismatic/nfc/estuche-nfc-1600.webp' %}" srcset="{% static 'images/prismatic/nfc/estuche-nfc-840.webp' %} 840w, {% static 'images/prismatic/nfc/estuche-nfc-1600.webp' %} 1600w" sizes="(max-width: 760px) 100vw, 94vw" width="1672" height="941" loading="lazy" decoding="async" alt="Jewel case transparente abierta con el símbolo NFC iluminado sobre el centro">
+    <figcaption class="pn-container">Del objeto físico a un enlace digital.</figcaption>
+  </figure>
+  <div class="pn-container">
+    <ol class="pn-nfc-steps">
+      <li><span class="pn-nfc-step-number" aria-hidden="true">01</span><h3>Acerca</h3><p>Acerca la zona lectora de un teléfono compatible con NFC a la etiqueta del llavero. Su ubicación y la necesidad de activar NFC dependen del teléfono.</p></li>
+      <li><span class="pn-nfc-step-number" aria-hidden="true">02</span><h3>Lee</h3><p>El teléfono lee los datos de la etiqueta a corta distancia. Si tiene un enlace grabado, puede mostrar un aviso para abrirlo.</p></li>
+      <li><span class="pn-nfc-step-number" aria-hidden="true">03</span><h3>Abre tu música</h3><p>Confirma el aviso para abrir el enlace en el navegador o una app compatible. El acceso al contenido puede necesitar internet, una cuenta o una suscripción.</p></li>
+    </ol>
+    <p class="pn-nfc-note">La etiqueta NFC pasiva toma la energía del lector del teléfono; no necesita batería. El Mini CD es un objeto coleccionable: no es un disco de audio reproducible. El sonido se reproduce en tu teléfono a través del contenido enlazado.</p>
+    <div class="pn-mini-actions">
+      <a class="pn-button" href="{% url 'catalogo' %}">Encuentra tu Mini CD <span aria-hidden="true">↗</span></a>
+      <a class="pn-link" href="#mini-cd-nfc">Volver al encuentro <span aria-hidden="true">↑</span></a>
+    </div>
+  </div>
+</section>

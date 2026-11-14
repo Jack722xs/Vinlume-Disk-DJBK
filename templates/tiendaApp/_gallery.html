@@ -1,0 +1,21 @@
+<dialog class="pn-gallery" aria-labelledby="pn-gallery-title" aria-describedby="pn-gallery-artist" data-pn-gallery>
+  <div class="pn-gallery-topbar"><span>Vinlume / Galería de producto</span><button type="button" class="pn-control pn-gallery-close" data-gallery-close aria-label="Cerrar galería" autofocus>Cerrar <span aria-hidden="true">×</span></button></div>
+  <div class="pn-gallery-layout">
+    <div class="pn-gallery-visual">
+      <img class="pn-gallery-image" alt="" width="1000" height="1000" data-gallery-image>
+      <p class="pn-gallery-error" data-gallery-error role="status" hidden>No pudimos cargar esta fotografía. Si hay otra foto disponible, selecciónala, o abre el archivo original.</p>
+      <div class="pn-gallery-navigation" aria-label="Fotografías del producto"><button type="button" class="pn-control" data-gallery-previous aria-label="Fotografía anterior">←</button><p data-gallery-count role="status" aria-live="polite" aria-atomic="true"></p><button type="button" class="pn-control" data-gallery-next aria-label="Fotografía siguiente">→</button></div>
+    </div>
+    <div class="pn-gallery-details">
+      <p class="pn-catalog-eyebrow">Mini CD / La colección</p>
+      <h2 id="pn-gallery-title"></h2>
+      <p id="pn-gallery-artist"></p>
+      <div class="tags" data-gallery-tags></div>
+      <p class="pn-gallery-price" data-gallery-price></p>
+      <div class="pn-gallery-commerce" data-gallery-commerce></div>
+      <button type="button" class="pn-control fav-btn pn-gallery-favorite" aria-pressed="false" data-id=""><span data-favorite-label>Guardar favorito</span></button>
+      <p class="pn-gallery-help">Usa ← y → para cambiar de foto. Escape cierra la galería.</p>
+      <a class="pn-link" data-gallery-original>Ver foto original <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</dialog>

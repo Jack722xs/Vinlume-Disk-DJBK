@@ -1,19 +1,22 @@
-{% extends 'base.html' %}
+{% extends 'interior_base.html' %}
 {% block titulo %}Preguntas Frecuentes - Vinlume Disk{% endblock %}
-{% block contenido %}
-  <main>
-    <section class="faq-section pagina-interna">
-      <div class="section-content">
-        <h1 class="section-title">Preguntas <span class="holo-text">Frecuentes</span></h1>
-        <div class="faq-container">
-          {% for item in preguntas %}
-            <details class="faq-item">
-              <summary>{{ item.pregunta }}</summary>
-              <p>{{ item.respuesta }}</p>
-            </details>
-          {% endfor %}
-        </div>
-      </div>
+{% block interior_content %}
+<div class="pn-container pn-faq-shell">
+  <header class="pn-faq-heading" data-interior-reveal>
+    <p class="pn-interior-eyebrow">Vinlume / Preguntas frecuentes</p>
+    <h1>Todo empieza<br><span>con una pregunta.</span></h1>
+    <p class="pn-interior-lead">El objeto, la música y los detalles. Aquí encontrarás las respuestas para conocer mejor tu Mini CD.</p>
+  </header>
+  <div class="pn-faq-layout">
+    <aside class="pn-faq-aside"><p class="pn-interior-eyebrow">Entre tú y Vinlume</p><p>¿Te quedó alguna duda?</p><a class="pn-link" href="{% url 'contacto' %}">Conversemos <span aria-hidden="true">↗</span></a></aside>
+    <section class="pn-faq-list" aria-label="Preguntas y respuestas">
+      {% for item in preguntas %}
+      <details class="pn-faq-item" data-pn-accordion>
+        <summary aria-controls="pn-faq-answer-{{ forloop.counter }}"><span class="pn-faq-number" aria-hidden="true">{{ forloop.counter|stringformat:'02d' }}</span><span>{{ item.pregunta }}</span><span class="pn-faq-symbol" aria-hidden="true"></span></summary>
+        <div class="pn-faq-answer" id="pn-faq-answer-{{ forloop.counter }}"><p>{{ item.respuesta }}</p></div>
+      </details>
+      {% empty %}<p class="pn-interior-lead">Estamos preparando las respuestas. Mientras tanto, puedes <a class="pn-link" href="{% url 'contacto' %}">escribirnos</a>.</p>{% endfor %}
     </section>
-  </main>
+  </div>
+</div>
 {% endblock %}

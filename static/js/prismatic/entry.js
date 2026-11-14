@@ -10,11 +10,10 @@
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const fine = matchMedia('(hover: hover) and (pointer: fine)');
   const cover = entry.querySelector('.pn-cover');
-  const reflection = entry.querySelector('#pn-refraction');
-  const specular = entry.querySelector('#pn-specular-light');
+  const wordmark = entry.querySelector('.pn-wordmark');
+  const story = entry.querySelector('[data-pn-mini-story]');
   const universes = entry.querySelector('.pn-universes');
   const switches = [...entry.querySelectorAll('[data-pn-select]')];
-  const facets = entry.querySelector('.pn-word-facets');
   const zones = [...entry.querySelectorAll('[data-pn-universe]')];
   const animations = new Set();
   let frame = 0;
@@ -54,11 +53,6 @@
     entry.style.removeProperty('--pn-scene-y');
     entry.style.removeProperty('--pn-light-dx');
     entry.style.removeProperty('--pn-light-dy');
-    facets?.style.removeProperty('--pn-facet-shift');
-    reflection?.setAttribute('cx', '65%');
-    reflection?.setAttribute('cy', '35%');
-    specular?.setAttribute('x', '936');
-    specular?.setAttribute('y', '-90');
     zones.forEach(zone => {
       ['--pn-zone-x', '--pn-zone-y', '--pn-object-y', '--pn-object-turn'].forEach(name => zone.style.removeProperty(name));
     });
@@ -66,21 +60,17 @@
   function renderLight() {
     frame = 0;
     if (!active || reduced() || document.hidden) return;
-    current.x += (target.x - current.x) * .14;
-    current.y += (target.y - current.y) * .14;
+    const smoothing = active === cover ? .38 : .14;
+    current.x += (target.x - current.x) * smoothing;
+    current.y += (target.y - current.y) * smoothing;
     const x = `${(current.x * 100).toFixed(2)}%`;
     const y = `${(current.y * 100).toFixed(2)}%`;
     if (active === cover) {
       window.VinlumeCrystal?.setLight(current.x, current.y);
       entry.style.setProperty('--pn-scene-x', x);
       entry.style.setProperty('--pn-scene-y', y);
-      reflection?.setAttribute('cx', x);
-      reflection?.setAttribute('cy', y);
-      specular?.setAttribute('x', (current.x * 1440).toFixed(1));
-      specular?.setAttribute('y', (current.y * 260 - 180).toFixed(1));
       entry.style.setProperty('--pn-light-dx', `${((current.x - .65) * -24).toFixed(2)}px`);
       entry.style.setProperty('--pn-light-dy', `${((current.y - .35) * -16).toFixed(2)}px`);
-      facets?.style.setProperty('--pn-facet-shift', `${((current.x - .65) * 380).toFixed(2)}px`);
     } else {
       active.style.setProperty('--pn-zone-x', x);
       active.style.setProperty('--pn-zone-y', y);
@@ -92,9 +82,16 @@
     }
   }
   [cover, ...zones].filter(Boolean).forEach(scene => {
+    scene.addEventListener('focusin', event => {
+      if (reduced() || !event.target.closest('a, button')) return;
+      if (active !== scene) { resetLight(); active = scene; }
+      const r = scene.getBoundingClientRect(), item = event.target.getBoundingClientRect();
+      target = { x: Math.max(0, Math.min(1, (item.left + item.width / 2 - r.left) / r.width)), y: Math.max(0, Math.min(1, (item.top + item.height / 2 - r.top) / r.height)) };
+      if (!frame) frame = requestAnimationFrame(renderLight);
+    }, options);
     scene.addEventListener('pointermove', event => {
       if (reduced() || !fine.matches || event.pointerType !== 'mouse') return;
-      const rect = scene.getBoundingClientRect();
+      const rect = (scene === cover ? wordmark : scene).getBoundingClientRect();
       if (active !== scene) { resetLight(); active = scene; }
       target = {
         x: Math.max(0, Math.min(1, (event.clientX - rect.left) / (rect.width || 1))),
@@ -119,8 +116,9 @@
   // Opacity is only changed by a running animation: failed/absent JS hides nothing.
   if (!location.hash || location.hash === '#inicio') {
     entry.querySelectorAll('[data-pn-intro]').forEach((element, index) => {
-      animate(element, [{ opacity: .08, transform: 'translateY(24px)' }, { opacity: 1, transform: 'translateY(0)' }], {
-        duration: index === 0 ? 1100 : 800, delay: index * 180,
+      const isTitle = element.contains(wordmark);
+      animate(element, isTitle ? [{opacity:.12,clipPath:'inset(0 100% 0 0)',filter:'blur(6px)'},{opacity:1,clipPath:'inset(0)',filter:'blur(0px)'}] : [{ opacity: .08, transform: 'translateY(18px)' }, { opacity: 1, transform: 'translateY(0)' }], {
+        duration: index === 0 ? 1650 : 950, delay: index * 180,
         easing: 'cubic-bezier(.2,.7,.2,1)', fill: 'backwards'
       });
     });
@@ -156,24 +154,36 @@
   switches.forEach(button => {
     button.addEventListener('click', () => selectUniverse(button.dataset.pnSelect, button.classList.contains('pn-universe-recall')), options);
   });
+  function storyVisibility(open) {
+    if (!story) return;
+    story.hidden = !open;
+    entry.dataset.pnStoryVisible = String(open);
+    document.dispatchEvent(new CustomEvent('pn:storychange'));
+  }
+  entry.addEventListener('click', event => {
+    if (event.target.closest('[data-story-open]')) storyVisibility(true);
+    if (event.target.closest('[data-story-close]')) storyVisibility(false);
+  }, options);
   function syncHash() {
+    storyVisibility(/^#(?:mini-cd|nfc-)/.test(location.hash));
     const zone = zones.find(item => `#${item.id}` === location.hash);
     if (zone) selectUniverse(zone.dataset.pnUniverse);
   }
   selectUniverse(zones.find(item => `#${item.id}` === location.hash)?.dataset.pnUniverse || 'cd');
+  syncHash();
   window.addEventListener('hashchange', syncHash, options);
   const observer = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
     entries.forEach(item => {
       coverVisible = item.isIntersecting;
       if (coverVisible) scheduleDepth();
       else { cancelAnimationFrame(depthFrame); depthFrame = 0; }
-      window.VinlumeCrystal?.setVisible(item.isIntersecting);
+      cover.dataset.visible = String(item.isIntersecting);
       if (!item.isIntersecting) resetLight();
     });
   }, { threshold: .05 }) : null;
   if (cover) observer?.observe(cover);
   function sync() {
-    window.VinlumeCrystal?.setReduced(reduced());
+
     if (reduced()) { cancelAnimationFrame(depthFrame); depthFrame = 0; cover?.style.removeProperty('--pn-scroll-depth'); }
     else scheduleDepth();
     if (reduced() || !fine.matches) { resetLight(); cancelAnimations(); }
@@ -189,12 +199,14 @@
   }, options);
   window.addEventListener('blur', resetLight, options);
   window.addEventListener('pagehide', () => { resetLight(); cancelAnimations(); cancelAnimationFrame(depthFrame); depthFrame = 0; }, options);
-  window.addEventListener('pageshow', sync, options);
+  window.addEventListener('pageshow', () => { syncHash(); sync(); }, options);
   window.VinlumeEntry = Object.freeze({ destroy() {
     resetLight(); cancelAnimations(); cancelAnimationFrame(depthFrame); cover?.style.removeProperty('--pn-scroll-depth'); observer?.disconnect(); controller.abort();
     delete universes.dataset.pnEnhanced;
     zones.forEach(zone => { const details = zone.querySelector('[data-pn-details]'); if (details) details.inert = false; });
     switches.filter(button => button.classList.contains('pn-universe-recall')).forEach(button => { button.hidden = true; });
     if (selector) selector.hidden = true;
+    if (story) story.hidden = false;
+    delete entry.dataset.pnStoryVisible;
   } });
 })();

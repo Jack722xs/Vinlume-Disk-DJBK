@@ -1,16 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'interior_base.html' %}
 {% block titulo %}Contacto - Vinlume Disk{% endblock %}
-{% block contenido %}
-  <main>
-    <section class="pagina-interna form-pagina">
-      <div class="glass-panel form-box">
-        <h1 class="holo-text">Contacto</h1>
-        <form method="post">
-          {% csrf_token %}
-          {% include '_form_campos.html' %}
-          <button type="submit" class="btn btn-full">Enviar</button>
-        </form>
-      </div>
-    </section>
-  </main>
+{% block interior_eyebrow %}Vinlume / Contacto{% endblock %}
+{% block interior_heading %}Conversemos.<br><span>De música.</span>{% endblock %}
+{% block interior_lead %}Una idea, una pregunta, un álbum que no te deja de sonar. Cuéntanos qué tienes en mente.{% endblock %}
+{% block interior_aside %}<a class="pn-link" href="{% url 'faq' %}">También puedes revisar las preguntas frecuentes <span aria-hidden="true">↗</span></a>{% endblock %}
+{% block form_eyebrow %}Te leemos{% endblock %}
+{% block form_title %}Escribe a Vinlume{% endblock %}
+{% block interior_form %}
+<form method="post" class="pn-interior-form" aria-labelledby="pn-interior-form-title" data-interior-form="contacto" data-submit-label="Enviando mensaje…">
+  {% csrf_token %}
+  {% include '_interior_fields.html' %}
+  <button type="submit" class="pn-button pn-form-submit">Enviar mensaje <span aria-hidden="true">↗</span></button>
+  <p class="pn-form-status" role="status" aria-live="polite" data-submit-status></p>
+</form>
 {% endblock %}
+{% block interior_form_footer %}<p class="pn-form-switch">¿Buscas inspiración? <a class="pn-link" href="{% url 'catalogo' %}">Explora la colección</a></p>{% endblock %}

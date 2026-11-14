@@ -9,7 +9,7 @@ Vinlume Disk transforma música en objetos coleccionables: hoy, **llaveros mini 
 **Negro profundo. Luz controlada. Cristal que responde. Música convertida en objeto.**
 
 - Base monocromática oscura, contrastes blancos claros y tipografía editorial de gran tamaño.
-- Violeta como acento óptico; RGB/holografía como **difracción/reflejo**, no degradado omnipresente.
+- Fase 07: negro, blanco y gris como base. Por corrección expresa del usuario, sin baños ni fondos morados; RGB/holografía únicamente como **dispersión/reflejo localizado** en el cristal.
 - Materialidad: vidrio, transparencias, cromados, reflejos localizados, blur selectivo, bordes refractivos y sombras con profundidad.
 - Movimiento: fluidez, parallax de imágenes a velocidades distintas, entrada orgánica de títulos y respuesta perceptible al mouse, toque y foco.
 - Prioridad de experiencia: primero **composición y legibilidad**, luego materiales, después animación y finalmente efectos experimentales.
@@ -21,7 +21,7 @@ Vinlume Disk transforma música en objetos coleccionables: hoy, **llaveros mini 
 | Grafito | `#1A1C24` |
 | Titanio | `#A9ADB8` |
 | Blanco hielo | `#F4F4F6` |
-| Violeta óptico | `#9C71EE` |
+| Borde óptico neutro | `#C5D1DC` |
 
 Define tokens CSS, tipografía fluida (`clamp()`), grillas, espaciados, elevaciones y duración/easing de animaciones. Los tokens son una **base**, no una excusa para uniformar todas las escenas.
 
@@ -34,9 +34,9 @@ Define tokens CSS, tipografía fluida (`clamp()`), grillas, espaciados, elevacio
 - **Modo reducido de efectos:** versión monocromática elegante, menos blur/animación, sin perder contenido ni funcionalidad; respetar también `prefers-reduced-motion`.
 
 ## Arquitectura de experiencia
-1. **Portada VINLUME:** nombre monumental con respuesta de luz/refacción prismática al cursor, atmósfera abstracta, texto mínimo y gran CTA de vidrio.
-2. **Hub de productos:** escaparate de dos universos con división cristalina; mini CD activo, marcos **próximamente**, y acceso directo al catálogo sin obligar a recorrer la historia.
-3. **Landing mini CD:** secuencia de producto cerrado → abierto → disco separado; assets reales a escala protagonista, parallax y narrativa editorial. No interpolar artificialmente una bisagra con una foto plana.
+1. **Portada VINLUME:** nombre monumental con geometría inmóvil. El cursor actúa como una luz local sobre sus facetas; la aparición es un revelado, sin trasladar ni inclinar las letras. Fondo noir con movimiento lento y detalles RGB selectivos, texto mínimo y CTA Liquid Glass.
+2. **Hub de productos:** una pantalla completa que termina el hub. Mini CD activo y Marcos **próximamente**, con división cristalina. «Explorar Mini CD» abre la historia; un enlace separado permite ir directamente al catálogo. La historia no se despliega automáticamente bajo el hub.
+3. **Landing mini CD:** capítulos fijados al viewport: al hacer scroll se revelan texto y foto, luego la escena cede a la siguiente. Secuencia cerrado → abierto → disco separado con fotografías reales; sin animar una bisagra falsa. Cada escena aprovecha el área bajo el menú. Final editorial con acceso al catálogo.
 4. **Experiencia NFC:** dos manos (teléfono y llavero) se acercan con scroll cuando existan assets adecuados; después, explicación NFC integrada en una escena amplia sin bordes cortados ni afirmaciones técnicas falsas.
 5. **Catálogo:** prioridad comercial; galería premium, filtros y compra funcionales, modal accesible para imágenes cerrada/abierta cuando estén disponibles, modo de efectos completo/reducido.
 6. **Login, registro, FAQ, contacto y páginas interiores:** mismo sistema visual; formularios vivos, legibles y compatibles con sus funciones existentes.
@@ -72,3 +72,11 @@ Son material de referencia del producto; conservar originales. Los recursos de m
 
 ## Método de aprobación
 Trabajar **una fase por chat/encargo**, mostrar resultado verificable, recibir correcciones, aprobar y solo entonces continuar. Actualizar este documento **solo si cambia una decisión artística o técnica permanente**, no como diario de tareas.
+
+## Corrección de experiencia — continuidad de fase 07
+
+- Negro como base; recuperar RGB en bordes, dispersión y reflejos cambiantes sutiles. Sin teñir todo el fondo de morado.
+- Menú fijo con alturas/alineación explícitas; efectos en Ajustes desplegable accesible, nunca en el footer. Footer editorial con Instagram como única red confirmada.
+- Liquid Glass reutiliza las ecuaciones del laboratorio en controles y paneles mediante un renderer WebGL compartido; texto, formularios y enlaces son HTML nativo.
+- Scroll normal del navegador con sticky y animación por progreso, sin capturar rueda ni crear un bucle de página. Desplazamiento suave en anclas y entrada CSS de contenido al cargar documentos, conservando la navegación normal.
+- Por petición del usuario, el pulido actual se concentra en escritorio. Se conserva reflow/fallback básico y se evitan renderers avanzados en vista compacta; no se desarrolla una experiencia móvil independiente en esta revisión.

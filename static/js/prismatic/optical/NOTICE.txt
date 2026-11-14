@@ -1,0 +1,22 @@
+VINLUME optical integration, phase 07
+
+Derived from design-lab/optical/diamond.js, diamond-geometry.js and optical-studio.js.
+No production imports point into design-lab or node_modules.
+
+Three.js 0.187.0, Three.js Authors, MIT. See vendor/three-LICENSE.txt.
+three-mesh-bvh 0.9.18, Garrett Johnson and contributors, MIT.
+See vendor/three-mesh-bvh-LICENSE.txt.
+Only transitive modules used by the home renderer are vendored.
+
+studio-1k.hdr is the unmodified 1K Studio Small 09 environment by Sergej
+Majboroda / Poly Haven, CC0. https://polyhaven.com/a/studio_small_09
+Its radiance is desaturated in the shader; the source remains unchanged.
+The 24.7 MB laboratory 4K HDR is deliberately not shipped to the home page.
+
+Fallback vector, capsule normal map and projected caustic artwork are
+VINLUME laboratory derivatives; reference photographs are not shipped.
+
+liquid-shader.js adapts the F06 liquid.js equations without a new dependency.
+liquid-ui.js supplies one shared WebGL context, cropped 2D canvas surfaces,
+and a bounded atlas of the site's existing product photographs. Native HTML
+retains labels, focus, input handling and commercial actions.

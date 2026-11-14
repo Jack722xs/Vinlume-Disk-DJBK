@@ -1,17 +1,23 @@
 {% load static %}
-<article class="card holo-card" role="listitem">
+<article class="card holo-card pn-product" role="listitem" data-pn-product>
   <div class="card-image">
-    <img src="{{ disco.imagen_url }}" alt="{{ disco.artista.nombre }} - {{ disco.titulo }}" loading="lazy">
-    <button type="button" class="fav-btn" aria-label="Añadir a favoritos" data-id="{{ disco.id }}">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+    {% if disco.imagen or disco.imagen2 %}
+    <a class="pn-product-photo" href="{% if disco.imagen %}{{ disco.imagen_url }}{% else %}{{ disco.imagen2_url }}{% endif %}" data-pn-gallery-link{% if disco.imagen and disco.imagen2 %} data-second-photo="{{ disco.imagen2_url }}"{% endif %} aria-label="Ver más de {{ disco.titulo }} — {{ disco.artista.nombre }}">
+      <img src="{% if disco.imagen %}{{ disco.imagen_url }}{% else %}{{ disco.imagen2_url }}{% endif %}" alt="{{ disco.artista.nombre }} — {{ disco.titulo }}" loading="lazy" decoding="async" width="720" height="720">
+      <span class="pn-product-photo-label">Ver más <span aria-hidden="true">↗</span></span>
+    </a>
+    {% else %}<div class="pn-product-no-photo">Fotografía no disponible</div>{% endif %}
+    <button type="button" class="fav-btn" aria-label="Guardar {{ disco.titulo }} — {{ disco.artista.nombre }} en favoritos" aria-pressed="false" data-id="{{ disco.id }}" data-product-name="{{ disco.titulo }} — {{ disco.artista.nombre }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
     </button>
   </div>
   <div class="card-body">
-    <h2>{{ disco.titulo }}</h2>
-    <p class="artista">{{ disco.artista.nombre }}</p>
-    <div class="tags">{% for tag in disco.lista_etiquetas %}<span class="tag">{{ tag }}</span>{% endfor %}</div>
+    <p class="pn-product-format">Mini CD / Vinlume Disk</p>
+    <h2 data-product-title>{{ disco.titulo }}</h2>
+    <p class="artista" data-product-artist>{{ disco.artista.nombre }}</p>
+    <div class="tags" data-product-tags>{% for tag in disco.lista_etiquetas %}<span class="tag">{{ tag }}</span>{% endfor %}</div>
     <div class="card-footer">
-      <p class="precio">CLP {{ disco.precio|floatformat:"0g" }}</p>
+      <p class="precio" data-product-price>CLP {{ disco.precio|floatformat:"0g" }}</p>
       {% if disco.estado == 'a' %}<span class="tag agotado">Agotado</span>{% else %}<button type="button" class="btn buy-btn">Comprar</button>{% endif %}
     </div>
   </div>

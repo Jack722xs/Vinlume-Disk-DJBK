@@ -1,17 +1,16 @@
-{% extends 'base.html' %}
+{% extends 'interior_base.html' %}
 {% block titulo %}Crear cuenta - Vinlume{% endblock %}
-{% block contenido %}
-  <main>
-    <section class="pagina-interna form-pagina">
-      <div class="glass-panel form-box">
-        <h1 class="holo-text">Crear Cuenta</h1>
-        <form method="post">
-          {% csrf_token %}
-          {% include '_form_campos.html' %}
-          <button type="submit" class="btn btn-full">Registrarse</button>
-        </form>
-        <p class="switch-text">¿Ya tienes cuenta? <a href="{% url 'login' %}">Inicia sesión</a></p>
-      </div>
-    </section>
-  </main>
+{% block interior_eyebrow %}Vinlume / Registro{% endblock %}
+{% block interior_heading %}Empieza aquí.<br><span>Sigue la música.</span>{% endblock %}
+{% block interior_lead %}Tu nombre, tu cuenta y una colección por descubrir. Haz espacio para lo que te mueve.{% endblock %}
+{% block form_eyebrow %}Un nuevo comienzo{% endblock %}
+{% block form_title %}Crear cuenta{% endblock %}
+{% block interior_form %}
+<form method="post" class="pn-interior-form" aria-labelledby="pn-interior-form-title" data-interior-form="registro" data-submit-label="Creando cuenta…">
+  {% csrf_token %}
+  {% include '_interior_fields.html' %}
+  <button type="submit" class="pn-button pn-form-submit">Registrarse <span aria-hidden="true">↗</span></button>
+  <p class="pn-form-status" role="status" aria-live="polite" data-submit-status></p>
+</form>
 {% endblock %}
+{% block interior_form_footer %}<p class="pn-form-switch">¿Ya tienes cuenta? <a class="pn-link" href="{% url 'login' %}">Inicia sesión</a></p>{% endblock %}

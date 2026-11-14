@@ -1,0 +1,59 @@
+{% load static %}
+<section class="pn-mini-story lv" id="mini-cd" tabindex="-1" aria-labelledby="lv-title" data-pn-mini-story>
+  <nav class="lv-index" aria-label="Explora el Mini CD">
+    <a href="#universos" data-story-close class="lv-back">← Universos</a>
+    <span class="lv-index-mark">VINLUME / MINI CD</span>
+    <div><a href="#mini-cd-objeto">El objeto</a><a href="#mini-cd-personalizacion">Tu álbum</a><a href="#mini-cd-nfc">La conexión</a><a href="{% url 'catalogo' %}" class="lv-index-catalog">Colección ↗</a></div>
+  </nav>
+
+  <header class="lv-opening" data-lv-opening>
+    <div class="lv-stage" aria-hidden="true">
+      <img class="lv-stage-fallback" src="{% static 'images/prismatic/mini-cd/cd-cerrado-1100.webp' %}" alt="" width="1100" height="1100" decoding="async" loading="lazy">
+      <canvas data-lv-stage data-module="{% static 'js/prismatic/landing/stage.js' %}?v=studio1" data-hdr="{% static 'images/prismatic/optical/studio-1k.hdr' %}" hidden></canvas>
+    </div>
+    <div class="lv-opening-copy">
+      <p class="lv-kicker"><span class="lv-live-dot" aria-hidden="true"></span> TU MÚSICA. OTRA DIMENSIÓN.</p>
+      <h2 id="lv-title"><span data-lv-reveal>SUENA.</span><span data-lv-reveal>SE SIENTE.</span></h2>
+      <p class="lv-opening-description">Hay álbumes que no se olvidan.<br>Ahora, también puedes llevarlos contigo.</p>
+    </div>
+    <div class="lv-opening-bottom">
+      <p><span>MINI CD / VINLUME DISK</span>Un pequeño objeto.<br>Todo lo que te mueve.</p>
+      <div class="lv-opening-actions">
+        <a class="lv-button" data-lv-lens href="{% url 'catalogo' %}"><span>Encuentra tu álbum</span><span aria-hidden="true">↗</span></a>
+        <a class="lv-scroll-link" data-lv-lens href="#mini-cd-objeto" aria-label="Descubrir el Mini CD"><span aria-hidden="true">↓</span></a>
+      </div>
+    </div>
+    <span class="lv-object-caption">LUZ EN MOVIMIENTO / OBJETO DE COLECCIÓN</span>
+  </header>
+
+  <section class="lv-object" id="mini-cd-objeto" aria-labelledby="lv-object-title" data-lv-chapter>
+    <div class="lv-object-pin">
+      <div class="lv-object-heading"><p class="lv-kicker">01 / MÍRALO DE CERCA</p><h2 id="lv-object-title">El detalle<br><em>lo cambia todo.</em></h2></div>
+      <div class="lv-photo-exhibit">
+        <span class="lv-photo-aura" aria-hidden="true"></span>
+        <figure class="lv-product-frame" data-lv-photo="0"><img src="{% static 'images/prismatic/mini-cd/cd-cerrado-1100.webp' %}" width="1100" height="1100" alt="Mini CD cerrado dentro de su jewel case transparente con ojal para llavero" loading="lazy" decoding="async"><figcaption>CERRADO / TODO EMPIEZA AQUÍ</figcaption></figure>
+        <figure class="lv-product-frame" data-lv-photo="1"><img src="{% static 'images/prismatic/mini-cd/cd-abierto-1100.webp' %}" width="1100" height="1100" alt="Jewel case abierta con el mini CD colocado en el soporte" loading="lazy" decoding="async"><figcaption>ABIERTO / CADA DETALLE CUENTA</figcaption></figure>
+        <figure class="lv-product-frame" data-lv-photo="2"><img src="{% static 'images/prismatic/mini-cd/cd-abierto-disco-afuera-1100.webp' %}" width="1100" height="1100" alt="Estuche abierto con el mini CD separado: el producto real sin personalizar" loading="lazy" decoding="async"><figcaption>PIEZA A PIEZA / LISTO PARA TU HISTORIA</figcaption></figure>
+      </div>
+      <div class="lv-object-note"><span class="lv-chapter-number" data-lv-counter>01 — 03</span><p data-lv-photo-copy>Una jewel case transparente. Un pequeño disco. El álbum que vuelve contigo.</p><a href="#mini-cd-personalizacion">Ahora, hazlo tuyo <span aria-hidden="true">↘</span></a></div>
+      <div class="lv-exhibit-controls" role="group" aria-label="Vistas del Mini CD" hidden><button type="button" data-lv-view="0" aria-pressed="true">01 <span>Cerrado</span></button><button type="button" data-lv-view="1" aria-pressed="false">02 <span>Abierto</span></button><button type="button" data-lv-view="2" aria-pressed="false">03 <span>El detalle</span></button><div class="lv-exhibit-progress" aria-hidden="true"><i></i></div></div>
+    </div>
+  </section>
+
+  <section class="lv-albums" id="mini-cd-personalizacion" aria-labelledby="lv-albums-title">
+    <div class="lv-albums-heading"><p class="lv-kicker">02 / TU ÁLBUM. TU HISTORIA.</p><h2 id="lv-albums-title" data-lv-reveal>NO ES SOLO<br><span>LO QUE ESCUCHAS.</span></h2><p>Es lo que te pasa cuando suena.<br>Elige ese álbum. Dale otra forma.</p></div>
+    <div class="lv-album-grid">
+      <a class="lv-album-card" href="{% url 'catalogo' %}?q=Rage" data-lv-card><div class="lv-album-image"><img src="{% static 'images/discos/rage-against-the-machine-homonimo/1.webp' %}" width="720" height="720" alt="Mini CD personalizado de Rage Against the Machine" loading="lazy" decoding="async"><span class="lv-photo-lens">Descubre el diseño <b aria-hidden="true">↗</b></span></div><div class="lv-album-caption"><span>RAGE AGAINST THE MACHINE</span><span>01</span></div></a>
+      <a class="lv-album-card" href="{% url 'catalogo' %}?q=Ado" data-lv-card><div class="lv-album-image"><img src="{% static 'images/discos/ado-utattemita/1.jpg' %}" width="720" height="720" alt="Mini CD personalizado de Ado, Utattemita" loading="lazy" decoding="async"><span class="lv-photo-lens">Descubre el diseño <b aria-hidden="true">↗</b></span></div><div class="lv-album-caption"><span>ADO / UTATTEMITA</span><span>02</span></div></a>
+      <a class="lv-album-card" href="{% url 'catalogo' %}?q=Bikini" data-lv-card><div class="lv-album-image"><img src="{% static 'images/discos/bikini-kill-the-first-two-records/1.webp' %}" width="720" height="720" alt="Mini CD personalizado de Bikini Kill, The First Two Records" loading="lazy" decoding="async"><span class="lv-photo-lens">Descubre el diseño <b aria-hidden="true">↗</b></span></div><div class="lv-album-caption"><span>BIKINI KILL / THE FIRST TWO RECORDS</span><span>03</span></div></a>
+    </div>
+    <div class="lv-albums-bottom"><p>Tu colección empieza con un álbum.</p><a class="lv-text-link" href="{% url 'catalogo' %}">Explorar todos los diseños <span aria-hidden="true">↗</span></a></div>
+  </section>
+
+  <section class="lv-connection" id="mini-cd-nfc" aria-labelledby="lv-connection-title">
+    <div class="lv-connection-art"><img src="{% static 'images/prismatic/nfc/estuche-nfc-1600.webp' %}" width="1672" height="941" alt="Estuche transparente abierto con símbolo NFC iluminado" loading="lazy" decoding="async"></div>
+    <div class="lv-connection-copy"><p class="lv-kicker">03 / DEL OBJETO A TU MÚSICA</p><h2 id="lv-connection-title" data-lv-reveal>UN GESTO.<br><span>OTRA CONEXIÓN.</span></h2><p>El álbum en tus manos.<br>Su enlace, en tu teléfono.</p><ol id="nfc-como-funciona"><li><span>01</span><div><h3>Acerca.</h3><p>Acerca la zona lectora de un teléfono compatible a la etiqueta NFC del llavero.</p></div></li><li><span>02</span><div><h3>Lee.</h3><p>Si la etiqueta tiene un enlace grabado, el teléfono puede mostrar un aviso para abrirlo.</p></div></li><li><span>03</span><div><h3>Vuelve a sentirlo.</h3><p>Abre el enlace en tu navegador o app compatible. El contenido puede necesitar internet, una cuenta o suscripción.</p></div></li></ol><small>La etiqueta NFC es pasiva y no necesita batería. El Mini CD es coleccionable: la música se reproduce en tu teléfono.</small></div>
+  </section>
+
+  <section class="lv-finale" id="mini-cd-coleccion" aria-labelledby="lv-finale-title"><div class="lv-finale-orbit" aria-hidden="true"></div><p class="lv-kicker">VINLUME DISK / HECHO PARA SENTIRLO</p><h2 id="lv-finale-title" data-lv-reveal>LO QUE<br>TE MUEVE.<br><span>CONTIGO.</span></h2><a class="lv-button lv-button-finale" href="{% url 'catalogo' %}"><span>Encuentra tu Mini CD</span><span aria-hidden="true">↗</span></a><a class="lv-back-to-hub" href="#universos" data-story-close>Volver a los universos ↑</a></section>
+</section>
