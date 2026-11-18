@@ -1,0 +1,250 @@
+/* Blur the backdrop while keeping control labels sharp. */
+html body :is(
+  button, summary, [role="button"], [data-pn-glass], .pn-entry [data-pn-glass],
+  a[href]:where(:not(.pn-brand, .pn-footer-word, .pn-skip, .pn-product-photo, .lv-album-card)),
+  input:where(:not([type="hidden"], [type="checkbox"], [type="radio"], [type="range"], [type="color"])),
+  select, textarea, .pn-product-photo-label, .lv-photo-lens,
+  .pn-form-panel, .gestion-panel, .pn-catalog-toolbar
+):not([hidden]) {
+  background: var(--glass-surface,
+    linear-gradient(170deg, rgb(219 230 252 / .07), transparent 45%, rgb(11 15 24 / .12)),
+    var(--glass-tint, rgb(9 12 19 / .19)));
+  box-shadow: var(--glass-shadow, inset 0 1px 1px rgb(241 247 255 / .38),
+    inset 0 -1px 2px rgb(157 186 225 / .24), 0 4px 14px rgb(0 0 0 / .16));
+  -webkit-backdrop-filter: var(--glass-policy, var(--glass-optics, blur(.85px)));
+  backdrop-filter: var(--glass-policy, var(--glass-optics, blur(.85px)));
+}
+
+/* Keep large photographs unobstructed and lens the label laid over them. */
+html body :is(.pn-product-photo-label, .lv-photo-lens, .pn-button, .btn, .nav-btn, .lv-button) {
+  text-shadow: 0 1px 3px rgb(0 0 0 / .65);
+}
+
+html body :is(input, select, textarea):not([type="hidden"], [type="checkbox"], [type="radio"], [type="range"], [type="color"]) {
+  --glass-tint: rgb(6 9 16 / .37);
+}
+
+html body :is(.pn-form-panel, .gestion-panel, .pn-catalog-toolbar)[class]:not([hidden]) {
+  position: relative;
+  isolation: isolate;
+  background: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* Keep the panel's lens next to its fields in the paint order. */
+html body :is(.pn-form-panel, .gestion-panel, .pn-catalog-toolbar)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: rgb(8 11 18 / .29);
+  -webkit-backdrop-filter: var(--glass-policy, var(--glass-optics, blur(1.35px)));
+  backdrop-filter: var(--glass-policy, var(--glass-optics, blur(1.35px)));
+}
+
+html body :is(a.pn-link, .pn-site-links a:not(.nav-btn), .pn-footer-bottom nav a, .pn-form-switch a) {
+  border-radius: .35em;
+  --glass-surface: transparent;
+  --glass-shadow: none;
+  --glass-optics: none;
+}
+
+html body :is(button, [role="button"], .pn-button)[aria-pressed="true"] {
+  --glass-tint: rgb(113 125 183 / .29);
+  border-color: var(--pn-optic);
+}
+
+html body .btn-danger { --glass-tint: rgb(99 23 38 / .39); }
+html body input:is([type="checkbox"], [type="radio"], [type="range"]) { accent-color: var(--pn-optic); }
+html body input::file-selector-button {
+  color: inherit;
+  background: rgb(161 185 226 / .14);
+  border-color: rgb(232 242 255 / .3);
+  box-shadow: inset 0 1px 1px rgb(237 247 255 / .24);
+}
+
+html body :is(button, a[href], summary, [role="button"], input, select, textarea):focus-visible {
+  outline: 2px solid var(--pn-ice);
+  outline-offset: 3px;
+}
+
+:root[data-pn-effects="reduced"] { --glass-policy: none; }
+@media (prefers-reduced-motion: reduce), (forced-colors: active) {
+  :root { --glass-policy: none; }
+}
+
+@property --vinlume-rim-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: -75deg;
+}
+
+@property --vinlume-sheen-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: -45deg;
+}
+
+/* Low specificity preserves positioning for floating controls such as favorites. */
+:where(button, summary, [role="button"], [data-pn-glass], .pn-button, .btn, .nav-btn, .lv-button, .pn-instagram, .pn-product-photo-label, .lv-photo-lens) {
+  position: relative;
+}
+
+html body :is(
+  button, summary, [role="button"], .pn-entry [data-pn-glass], [data-pn-glass],
+  a:is(.pn-button, .btn, .nav-btn, .pn-control, .lv-button, .pn-instagram),
+  input:is([type="button"], [type="submit"], [type="reset"]), .pn-product-photo-label, .lv-photo-lens
+):not([hidden]) {
+  --glass-ease: cubic-bezier(.25, 1, .5, 1);
+  --glass-optics: blur(1.25px);
+  --glass-surface: linear-gradient(-75deg, rgb(236 243 255 / .04), rgb(236 243 255 / .14), rgb(236 243 255 / .035)),
+    var(--glass-tint, rgb(9 12 19 / .13));
+  --glass-shadow: inset 0 1px 1px rgb(245 249 255 / .22),
+    inset 0 -2px 3px rgb(191 210 244 / .25), 0 5px 12px rgb(0 0 0 / .24);
+  isolation: isolate;
+  border-radius: var(--glass-radius, 999px);
+  transition: transform 250ms var(--glass-ease), box-shadow 300ms var(--glass-ease);
+
+  &::before,
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    box-sizing: border-box;
+    inset: 0;
+    width: auto;
+    height: auto;
+    border: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    transform: none;
+  }
+
+  &::after {
+    z-index: 2;
+    padding: clamp(1px, .085em, 2px);
+    background: conic-gradient(from var(--vinlume-rim-angle),
+      rgb(225 236 255 / .76), rgb(186 208 243 / .15) 15%, rgb(232 242 255 / .29) 39%,
+      rgb(248 251 255 / .65) 50%, rgb(152 180 230 / .17) 68%, rgb(237 242 255 / .62));
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    transition: --vinlume-rim-angle 430ms var(--glass-ease);
+  }
+
+  &::before {
+    z-index: -1;
+    padding: 0;
+    mask: none;
+    background: linear-gradient(var(--vinlume-sheen-angle), transparent 36%, rgb(239 246 255 / .17) 47%, transparent 57%) 4% 50% / 210% 170% no-repeat;
+    transition: background-position 460ms var(--glass-ease), --vinlume-sheen-angle 360ms var(--glass-ease);
+  }
+
+  &:not(:disabled, [aria-disabled='true']):focus-visible::after {
+    --vinlume-rim-angle: -125deg;
+  }
+
+  @media (hover: hover) {
+    &:not(:disabled, [aria-disabled='true']):hover {
+      transform: var(--glass-hover-transform, scale(.98));
+    }
+
+    &:not(:disabled, [aria-disabled='true']):hover::after {
+      --vinlume-rim-angle: -125deg;
+    }
+
+    &:not(:disabled, [aria-disabled='true']):hover::before {
+      background-position: 29% 50%;
+    }
+  }
+
+  &:not(:disabled, [aria-disabled='true']):active {
+    transform: var(--glass-press-transform, perspective(620px) rotateX(16deg) translateY(1px) scale(.98));
+    --glass-shadow: inset 0 2px 4px rgb(0 0 0 / .28),
+      inset 0 -1px 2px rgb(230 241 255 / .29), 0 2px 4px rgb(0 0 0 / .25);
+  }
+
+  &:not(:disabled, [aria-disabled='true']):active::after {
+    --vinlume-rim-angle: -75deg;
+  }
+
+  &:not(:disabled, [aria-disabled='true']):active::before {
+    --vinlume-sheen-angle: -15deg;
+    background-position: 51% 35%;
+  }
+
+  :root[data-pn-effects='reduced'] & {
+    transform: none;
+    &,
+    &::before,
+    &::after { transition: none; }
+    &::before { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce), (forced-colors: active) {
+    transform: none !important;
+    &,
+    &::before,
+    &::after { transition: none; }
+    &::before { display: none; }
+  }
+
+  @media (forced-colors: active) {
+    &::after { display: none; }
+  }
+}
+
+/* Wide and multiline controls need a shallower corner and room for their icons. */
+.pn-settings > summary {
+  --glass-radius: 12px;
+  padding-inline: .75rem;
+}
+
+.pn-settings > summary > svg,
+.pn-instagram > svg,
+.pn-instagram > span:last-child,
+.pn-universe-recall > span {
+  flex-shrink: 0;
+}
+
+.pn-universe-recall:not([hidden]) {
+  --glass-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: .65rem;
+  max-inline-size: 100%;
+  min-inline-size: 0;
+  padding: .65rem .85rem;
+  overflow-wrap: anywhere;
+  text-align: start;
+}
+
+.pn-universe-recall > span { margin-inline-start: 0; }
+
+.pn-footer-top .pn-instagram {
+  --glass-radius: 16px;
+  gap: clamp(.75rem, 1.5vw, 1.25rem);
+  min-inline-size: 0;
+  padding: .95rem clamp(.85rem, 2vw, 1.35rem);
+  border-image: none;
+}
+
+.pn-instagram > span { min-inline-size: 0; overflow-wrap: anywhere; }
+.pn-instagram > span:last-child { margin-inline-start: auto; }
+
+.pn-faq-list { display: grid; gap: .625rem; }
+
+.pn-faq-list > .pn-faq-item { border-block: 0; }
+
+.pn-faq-item > summary {
+  --glass-radius: 14px;
+  --glass-hover-transform: none;
+  --glass-press-transform: none;
+  min-block-size: 72px;
+  padding: .9rem clamp(.85rem, 2vw, 1.35rem);
+}
+
+.pn-faq-item > summary > span:nth-child(2) { overflow-wrap: anywhere; }
+.pn-faq-item[open] > .pn-faq-answer { padding-block-start: .85rem; }

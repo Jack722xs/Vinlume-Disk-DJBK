@@ -1,9 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'prism_base.html' %}
 {% load static %}
 {% block titulo %}{% if disco %}Editar{% else %}Agregar{% endif %} disco - Vinlume{% endblock %}
 {% block contenido %}
 <main>
-  <section class="pagina-interna gestion-page">
+  <section class="pagina-interna gestion-page" data-prism-host="form">
+    {% include '_prism_video.html' %}
     <div class="section-content gestion-editor">
       <header class="gestion-header"><div><span class="gestion-eyebrow">Gestión de discos</span><h1>{% if disco %}Editar{% else %}Agregar{% endif %} <span class="holo-text">disco</span></h1><p>Completa los datos o busca un álbum para empezar.</p></div><a class="btn btn-secondary" href="{% url 'discos' %}">Volver a gestión</a></header>
       <details class="gestion-panel" {% if not disco %}open{% endif %}>
@@ -43,4 +44,4 @@
   </section>
 </main>
 {% endblock %}
-{% block js %}<script src="{% static 'js/gestion.js' %}" defer></script>{% endblock %}
+{% block js %}<script src="{% static 'js/gestion.js' %}" defer></script>{{ block.super }}{% endblock %}

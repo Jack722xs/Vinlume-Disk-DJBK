@@ -14,14 +14,15 @@
   <link rel="stylesheet" href="{% static 'css/prismatic/motion.css' %}">
   <script src="{% static 'js/prismatic/effects.js' %}"></script>
   {% block css %}{% endblock %}
-  <link rel="stylesheet" href="{% static 'css/prismatic/optical.css' %}?v=phase07">
-  <link rel="stylesheet" href="{% static 'css/prismatic/experience.css' %}?v=r2">
+  <link rel="stylesheet" href="{% static 'css/prismatic/optical.css' %}?v=phase08">
+  <link rel="stylesheet" href="{% static 'css/prismatic/experience.css' %}?v=r3">
+  <link rel="stylesheet" href="{% static 'css/prismatic/glass-controls.css' %}?v=4">
 </head>
 <body class="{% block body_class %}{% endblock %}">
   <svg class="pn-optical-defs" aria-hidden="true" focusable="false" width="0" height="0"><defs>
     <filter id="pn-liquid-lens" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
       <feImage href="{% static 'images/prismatic/optical/lens-map.png' %}" x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" result="lens"/>
-      <feDisplacementMap in="SourceGraphic" in2="lens" scale="12" xChannelSelector="R" yChannelSelector="G"/>
+      <feDisplacementMap in="SourceGraphic" in2="lens" scale="7" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
   </defs></svg>
   <a class="pn-skip" href="#contenido">Saltar al contenido</a>
@@ -69,7 +70,6 @@
 
   <script src="{% static 'js/favoritos.js' %}"></script>
   <script defer src="{% static 'js/prismatic/shell.js' %}?v=r2"></script>
-  <script type="module" src="{% static 'js/prismatic/optical/liquid-ui.js' %}?v=r2"></script>
   {% block js %}{% endblock %}
 </body>
 </html>

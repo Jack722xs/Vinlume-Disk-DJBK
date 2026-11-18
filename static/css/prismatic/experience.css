@@ -115,13 +115,7 @@ html { scroll-padding-top:var(--pn-nav-height); scroll-behavior:smooth; }
 .pn-story-finale h2 { font-size:clamp(60px,7.5vw,120px); font-weight:450; letter-spacing:-.065em; line-height:1.02; margin:0 0 40px; }
 .pn-story-finale h2 span { color:#929ba9; }
 
-/* Real F06 Liquid renderer supplies these canvases from one shared GL context. */
-.pn-liquid-canvas { position:absolute; inset:0; width:100%; height:100%; z-index:-1; border-radius:inherit; pointer-events:none; }
-html body [data-liquid-ready] { position:relative; isolation:isolate; background:rgb(12 15 20 / .14)!important; backdrop-filter:none!important; -webkit-backdrop-filter:none!important; }
-html body [data-liquid-ready]::before { background:none; }
-html body [data-liquid-ready]::after { content:''; display:block; position:absolute; inset:0; border-radius:inherit; padding:1px; pointer-events:none; opacity:.34; background:var(--pn-rgb); filter:hue-rotate(var(--pn-liquid-hue,0deg)); mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0); mask-composite:exclude; }
 .pn-product-photo-label { isolation:isolate; }
-html body .pn-product-photo-label[data-liquid-ready] { position:absolute; }
 .pn-form-panel { isolation:isolate; overflow:hidden; }
 .pn-form-panel .pn-field :is(input,textarea,select) { background:rgb(5 8 12 / .52); }
 .pn-form-panel :is(.pn-field-help,.pn-form-switch) { color:#e0e4eb; }

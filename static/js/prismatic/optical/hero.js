@@ -7,7 +7,7 @@ import {OutputPass} from './vendor/three/examples/jsm/postprocessing/OutputPass.
 import {MeshBVH,MeshBVHUniformStruct,SAH} from './vendor/three-mesh-bvh/build/index.module.js';
 import {makeGemGeometry} from './gem-geometry.js';
 import outlines from './outlines.js';
-import {vertex,fragment,cacheFragment} from './gem-shader.js?v=paths1';
+import {vertex,fragment,cacheFragment} from './gem-shader.js?v=transmission1';
 
 export async function createHero(canvas,heading,{capture=false}={}) {
   let renderer,composer,taa,output,geometry,bvhUniform,material,environment,backdrop,resizeObserver;
@@ -16,6 +16,12 @@ export async function createHero(canvas,heading,{capture=false}={}) {
   const light=[.3,.3],target=[...light];
   const stats={draws:0,cpuMs:0,gpuMs:[],samples:0,width:0,height:0,scale:0,running:false};
   let gl,timer,scene,camera,gem,shaderFailed=false,cacheMaterial,cacheTargets=[],cacheDirty=true;
+  const atmosphere=capture?null:heading.closest('.pn-cover')?.querySelector('.pn-cover-atmosphere');
+  const video=atmosphere?.querySelector('video[data-prism-source]');
+  const image=atmosphere?.querySelector('img[data-prism-source]');
+  const staging=atmosphere?document.createElement('canvas'):null;
+  const context=staging?.getContext('2d');
+  let heroBackdrop,sourceKey='',blocked=false,videoTime=-1,decodedTime;
   let interval=0;
   const frameIntervals=[];let pathBuildMs=0;
   function report(){canvas.dataset.opticalMetrics=JSON.stringify({draws:stats.draws,samples:stats.samples,width:stats.width,height:stats.height,scale:stats.scale,cpuMean:stats.draws?stats.cpuMs/stats.draws:0,gpuMean:stats.gpuMs.length?stats.gpuMs.reduce((a,b)=>a+b,0)/stats.gpuMs.length:null,running:Boolean(frame||poll),interval,cachedPaths:true,pathBuildMs,pathColorBytes:stats.width*stats.height*8*3,fps:frameIntervals.length?1000/(frameIntervals.reduce((a,b)=>a+b,0)/frameIntervals.length):null,light:[...light],rotation:gem?[gem.rotation.x,gem.rotation.y,gem.rotation.z]:null});}
@@ -23,13 +29,62 @@ export async function createHero(canvas,heading,{capture=false}={}) {
   function destroy(){
     if(disposed)return;disposed=true;stop();controller.abort();resizeObserver?.disconnect();
     if(query)gl.deleteQuery(query);query=null;
-    bvhUniform?.dispose();geometry?.dispose();material?.dispose();cacheMaterial?.dispose();cacheTargets.forEach(t=>t.dispose());environment?.dispose();backdrop?.dispose();
+    bvhUniform?.dispose();geometry?.dispose();material?.dispose();cacheMaterial?.dispose();cacheTargets.forEach(t=>t.dispose());environment?.dispose();backdrop?.dispose();heroBackdrop?.dispose();
     taa?.dispose();output?.dispose();composer?.dispose();renderer?.dispose();
     heading.classList.remove('pn-crystal-ready');canvas.hidden=true;canvas.width=1;canvas.height=1;
   }
   function fallback(reason){canvas.dataset.optical=reason;destroy();}
   function schedule(){if(!disposed&&visible&&!document.hidden&&!frame){stats.running=true;frame=requestAnimationFrame(draw);}}
   function invalidate(){if(disposed)return;taa.accumulateIndex=-1;taa.accumulate=false;schedule();}
+  function copyBackdrop(source,width,height,key){
+    if(!context||!width||!height)return false;
+    const changed=key!==sourceKey;
+    if(changed){sourceKey=key;blocked=false;}
+    if(blocked)return false;
+    const scale=Math.min(1,640/Math.max(width,height));
+    const w=Math.max(1,Math.round(width*scale)),h=Math.max(1,Math.round(height*scale));
+    if(changed||staging.width!==w||staging.height!==h){staging.width=w;staging.height=h;}
+    context.drawImage(source,0,0,w,h);
+    if(changed){
+      try{context.getImageData(0,0,1,1);}catch{blocked=true;return false;}
+    }
+    heroBackdrop.needsUpdate=true;
+    return true;
+  }
+  function updateBackdrop(){
+    if(!context)return false;
+    const useVideo=video&&!video.hidden&&video.readyState>=2;
+    const source=useVideo?video:image;
+    const width=useVideo?video.videoWidth:image?.naturalWidth;
+    const height=useVideo?video.videoHeight:image?.naturalHeight;
+    const key=source?.currentSrc;
+    const time=useVideo?(decodedTime??video.currentTime):-1;
+    const uniforms=material.uniforms;
+    uniforms.uHasHeroBackdrop.value=false;
+    if(!source||!width||!height||!key)return false;
+    if(key!==sourceKey||time!==videoTime){
+      if(!copyBackdrop(source,width,height,key))return false;
+      videoTime=time;
+    }
+    if(blocked)return false;
+    const bounds=source.getBoundingClientRect(),word=heading.getBoundingClientRect();
+    if(!bounds.width||!bounds.height)return false;
+    let w=bounds.width,h=bounds.height,x=bounds.left,y=bounds.top;
+    // Map the sampled texture to the same crop as the visible cover media.
+    const style=getComputedStyle(source);
+    if(style.objectFit==='cover'||style.objectFit==='contain'){
+      const fit=style.objectFit==='cover'?Math.max:Math.min;
+      const scale=fit(w/width,h/height);
+      const [posX,posY]=style.objectPosition.split(' ');
+      const offset=(position,space)=>position?.endsWith('px')?parseFloat(position):space*(position?.endsWith('%')?parseFloat(position)/100:.5);
+      x+=offset(posX,w-width*scale);y+=offset(posY,h-height*scale);
+      w=width*scale;h=height*scale;
+    }
+    const wallOverscan=1.06;
+    uniforms.uHeroBackdropRect.value.set((word.left+word.width/2-x)/w,1-(word.top+word.height/2-y)/h,word.width*wallOverscan/w,word.height*wallOverscan/h);
+    uniforms.uHasHeroBackdrop.value=true;
+    return useVideo&&!video.paused&&!video.ended;
+  }
   function resize(){
     const r=heading.getBoundingClientRect(),limit=Math.min(6144,renderer.capabilities.maxTextureSize,gl.getParameter(gl.MAX_RENDERBUFFER_SIZE));
     const scale=Math.min(2.5,limit/r.width,limit/r.height,Math.sqrt(3000000/(r.width*r.height)));
@@ -54,8 +109,6 @@ export async function createHero(canvas,heading,{capture=false}={}) {
         if(stats.gpuMs.length>20)stats.gpuMs.shift();
       }
       gl.deleteQuery(query);query=null;
-      // GPU timing is observational: never wait for it before drawing the next frame.
-      if(taa.accumulateIndex<32||Math.hypot(light[0]-target[0],light[1]-target[1])>.003)schedule();
       report();
     }else{poll=setTimeout(readQuery,16);}
   }
@@ -68,6 +121,7 @@ export async function createHero(canvas,heading,{capture=false}={}) {
     if(sizeDirty)resize();
     light.forEach((v,i)=>light[i]=v+(target[i]-v)*.5);
     const moving=Math.hypot(light[0]-target[0],light[1]-target[1])>.003;
+    const backdropMoving=updateBackdrop();
     material.uniforms.uLight.value.set(...light);
     gem.rotation.set(.04,-.025,0);gem.updateMatrixWorld(true);
     material.uniforms.uWorld.value.copy(gem.matrixWorld);material.uniforms.uWorldInverse.value.copy(gem.matrixWorld).invert();
@@ -76,14 +130,14 @@ export async function createHero(canvas,heading,{capture=false}={}) {
       cacheTargets.forEach((target,i)=>{cacheMaterial.uniforms.uCacheChannel.value=[-1,0,1][i];renderer.setRenderTarget(target);renderer.clear();renderer.render(scene,camera);});
       renderer.setRenderTarget(null);gem.material=material;cacheDirty=false;pathBuildMs=performance.now()-pathStart;
     }
-    taa.accumulate=!moving;
+    taa.accumulate=!moving&&!backdropMoving;
     const measured=timer&&!query?gl.createQuery():null;
     if(measured){query=measured;gl.beginQuery(timer.TIME_ELAPSED_EXT,measured);}
     const start=performance.now();composer.render();stats.cpuMs+=performance.now()-start;stats.draws++;stats.samples=Math.max(0,taa.accumulateIndex);
     if(measured){gl.endQuery(timer.TIME_ELAPSED_EXT);poll=setTimeout(readQuery,16);}
     if(shaderFailed){fallback('shader-fallback');return;}
     canvas.hidden=false;heading.classList.add('pn-crystal-ready');canvas.dataset.optical='diamond';
-    if(moving||taa.accumulateIndex<32)schedule();
+    if(moving||(!backdropMoving&&taa.accumulateIndex<32))schedule();
     report();
   }
   try{
@@ -95,10 +149,12 @@ export async function createHero(canvas,heading,{capture=false}={}) {
     geometry=makeGemGeometry(outlines.outlines,outlines.width);geometry.center();
     const bvh=new MeshBVH(geometry,{strategy:SAH,targetLeafSize:4});bvhUniform=new MeshBVHUniformStruct();bvhUniform.updateFrom(bvh);
     backdrop=new THREE.DataTexture(new Uint8Array([8,9,13,255]),1,1);backdrop.needsUpdate=true;
+    if(context){heroBackdrop=new THREE.CanvasTexture(staging);heroBackdrop.colorSpace=THREE.SRGBColorSpace;heroBackdrop.generateMipmaps=false;heroBackdrop.minFilter=THREE.LinearFilter;}
     material=new THREE.ShaderMaterial({vertexShader:vertex,fragmentShader:fragment,uniforms:{
       bvh:{value:bvhUniform},uEnvironment:{value:null},uBackdrop:{value:backdrop},uIOR:{value:1.52},uDispersion:{value:.26},uBounces:{value:6},
       uLight:{value:new THREE.Vector2(...light)},uWorld:{value:new THREE.Matrix4()},uWorldInverse:{value:new THREE.Matrix4()},
-      uEnergy:{value:1.3},uWitness:{value:0},uWallSize:{value:new THREE.Vector2(18,4)}
+      uEnergy:{value:1.3},uWitness:{value:0},uWallSize:{value:new THREE.Vector2(18,4)},
+      uHeroBackdrop:{value:heroBackdrop??backdrop},uHeroBackdropRect:{value:new THREE.Vector4()},uHasHeroBackdrop:{value:false}
     }});
     cacheTargets=Array.from({length:3},()=>new THREE.WebGLRenderTarget(1,1,{type:THREE.HalfFloatType,depthBuffer:true,minFilter:THREE.NearestFilter,magFilter:THREE.NearestFilter}));
     Object.assign(material.uniforms,{uCacheR:{value:cacheTargets[0].texture},uCacheG:{value:cacheTargets[1].texture},uCacheB:{value:cacheTargets[2].texture},uResolution:{value:new THREE.Vector2(1,1)}});
@@ -111,11 +167,24 @@ export async function createHero(canvas,heading,{capture=false}={}) {
     material.uniforms.uEnvironment.value=environment;resize();await renderer.compileAsync(scene,camera);
     if(shaderFailed)throw new Error('Shader incompatible');
     resizeObserver=new ResizeObserver(()=>{sizeDirty=true;invalidate();});resizeObserver.observe(heading);
+    image?.addEventListener('load',invalidate,events);
+    if(video){
+      const observer=new MutationObserver(invalidate);
+      observer.observe(video,{attributes:true,attributeFilter:['hidden']});
+      controller.signal.addEventListener('abort',()=>observer.disconnect(),{once:true});
+      for(const type of ['playing','seeked','pause','ended'])video.addEventListener(type,invalidate,events);
+    }
+    if(video?.requestVideoFrameCallback){
+      let videoFrame;
+      const onVideoFrame=(_now,{mediaTime})=>{decodedTime=mediaTime;schedule();videoFrame=video.requestVideoFrameCallback(onVideoFrame);};
+      videoFrame=video.requestVideoFrameCallback(onVideoFrame);
+      controller.signal.addEventListener('abort',()=>video.cancelVideoFrameCallback(videoFrame),{once:true});
+    }else video?.addEventListener('timeupdate',invalidate,events);
     canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();fallback('context-fallback');},events);
     return {
       setLight(x,y){const next=[x*2-1,1-y*2];if(Math.hypot(next[0]-target[0],next[1]-target[1])<.006)return;target.splice(0,2,...next);invalidate();},
       reset(){target.splice(0,2,.3,.3);invalidate();},
-      setVisible(value){visible=value;if(!visible)stop();else if(query)readQuery();else if(sizeDirty||taa.accumulateIndex<32)schedule();},
+      setVisible(value){visible=value;if(!visible)stop();else{if(query)readQuery();if(sizeDirty||taa.accumulateIndex<32)schedule();}},
       diagnostics(){return {...stats,cpuMean:stats.draws?stats.cpuMs/stats.draws:0,gpuMean:stats.gpuMs.length?stats.gpuMs.reduce((a,b)=>a+b,0)/stats.gpuMs.length:null,disposed};},
       destroy
     };

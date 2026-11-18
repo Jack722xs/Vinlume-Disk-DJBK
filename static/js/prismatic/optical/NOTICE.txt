@@ -17,6 +17,5 @@ Fallback vector, capsule normal map and projected caustic artwork are
 VINLUME laboratory derivatives; reference photographs are not shipped.
 
 liquid-shader.js adapts the F06 liquid.js equations without a new dependency.
-liquid-ui.js supplies one shared WebGL context, cropped 2D canvas surfaces,
-and a bounded atlas of the site's existing product photographs. Native HTML
-retains labels, focus, input handling and commercial actions.
+The glass controls use native backdrop blur. Native HTML retains labels,
+focus, input handling and commercial actions.

@@ -1,11 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'prism_base.html' %}
 {% load static %}
 {% block body_class %}pn-interior-page{% endblock %}
-{% block css %}<link rel="stylesheet" href="{% static 'css/prismatic/interiors.css' %}">{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'css/prismatic/interiors.css' %}">{{ block.super }}{% endblock %}
 {% block contenido %}
-<main class="pn-interior-main" data-pn-interior>
+<main class="pn-interior-main" data-pn-interior data-prism-host="form">
   <div class="pn-interior-atmosphere" aria-hidden="true"><div class="pn-interior-light" data-interior-ambient></div><div class="pn-interior-ribbon" data-interior-ambient></div></div>
   {% block interior_content %}
+  {% include '_prism_video.html' %}
   <div class="pn-container pn-interior-shell">
     <header class="pn-interior-copy" data-interior-reveal>
       <p class="pn-interior-eyebrow">{% block interior_eyebrow %}Vinlume / Tu espacio{% endblock %}</p>
@@ -23,4 +24,4 @@
   {% endblock %}
 </main>
 {% endblock %}
-{% block js %}<script defer src="{% static 'js/prismatic/interiors.js' %}"></script>{% endblock %}
+{% block js %}<script defer src="{% static 'js/prismatic/interiors.js' %}"></script>{{ block.super }}{% endblock %}

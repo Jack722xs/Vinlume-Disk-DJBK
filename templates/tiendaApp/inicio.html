@@ -1,21 +1,26 @@
-{% extends 'base.html' %}
+{% extends 'prism_base.html' %}
 {% load static %}
 {% block titulo %}VINLUME — Música convertida en objeto{% endblock %}
 {% block body_class %}pn-entry-page{% endblock %}
-{% block css %}<link rel="stylesheet" href="{% static 'css/prismatic/entry.css' %}?v=studio1"><link rel="stylesheet" href="{% static 'css/prismatic/landing.css' %}?v=studio1">{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/prismatic/entry.css' %}?v=studio1">
+<link rel="stylesheet" href="{% static 'css/prismatic/landing.css' %}?v=studio1">
+{{ block.super }}
+{% endblock %}
 {% block contenido %}
 <main class="pn-entry" data-pn-entry>
-  <header class="pn-cover" id="inicio" tabindex="-1" aria-labelledby="pn-wordmark">
+  <header class="pn-cover" id="inicio" tabindex="-1" aria-labelledby="pn-wordmark" data-prism-host="hero">
     <div class="pn-cover-atmosphere" aria-hidden="true">
       <picture class="pn-scene-image">
         <source media="(max-width: 700px)" srcset="{% static 'images/prismatic/noir-crystal-mobile.webp' %}">
-        <img class="pn-hero-environment" src="{% static 'images/prismatic/noir-crystal-desktop.webp' %}" width="1672" height="941" alt="" fetchpriority="high" decoding="async">
+        <img class="pn-hero-environment" data-prism-source src="{% static 'images/prismatic/noir-crystal-desktop.webp' %}" width="1672" height="941" alt="" fetchpriority="high" decoding="async">
       </picture>
+      {% include '_prism_video.html' %}
       <div class="pn-scene-irradiance"></div>
     </div>
     <div class="pn-wordmark-wrap" data-pn-intro>
       <h1 id="pn-wordmark" class="pn-wordmark" aria-label="VINLUME">
-        <canvas class="pn-crystal-word" data-optical-module="{% static 'js/prismatic/optical/hero.js' %}?v=studio1" data-optical-environment="{% static 'images/prismatic/optical/studio-1k.hdr' %}" aria-hidden="true" hidden></canvas>
+        <canvas class="pn-crystal-word" data-optical-module="{% static 'js/prismatic/optical/hero.js' %}?v=transmission5" data-optical-environment="{% static 'images/prismatic/optical/studio-1k.hdr' %}" aria-hidden="true" hidden></canvas>
         <img class="pn-crystal-fallback" src="{% static 'images/prismatic/optical/wordmark-crystal.webp' %}" alt="" width="1440" height="320" fetchpriority="high" decoding="async">
       </h1>
     </div>
@@ -81,4 +86,9 @@
   {% include 'tiendaApp/_mini_cd.html' %}
 </main>
 {% endblock %}
-{% block js %}<script defer src="{% static 'js/prismatic/hero-crystal.js' %}?v=studio1"></script><script defer src="{% static 'js/prismatic/entry.js' %}?v=studio1"></script><script defer src="{% static 'js/prismatic/mini-cd.js' %}?v=studio1"></script>{% endblock %}
+{% block js %}
+<script defer src="{% static 'js/prismatic/hero-crystal.js' %}?v=studio1"></script>
+<script defer src="{% static 'js/prismatic/entry.js' %}?v=studio1"></script>
+<script defer src="{% static 'js/prismatic/mini-cd.js' %}?v=studio1"></script>
+{{ block.super }}
+{% endblock %}

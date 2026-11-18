@@ -77,8 +77,19 @@ void main(){vec3 n=normalize(vFace),incident=normalize(vPoint-cameraPosition);if
 `;
 const fragment=shared+/*glsl*/`
 uniform sampler2D uCacheR;uniform sampler2D uCacheG;uniform sampler2D uCacheB;uniform vec2 uResolution;
+uniform sampler2D uHeroBackdrop;uniform vec4 uHeroBackdropRect;uniform bool uHasHeroBackdrop;
 vec3 cachedLight(vec4 path){vec3 d=vec3(path.xy,1.-abs(path.x)-abs(path.y));if(d.z<0.)d.xy=(1.-abs(d.yx))*sign(d.xy);d=normalize(d);
-  if(path.z>=0.)return uWitness>.5?texture2D(uBackdrop,path.zw).rgb:opticalStudio(path.zw,uLight*.5+.5,uEnergy);
+  if(path.z>=0.){
+    if(uWitness>.5)return texture2D(uBackdrop,path.zw).rgb;
+    vec3 lighting=opticalStudio(path.zw,uLight*.5+.5,uEnergy);
+    if(uHasHeroBackdrop){
+      vec2 uv=uHeroBackdropRect.xy+(path.zw-.5)*uHeroBackdropRect.zw;
+      if(all(greaterThanEqual(uv,vec2(0.)))&&all(lessThanEqual(uv,vec2(1.)))){
+        return mix(lighting,texture2D(uHeroBackdrop,uv).rgb,.68);
+      }
+    }
+    return lighting;
+  }
   return studio(d)*(path.z< -2.5?.2:1.);
 }
 void main(){
