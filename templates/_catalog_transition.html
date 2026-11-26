@@ -1,0 +1,11 @@
+{% load static %}
+<div class="pn-catalog-loading" data-pn-catalog-loading hidden role="status" aria-live="polite" aria-label="Cargando catálogo">
+  <div class="pn-catalog-loading-inner">
+    <div class="pn-catalog-loading-disc" aria-hidden="true"><span></span></div>
+    <p>VINLUME</p>
+    <span class="pn-catalog-loading-label">Cargando catálogo</span>
+    <div class="pn-catalog-loading-line" aria-hidden="true"><span></span></div>
+  </div>
+</div>
+<script defer src="{% static 'js/prismatic/vendor/gsap.min.js' %}?v=3.15.1"></script>
+<script defer src="{% static 'js/prismatic/catalog-transition.js' %}?v=2"></script>

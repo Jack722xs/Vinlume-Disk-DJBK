@@ -2,15 +2,12 @@
 {% load static %}
 {% block titulo %}Catálogo - Vinlume Disk{% endblock %}
 {% block body_class %}pn-catalog-page{% endblock %}
-{% block css %}<link rel="stylesheet" href="{% static 'css/prismatic/catalog.css' %}">{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'css/prismatic/catalog.css' %}?v=ambient1"><link rel="stylesheet" href="{% static 'css/prismatic/catalog-transition.css' %}?v=1">{% endblock %}
 {% block contenido %}
   <main class="pn-catalog" data-pn-catalog>
     <section class="pn-catalog-section" aria-labelledby="pn-catalog-title">
       <div class="pn-container">
-        <header class="pn-catalog-heading">
-          <div><p class="pn-catalog-eyebrow">Vinlume Disk / La colección</p><h1 id="pn-catalog-title">Álbumes que<br><span>van contigo.</span></h1></div>
-          <p class="pn-catalog-intro">Encuentra tu música en formato Mini CD.<br>Un pequeño objeto. Una gran historia.</p>
-        </header>
+        <h1 id="pn-catalog-title" class="pn-catalog-title-sr">Catálogo</h1>
         <div class="pn-catalog-toolbar">
           <form method="get" action="{% url 'catalogo' %}" class="pn-catalog-search" role="search" aria-label="Buscar en el catálogo">
             <label for="buscar">Álbum, artista o género</label>
@@ -35,4 +32,4 @@
     {% include 'tiendaApp/_gallery.html' %}
   </main>
 {% endblock %}
-{% block js %}<script defer src="{% static 'js/prismatic/catalog.js' %}"></script>{% endblock %}
+{% block js %}<script defer src="{% static 'js/prismatic/catalog.js' %}"></script>{% include '_catalog_transition.html' %}{% endblock %}

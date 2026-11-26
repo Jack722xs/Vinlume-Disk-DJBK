@@ -1,4 +1,4 @@
-/* Phase 1 enhancement. Native fragment links own navigation/history/focus.
+/* Cover and story enhancement. Native fragment links own navigation/history/focus.
    Scroll is only observed for bounded hero parallax; never intercepted. */
 (() => {
   'use strict';
@@ -12,9 +12,6 @@
   const cover = entry.querySelector('.pn-cover');
   const wordmark = entry.querySelector('.pn-wordmark');
   const story = entry.querySelector('[data-pn-mini-story]');
-  const universes = entry.querySelector('.pn-universes');
-  const switches = [...entry.querySelectorAll('[data-pn-select]')];
-  const zones = [...entry.querySelectorAll('[data-pn-universe]')];
   const animations = new Set();
   let frame = 0;
   let depthFrame = 0;
@@ -53,9 +50,7 @@
     entry.style.removeProperty('--pn-scene-y');
     entry.style.removeProperty('--pn-light-dx');
     entry.style.removeProperty('--pn-light-dy');
-    zones.forEach(zone => {
-      ['--pn-zone-x', '--pn-zone-y', '--pn-object-y', '--pn-object-turn'].forEach(name => zone.style.removeProperty(name));
-    });
+
   }
   function renderLight() {
     frame = 0;
@@ -81,7 +76,7 @@
       frame = requestAnimationFrame(renderLight);
     }
   }
-  [cover, ...zones].filter(Boolean).forEach(scene => {
+  [cover].filter(Boolean).forEach(scene => {
     scene.addEventListener('focusin', event => {
       if (reduced() || !event.target.closest('a, button')) return;
       if (active !== scene) { resetLight(); active = scene; }
@@ -123,37 +118,6 @@
       });
     });
   }
-  function selectUniverse(value, focusPanel = false) {
-    const selected = zones.find(zone => zone.dataset.pnUniverse === value);
-    if (!selected || !universes) return;
-    const changed = universes.dataset.pnActive !== value;
-    universes.dataset.pnActive = value;
-    universes.dataset.pnEnhanced = 'true';
-    switches.forEach(button => {
-      const expanded = button.dataset.pnSelect === value;
-      button.setAttribute('aria-pressed', String(expanded));
-      button.setAttribute('aria-expanded', String(expanded));
-      if (button.classList.contains('pn-universe-recall')) button.hidden = expanded;
-    });
-    zones.forEach(zone => {
-      const details = zone.querySelector('[data-pn-details]');
-      if (details) details.inert = zone !== selected;
-    });
-    if (changed) {
-      cancelAnimations();
-      animate(selected.querySelector('.pn-universe-copy'), [
-        { opacity: .12, transform: 'translateY(12px)' },
-        { opacity: 1, transform: 'translateY(0)' }
-      ], { duration: 600, delay: 140, easing: 'cubic-bezier(.2,.7,.2,1)', fill: 'backwards' });
-    }
-    // Inline recalls disappear after activation. Keep focus in the expanded scene.
-    if (focusPanel) selected.focus({ preventScroll: true });
-  }
-  const selector = entry.querySelector('.pn-universe-switch');
-  if (selector) selector.hidden = false;
-  switches.forEach(button => {
-    button.addEventListener('click', () => selectUniverse(button.dataset.pnSelect, button.classList.contains('pn-universe-recall')), options);
-  });
   function storyVisibility(open) {
     if (!story) return;
     story.hidden = !open;
@@ -161,15 +125,13 @@
     document.dispatchEvent(new CustomEvent('pn:storychange'));
   }
   entry.addEventListener('click', event => {
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     if (event.target.closest('[data-story-open]')) storyVisibility(true);
     if (event.target.closest('[data-story-close]')) storyVisibility(false);
   }, options);
   function syncHash() {
     storyVisibility(/^#(?:mini-cd|nfc-)/.test(location.hash));
-    const zone = zones.find(item => `#${item.id}` === location.hash);
-    if (zone) selectUniverse(zone.dataset.pnUniverse);
   }
-  selectUniverse(zones.find(item => `#${item.id}` === location.hash)?.dataset.pnUniverse || 'cd');
   syncHash();
   window.addEventListener('hashchange', syncHash, options);
   const observer = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
@@ -202,10 +164,6 @@
   window.addEventListener('pageshow', () => { syncHash(); sync(); }, options);
   window.VinlumeEntry = Object.freeze({ destroy() {
     resetLight(); cancelAnimations(); cancelAnimationFrame(depthFrame); cover?.style.removeProperty('--pn-scroll-depth'); observer?.disconnect(); controller.abort();
-    delete universes.dataset.pnEnhanced;
-    zones.forEach(zone => { const details = zone.querySelector('[data-pn-details]'); if (details) details.inert = false; });
-    switches.filter(button => button.classList.contains('pn-universe-recall')).forEach(button => { button.hidden = true; });
-    if (selector) selector.hidden = true;
     if (story) story.hidden = false;
     delete entry.dataset.pnStoryVisible;
   } });

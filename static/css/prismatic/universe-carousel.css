@@ -1,0 +1,94 @@
+/* Product stage: one viewport below the fixed menu, minimal copy and controls. */
+.pn-entry .pn-hub[id] {
+  position: relative; isolation: isolate;
+  display: flex; flex-direction: column; height: calc(100svh - var(--pn-nav-height)); min-height: 460px;
+  padding: 18px 0 14px; scroll-margin-top: 0; overflow: clip; background: #08090d;
+}
+.pn-hub::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(180deg, #08090d, #08090d26 26%, #08090d1a 64%, #08090d), url('../../images/prismatic/mini-cd-ambient.webp') center / cover no-repeat;
+  opacity: var(--pn-ambient-alpha, 0);
+}
+.pn-hub-heading { flex: 0 0 auto; padding-bottom: 8px; }
+.pn-hub-heading h2 { margin: 0; color: #e5e8ee; font: 450 clamp(22px, 2.2vw, 34px)/1.15 var(--pn-font-display); letter-spacing: -.04em; }
+.pn-orbit { position: relative; isolation: isolate; flex: 1; min-height: 0; }
+.pn-orbit-viewport { outline-offset: -4px; touch-action: pan-y pinch-zoom; }
+.pn-orbit-track { display: grid; gap: 24px; padding: 16px var(--pn-gutter); }
+.pn-orbit-slide { min-width: 0; scroll-margin-top: 0; }
+.pn-orbit-card {
+  position: relative; isolation: isolate; min-height: 460px; overflow: hidden; border-radius: 24px;
+  border: 1px solid #c5d1dc38; color: #f4f4f6;
+  background: radial-gradient(ellipse at 65% 38%, #262a31, #111419 55%, #090b10);
+  box-shadow: inset 0 1px 1px #ffffff17, 0 22px 55px #0008;
+}
+.pn-orbit-card::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 3; box-shadow: inset 0 0 0 1px #ffffff05; }
+.pn-orbit-head { position: relative; z-index: 2; padding: clamp(28px, 4vw, 64px); pointer-events: none; }
+.pn-orbit-head h3 { margin: 0; font: 450 clamp(48px, 5.4vw, 86px)/1 var(--pn-font-display); letter-spacing: -.065em; }
+.pn-orbit-subtitle { margin: 10px 0 0; color: #c5ccd6; font-size: 13px; letter-spacing: .07em; }
+.pn-orbit-cover-link { position: absolute; inset: 0; z-index: 1; border-radius: inherit; --glass-surface: transparent; --glass-shadow: none; --glass-policy: none; }
+.pn-orbit-card-cd .pn-orbit-bottom { pointer-events: none; }
+.pn-orbit-card-cd .pn-orbit-actions { pointer-events: auto; }
+.pn-orbit-art { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.pn-orbit-product {
+  position: absolute; width: 100%; height: 100%; inset: 0; object-fit: cover; object-position: center;
+  transform: translate3d(var(--orbit-pointer-x, 0px), var(--orbit-pointer-y, 0px), 0) scale(1.055);
+  filter: brightness(.92); user-select: none;
+  transition: transform 600ms cubic-bezier(.2,.7,.2,1);
+}
+.pn-orbit-card-cd::before { content: ''; position: absolute; z-index: 1; inset: 0; pointer-events: none; background: linear-gradient(90deg, #05070c66, transparent 58%), linear-gradient(0deg, #05070c99, transparent 40%); }
+.pn-orbit-bottom { position: absolute; z-index: 2; bottom: clamp(28px, 4vw, 60px); left: clamp(28px, 4vw, 64px); right: 28px; }
+/* Description panel adapted from the supplied .mzaCard-text. */
+.pn-orbit-description { max-width: 48ch; width: fit-content; margin: 0 0 20px; padding: 16px 18px; border-radius: 10px; background: rgb(0 0 0 / .4); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); color: #e1e5eb; font-size: clamp(13px, 1vw, 15px); line-height: 1.6; text-wrap: balance; }
+.pn-orbit-actions { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+.pn-orbit-actions .pn-button { min-height: 48px; width: 200px; max-width: 100%; justify-content: space-between; gap: 22px; font-size: 13px; }
+.pn-entry .pn-orbit-actions .pn-button[data-pn-glass] { --glass-surface: linear-gradient(170deg, #252930f5, #14171cf5); --glass-policy: blur(12px) saturate(0); }
+.pn-orbit-actions .pn-link { font-size: 12px; }
+.pn-orbit-card-future { background: radial-gradient(ellipse at 65% 40%, #242930, #111419 50%, #090b10); }
+.pn-orbit-art-future { inset: -8% -8% 0 22%; }
+.pn-orbit-art-future svg { width: 100%; height: 100%; opacity: .8; filter: grayscale(1); transform: translate3d(var(--orbit-pointer-x, 0px), var(--orbit-pointer-y, 0px), 0) rotate(-8deg); transition: transform 600ms cubic-bezier(.2,.7,.2,1); }
+.pn-orbit-coming { display: inline-flex; align-items: center; gap: 10px; color: #c5cbd4; font-size: 13px; }
+.pn-orbit-coming > span { width: 5px; height: 5px; border-radius: 50%; background: #c5d1dc; }
+.pn-orbit [hidden] { display: none !important; }
+/* No JS: both real product cards remain readable and their links work. */
+.pn-hub:has(.pn-orbit:not([data-enhanced])) { height: auto; }
+.pn-orbit[data-enhanced] .pn-orbit-viewport { height: 100%; overflow: hidden; cursor: grab; }
+.pn-orbit[data-dragging] .pn-orbit-viewport { cursor: grabbing; }
+.pn-orbit[data-enhanced] .pn-orbit-track { position: relative; display: block; padding: 0; height: 100%; perspective: 1600px; transform-style: preserve-3d; }
+.pn-orbit[data-enhanced] .pn-orbit-slide { position: absolute; left: 50%; top: 50%; width: min(71vw, 1140px); height: calc(80% - 24px); transform: translate(-50%, -50%); transform-style: preserve-3d; }
+.pn-orbit[data-enhanced] .pn-orbit-card { height: 100%; min-height: 0; }
+.pn-orbit-slide[data-state='rest'], [data-orbit-twin] { cursor: pointer; }
+.pn-orbit-slide[data-state='rest'] .pn-orbit-card, [data-orbit-twin] .pn-orbit-card { pointer-events: none; }
+.pn-orbit-controls { position: absolute; inset: 0 18px; display: flex; align-items: center; justify-content: space-between; pointer-events: none; z-index: 30; }
+.pn-orbit-arrow { display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid #ffffff40; border-radius: 50%; background: #171b2380; backdrop-filter: blur(14px); color: white; font: 300 30px/1 sans-serif; pointer-events: auto; cursor: pointer; }
+.pn-orbit :is(a, button, [tabindex]):focus-visible { outline: 2px solid #e1edff; outline-offset: 5px; }
+.pn-orbit-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.pn-orbit[data-reduced] :is(.pn-orbit-product, .pn-orbit-art svg) { transition: none; }
+.pn-orbit[data-reduced] .pn-orbit-description { backdrop-filter: none; -webkit-backdrop-filter: none; background: #0a0d13e6; }
+@media (max-width: 700px) {
+  .pn-entry .pn-hub[id] { min-height: 480px; padding-block: 12px; }
+  .pn-hub-heading h2 { font-size: 24px; }
+  .pn-orbit[data-enhanced] .pn-orbit-slide { width: 86vw; height: calc(90% - 16px); }
+  .pn-orbit-card { border-radius: 18px; }
+  .pn-orbit-head { padding: 26px; }
+  .pn-orbit-head h3 { font-size: clamp(42px, 11vw, 62px); }
+  .pn-orbit-subtitle { margin-top: 8px; font-size: 12px; }
+  .pn-orbit-product { object-position: 64% center; }
+  .pn-orbit-art-future { inset: 6% -12% 10% 0; }
+  .pn-orbit-bottom { left: 26px; right: 26px; bottom: 28px; }
+  .pn-orbit-description { font-size: 13px; max-width: 100%; margin-bottom: 16px; padding: 12px 14px; }
+  .pn-orbit-actions { gap: 10px; align-items: flex-start; flex-direction: column; }
+  .pn-orbit-actions .pn-button { font-size: 12px; min-height: 44px; }
+  .pn-orbit-actions .pn-link { min-height: 32px; display: inline-flex; align-items: center; gap: 6px; }
+  .pn-orbit-controls { inset-inline: 3px; }
+  .pn-orbit-arrow { width: 40px; height: 44px; }
+}
+@media (prefers-reduced-motion: reduce) { .pn-orbit *, .pn-orbit *::after { transition: none !important; } }
+@media (max-width: 700px) and (max-height: 720px) {
+  .pn-orbit-head { padding: 18px 20px 8px; }
+  .pn-orbit-head h3 { font-size: 36px; }
+  .pn-orbit-subtitle { font-size: 11px; margin-top: 6px; }
+  .pn-orbit-bottom { left: 20px; right: 20px; bottom: 20px; }
+  .pn-orbit-description { font-size: 12px; line-height: 1.5; padding: 10px; margin-bottom: 12px; }
+  .pn-orbit-actions { gap: 8px; }
+}
+@media (forced-colors: active) { .pn-orbit-card { border: 1px solid CanvasText; } .pn-hub::before { display: none; } }

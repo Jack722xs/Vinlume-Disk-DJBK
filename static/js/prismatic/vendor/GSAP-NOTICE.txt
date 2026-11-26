@@ -1,0 +1,4 @@
+GSAP 3.15.1
+Source: https://registry.npmjs.org/gsap/-/gsap-3.15.1.tgz
+Official package: https://www.npmjs.com/package/gsap
+License: see GSAP-LICENSE.txt and distribution header.

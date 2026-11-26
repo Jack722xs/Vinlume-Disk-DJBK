@@ -3,8 +3,12 @@
 {% block titulo %}VINLUME — Música convertida en objeto{% endblock %}
 {% block body_class %}pn-entry-page{% endblock %}
 {% block css %}
-<link rel="stylesheet" href="{% static 'css/prismatic/entry.css' %}?v=studio1">
+<link rel="stylesheet" href="{% static 'css/prismatic/entry.css' %}?v=orbit1">
 <link rel="stylesheet" href="{% static 'css/prismatic/landing.css' %}?v=studio1">
+<link rel="stylesheet" href="{% static 'css/prismatic/universe-carousel.css' %}?v=orbit7">
+<link rel="preload" as="image" href="{% static 'images/prismatic/mini-cd-prismatic-carousel.webp' %}" fetchpriority="low">
+<link rel="preload" as="image" href="{% static 'images/prismatic/mini-cd-ambient.webp' %}" fetchpriority="low">
+<link rel="stylesheet" href="{% static 'css/prismatic/catalog-transition.css' %}?v=1">
 {{ block.super }}
 {% endblock %}
 {% block contenido %}
@@ -31,34 +35,35 @@
     </div>
   </header>
 
-  <section class="pn-hub" id="universos" tabindex="-1" aria-labelledby="pn-hub-title">
+  <section class="pn-hub" id="universos" tabindex="-1" aria-labelledby="pn-hub-title" data-pn-ambient-src="{% static 'images/prismatic/mini-cd-ambient.webp' %}">
     <header class="pn-hub-heading pn-container">
-      <h2 id="pn-hub-title">Elige tu universo.</h2>
-      <a class="pn-link" href="#inicio">Inicio <span aria-hidden="true">↑</span></a>
+      <h2 id="pn-hub-title">Productos Vinlume</h2>
     </header>
-    <div class="pn-universe-switch pn-container" role="group" aria-label="Elegir universo" hidden>
-      <button class="pn-control" type="button" data-pn-select="cd" aria-pressed="true" aria-expanded="true" aria-controls="pn-universe-cd">Mini CD</button>
-      <button class="pn-control" type="button" data-pn-select="future" aria-pressed="false" aria-expanded="false" aria-controls="pn-universe-future">Marcos</button>
-    </div>
-    <div class="pn-universes" data-pn-active="cd">
-      <article id="pn-universe-cd" class="pn-universe pn-universe-cd" tabindex="-1" aria-labelledby="pn-cd-title" data-pn-universe="cd">
-        <div class="pn-product-aura" aria-hidden="true"></div>
-        <div class="pn-product-visual">
-          <div class="pn-product-plinth" aria-hidden="true"></div>
-          <img class="pn-mini-cd" src="{% static 'images/prismatic/cd-cerrado.webp' %}" width="1000" height="1000" alt="Mini CD en estuche transparente con ojal para llavero" decoding="async" loading="lazy">
-        </div>
-        <div class="pn-universe-copy">
-          <h3 id="pn-cd-title">Mini CD</h3>
-          <div class="pn-universe-details" data-pn-details><div>
-            <p>Tu álbum favorito, en un llavero mini CD personalizado con NFC.</p>
-            <a class="pn-button" data-pn-glass data-story-open href="#mini-cd"><span>Explorar Mini CD</span><span aria-hidden="true">↓</span></a><a class="pn-link pn-hub-direct" href="{% url 'catalogo' %}">Ir al catálogo ↗</a>
-          </div></div>
-          <button class="pn-control pn-universe-recall" type="button" data-pn-select="cd" aria-controls="pn-universe-cd" hidden>Explorar Mini CD <span aria-hidden="true">↗</span></button>
-        </div>
-      </article>
-      <div class="pn-crystal-seam" aria-hidden="true"><span></span></div>
-      <article id="pn-universe-future" class="pn-universe pn-universe-future" tabindex="-1" aria-labelledby="pn-frame-title" data-pn-universe="future">
-        <div class="pn-future-art" aria-hidden="true">
+    <div class="pn-orbit" data-pn-carousel role="region" aria-roledescription="carrusel" aria-label="Universos Vinlume">
+      <div class="pn-orbit-viewport" tabindex="0" aria-label="Usa las flechas izquierda y derecha para explorar los universos">
+        <div class="pn-orbit-track">
+          <article id="pn-universe-cd" class="pn-orbit-slide" data-pn-universe="cd" role="group" aria-roledescription="diapositiva" aria-label="1 de 2: Mini CD">
+            <div class="pn-orbit-card pn-orbit-card-cd">
+              <div class="pn-orbit-art" aria-hidden="true">
+                <img class="pn-orbit-product" src="{% static 'images/prismatic/mini-cd-prismatic-carousel.webp' %}" width="1672" height="941" alt="" decoding="async" loading="lazy" draggable="false">
+              </div>
+              <a class="pn-orbit-cover-link" data-story-open href="#mini-cd" tabindex="-1" aria-hidden="true" draggable="false"></a>
+              <header class="pn-orbit-head">
+                <h3>Mini CD</h3>
+                <p class="pn-orbit-subtitle">Vinlume Disk</p>
+              </header>
+              <div class="pn-orbit-bottom">
+                <p class="pn-orbit-description">Un mini CD coleccionable, personalizado con tu álbum favorito y protegido por un estuche transparente. Su etiqueta NFC permite acceder al enlace de tu música desde un teléfono compatible.</p>
+                <div class="pn-orbit-actions">
+                  <a class="pn-button" data-pn-glass data-story-open href="#mini-cd"><span>Explorar Mini CD</span><span aria-hidden="true">↗</span></a>
+                  <a class="pn-button pn-orbit-catalog" data-pn-glass data-pn-catalog-link href="{% url 'catalogo' %}"><span>Catálogo</span><span aria-hidden="true">↗</span></a>
+                </div>
+              </div>
+            </div>
+          </article>
+          <article id="pn-universe-future" class="pn-orbit-slide" data-pn-universe="future" role="group" aria-roledescription="diapositiva" aria-label="2 de 2: Marcos, próximamente">
+            <div class="pn-orbit-card pn-orbit-card-future">
+              <div class="pn-orbit-art pn-orbit-art-future" aria-hidden="true">
           <svg class="pn-future-prism" viewBox="0 0 640 600" focusable="false">
             <defs>
               <linearGradient id="pn-future-glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c4e9f1" stop-opacity=".4"/><stop offset=".32" stop-color="#a4a7c2" stop-opacity=".08"/><stop offset=".5" stop-color="#faf4ff" stop-opacity=".7"/><stop offset=".52" stop-color="#a791cd" stop-opacity=".12"/><stop offset="1" stop-color="#c7b0ed" stop-opacity=".35"/></linearGradient>
@@ -70,25 +75,33 @@
             <path d="M85 190C245 485 485 455 574 400C395 495 143 465 85 190Z" fill="url(#pn-future-glass)" stroke="url(#pn-future-edge)"/>
             <path d="M85 190C245 485 485 455 574 400" fill="none" stroke="url(#pn-future-edge)" stroke-width="3" opacity=".6" transform="translate(5 4)"/>
           </svg>
+              </div>
+              <header class="pn-orbit-head">
+                <h3>Marcos</h3>
+              </header>
+              <div class="pn-orbit-bottom">
+                <p class="pn-orbit-description">Marcos personalizados con diseños de álbumes, para llevar la música a otro formato. Una línea en desarrollo, todavía no disponible.</p>
+                <span class="pn-orbit-coming"><span aria-hidden="true"></span> Próximamente</span>
+              </div>
+            </div>
+          </article>
         </div>
-        <div class="pn-universe-copy">
-          <span class="pn-future-status">Próximamente</span>
-          <h3 id="pn-frame-title">Marcos</h3>
-          <div class="pn-universe-details" data-pn-details><div>
-            <p>Marcos personalizados con diseños de álbumes.<br>Un nuevo universo, en desarrollo.</p>
-          </div></div>
-          <button class="pn-control pn-universe-recall" type="button" data-pn-select="future" aria-controls="pn-universe-future" hidden>Conocer el universo <span aria-hidden="true">↗</span></button>
-        </div>
-      </article>
+      </div>
+      <div class="pn-orbit-controls" hidden>
+        <button class="pn-orbit-arrow" type="button" data-orbit-prev aria-label="Universo anterior"><span aria-hidden="true">‹</span></button>
+        <button class="pn-orbit-arrow" type="button" data-orbit-next aria-label="Universo siguiente"><span aria-hidden="true">›</span></button>
+      </div>
+      <p class="pn-orbit-sr" aria-live="polite" aria-atomic="true" data-orbit-status></p>
     </div>
-    <div class="pn-hub-bottom pn-container"><a class="pn-link" href="{% url 'catalogo' %}">Ver catálogo <span aria-hidden="true">↗</span></a></div>
   </section>
   {% include 'tiendaApp/_mini_cd.html' %}
 </main>
 {% endblock %}
 {% block js %}
 <script defer src="{% static 'js/prismatic/hero-crystal.js' %}?v=studio1"></script>
-<script defer src="{% static 'js/prismatic/entry.js' %}?v=studio1"></script>
+<script defer src="{% static 'js/prismatic/entry.js' %}?v=orbit2"></script>
+<script defer src="{% static 'js/prismatic/universe-carousel.js' %}?v=orbit5"></script>
 <script defer src="{% static 'js/prismatic/mini-cd.js' %}?v=studio1"></script>
+{% include '_catalog_transition.html' %}
 {{ block.super }}
 {% endblock %}

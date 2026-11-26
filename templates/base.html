@@ -15,7 +15,7 @@
   <script src="{% static 'js/prismatic/effects.js' %}"></script>
   {% block css %}{% endblock %}
   <link rel="stylesheet" href="{% static 'css/prismatic/optical.css' %}?v=phase08">
-  <link rel="stylesheet" href="{% static 'css/prismatic/experience.css' %}?v=r3">
+  <link rel="stylesheet" href="{% static 'css/prismatic/experience.css' %}?v=r4">
   <link rel="stylesheet" href="{% static 'css/prismatic/glass-controls.css' %}?v=4">
 </head>
 <body class="{% block body_class %}{% endblock %}">
@@ -28,7 +28,7 @@
   <a class="pn-skip" href="#contenido">Saltar al contenido</a>
   <header class="pn-site-header">
     <nav class="pn-site-nav" aria-label="Navegación principal">
-      <a href="{% url 'inicio' %}" class="pn-brand" aria-label="Vinlume Disk — Inicio"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 5h6l6 19 6-19h6L18 28h-4Z" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="m10 5 6 19 6-19" fill="none" stroke="currentColor" stroke-opacity=".4"/></svg><span>VINLUME<small>DISK / MÚSICA EN OBJETO</small></span></a>
+      <a href="{% url 'inicio' %}" class="pn-brand" aria-label="Vinlume Disk — Inicio"><span>VINLUME</span></a>
       <ul class="pn-site-links">
         <li><a href="{% url 'inicio' %}">Inicio</a></li><li><a href="{% url 'catalogo' %}">Catálogo</a></li><li><a href="{% url 'faq' %}">FAQ</a></li><li><a href="{% url 'contacto' %}">Contacto</a></li>
         {% if user.is_authenticated %}<li><a href="{% url 'discos' %}">Gestión de discos</a></li>{% endif %}
